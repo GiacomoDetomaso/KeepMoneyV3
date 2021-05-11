@@ -8,7 +8,7 @@ public class DbHelper extends SQLiteOpenHelper {
     private final static int VERSION = 1;
     private final static String DB_NAME = "KeepMoneyDb";
 
-    DbHelper(Context context) {
+    public DbHelper(Context context) {
         super(context,DB_NAME,null,VERSION);
     }
     @Override

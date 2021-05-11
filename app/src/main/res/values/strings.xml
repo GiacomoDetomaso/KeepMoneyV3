@@ -3,4 +3,18 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+    <string name="username">username</string>
+    <string name="password">password</string>
+    <string name="login">LOGIN</string>
+    <string name="uscite">Uscite</string>
+    <string name="entrate">Entrate</string>
+    <string name="aggiungi">Aggiungi</string>
+    <string name="nuove_entrate">Nuove entrate</string>
+    <string name="_0">0</string>
+    <string name="registrati">REGISTRATI</string>
+    <string name="email">email</string>
+    <string name="registrazione">Registrazione</string>
+    <string name="nome">nome</string>
+    <string name="cognome">cognome</string>
+    <string name="gestisci_entrate_e_spese">Gestisci entrate e spese</string>
 </resources>
