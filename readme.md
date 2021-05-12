@@ -22,7 +22,7 @@
 
 ## Regole per i nomi degli oggetti
 
-Per quanto riguarda i nomi all'interno del file XML, devono seguire questo format: <prefisso>  <nome>  <opzionale: suffisso>
+Per quanto riguarda i nomi all'interno del file XML, devono seguire questo format: (prefisso)(nome)(opzionale: suffisso)
 
 - Il prefisso è un abbreviazione del tipo di oggetto  (per esempio testo editabile txt, Button btn...)
 
@@ -36,8 +36,8 @@ Gli oggetti Java relativi agli oggetti grafici XML devono mantenere lo stesso no
 
 Per quanto riguarda i nomi relativi delle Activity, Fragment o Dialog la regola è quella di default: 
 
-- Le classi Java hanno questo formato <Tipo> <Nome>: dove il tipo è Activity, Fragment ecc..
+- Le classi Java hanno questo formato (Tipo)(Nome): dove il tipo è Activity, Fragment ecc..
 
-- I relativi File di layout hanno questo formato: <Nome>_<tipo>
+- I relativi File di layout hanno questo formato: (Nome)_(tipo)
 
 
