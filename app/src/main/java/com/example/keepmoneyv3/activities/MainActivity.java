@@ -3,6 +3,7 @@ package com.example.keepmoneyv3.activities;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.text.Editable;
 import android.view.View;
@@ -10,6 +11,9 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.keepmoneyv3.R;
+import com.example.keepmoneyv3.database.DbManager;
+import com.example.keepmoneyv3.database.DbStrings;
+import com.example.keepmoneyv3.utility.User;
 
 /**
  * This is the entry point of the application. It performs login and the access in the
@@ -21,10 +25,12 @@ import com.example.keepmoneyv3.R;
 
 public class MainActivity extends AppCompatActivity {
 
+    private DbManager dbManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        dbManager = new DbManager(getApplicationContext());
     }
 
     /**
@@ -35,11 +41,12 @@ public class MainActivity extends AppCompatActivity {
      * @see com.example.keepmoneyv3.ui.dashboard.DashboardFragment*/
     public void loginAction(View view){
 
+        User user;
 
-        newActivityRunning(NavigationActivity.class, null);
+        //newActivityRunning(NavigationActivity.class, null);
 
-        EditText txtFromUsernameBox = findViewById(R.id.txtName);
-        EditText txtFromPasswordBox = findViewById(R.id.txtPassword);
+        EditText txtFromUsernameBox = findViewById(R.id.txtUsernameLog);
+        EditText txtFromPasswordBox = findViewById(R.id.txtPasswordLog);
 
         String strUsername = txtFromUsernameBox.getText().toString();
         String strPassword = txtFromPasswordBox.getText().toString();
@@ -47,7 +54,15 @@ public class MainActivity extends AppCompatActivity {
         if(strUsername.equals("")||strPassword.equals("")) {
             Toast.makeText(getApplicationContext(),"Errore, uno o più campi non compilati correttamente",Toast.LENGTH_LONG).show();
         } else {
-
+            Cursor cursor = dbManager.queryCheckUserLogin(strUsername, strPassword);
+            if(cursor != null) {
+                while(cursor.moveToNext()) {
+                    String strLoggedUser_Email = cursor.getString(cursor.getColumnIndex(DbStrings.TableUsersField.USERS_EMAIL));
+                    String strLoggedUser_Name = cursor.getString(cursor.getColumnIndex(DbStrings.TableUsersField.USERS_NAME));
+                    String strLoggedUser_Surame = cursor.getString(cursor.getColumnIndex(DbStrings.TableUsersField.USERS_SURNAME));
+                    String strLoggedUser_Username = cursor.getString(cursor.getColumnIndex(DbStrings.TableUsersField.USERS_ID));
+                }
+            }
         }
     }
 

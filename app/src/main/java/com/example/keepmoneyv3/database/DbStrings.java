@@ -11,11 +11,11 @@ public class DbStrings {
 
     public static class TableUsersField {
         public static final String TABLE_NAME = "users";
-        static final String USERS_ID = "username";
-        static final String USERS_PWD = "password";
-        static final String USERS_NAME = "name";
-        static final String USERS_SURNAME = "surname";
-        static final String USERS_EMAIL = "email";
+        public static final String USERS_ID = "username";
+        public static final String USERS_PWD = "password";
+        public static final String USERS_NAME = "name";
+        public static final String USERS_SURNAME = "surname";
+        public static final String USERS_EMAIL = "email";
         public static final String USERS_TOT = "total";
 
         private static final String CREATE_TABLE =
