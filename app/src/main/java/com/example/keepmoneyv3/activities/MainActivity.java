@@ -4,7 +4,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.keepmoneyv3.R;
 
@@ -32,6 +35,18 @@ public class MainActivity extends AppCompatActivity {
      * @see com.example.keepmoneyv3.ui.dashboard.DashboardFragment*/
     public void loginAction(View view){
         newActivityRunning(NavigationActivity.class, null);
+
+        EditText txtFromUsernameBox = findViewById(R.id.txtName);
+        EditText txtFromPasswordBox = findViewById(R.id.txtPassword);
+
+        String strUsername = txtFromUsernameBox.getText().toString();
+        String strPassword = txtFromPasswordBox.getText().toString();
+
+        if(strUsername.equals("")||strPassword.equals("")) {
+            Toast.makeText(getApplicationContext(),"Errore, uno o più campi non compilati correttamente",Toast.LENGTH_LONG).show();
+        } else {
+
+        }
     }
 
     /**
