@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.example.keepmoneyv3.R;
 import com.example.keepmoneyv3.database.DbManager;
 import com.example.keepmoneyv3.database.DbStrings;
+import com.example.keepmoneyv3.utility.Keys;
 import com.example.keepmoneyv3.utility.User;
 
 /**
@@ -43,8 +44,6 @@ public class MainActivity extends AppCompatActivity {
 
         User user;
 
-        //newActivityRunning(NavigationActivity.class, null);
-
         EditText txtFromUsernameBox = findViewById(R.id.txtUsernameLog);
         EditText txtFromPasswordBox = findViewById(R.id.txtPasswordLog);
 
@@ -59,8 +58,14 @@ public class MainActivity extends AppCompatActivity {
                 while(cursor.moveToNext()) {
                     String strLoggedUser_Email = cursor.getString(cursor.getColumnIndex(DbStrings.TableUsersField.USERS_EMAIL));
                     String strLoggedUser_Name = cursor.getString(cursor.getColumnIndex(DbStrings.TableUsersField.USERS_NAME));
-                    String strLoggedUser_Surame = cursor.getString(cursor.getColumnIndex(DbStrings.TableUsersField.USERS_SURNAME));
+                    String strLoggedUser_Surname = cursor.getString(cursor.getColumnIndex(DbStrings.TableUsersField.USERS_SURNAME));
                     String strLoggedUser_Username = cursor.getString(cursor.getColumnIndex(DbStrings.TableUsersField.USERS_ID));
+                    String strLoggedUser_Password = cursor.getString(cursor.getColumnIndex(DbStrings.TableUsersField.USERS_PWD));
+                    float fltLoggedUser_Total = Float.parseFloat(cursor.getString(cursor.getColumnIndex(DbStrings.TableUsersField.USERS_TOT)));
+                    Bundle loginScreenMainActivityBundle = new Bundle();
+                    user = new User(strLoggedUser_Username,strLoggedUser_Password,strLoggedUser_Name,strLoggedUser_Surname,strLoggedUser_Email,fltLoggedUser_Total);
+                    loginScreenMainActivityBundle.putSerializable(Keys.SerializableKeys.USER_KEY,user);
+                    newActivityRunning(NavigationActivity.class, loginScreenMainActivityBundle);
                 }
             }
         }
