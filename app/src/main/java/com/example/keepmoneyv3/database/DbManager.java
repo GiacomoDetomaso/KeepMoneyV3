@@ -29,7 +29,6 @@ public class DbManager {
     /**
      * This method is used to insert an user inside the database
      *
-     * @author Giacomo Detomaso
      *
      * @param username  - identifies an user uniquely
      * @param password  - the password of the user account
@@ -60,7 +59,6 @@ public class DbManager {
     /**
      * This method is used to insert a category inside the database
      *
-     * @author Giacomo Detomaso
      *
      * @param id        - identifies a category
      * @param desc      - brief description of the category
@@ -82,7 +80,6 @@ public class DbManager {
     /**
      * This method is used to insert an item inside the database
      *
-     * @author Giacomo Detomaso
      *
      * @param price     - the price of the item
      * @param amount    - indicates the amount item
@@ -112,7 +109,6 @@ public class DbManager {
     /**
      * This method is used to insert an entry inside the DB
      *
-     * @author Giacomo Detomaso
      *
      * @param val       - the value of the entry
      * @param date      - the date of the entry
@@ -139,7 +135,6 @@ public class DbManager {
     /**
      * This method is used to insert a wishlist inside the DB
      *
-     * @author Giacomo Detomaso
      *
      * @param name      - the name of the list
      * @param desc      - a description of the list
@@ -165,7 +160,6 @@ public class DbManager {
     /**
      * This method is used to insert a purchase inside the DB
      *
-     * @author Giacomo Detomaso
      *
      * @param dateP     - the date of the purchase
      * @param timeP     - the time of the purchase
@@ -198,7 +192,6 @@ public class DbManager {
      * you define a wishlist, where you can't have the mentioned information when it is created.
      * Date and time will be added only when a wishlist will be bought.
      *
-     * @author Giacomo Detomaso
      **/
     public long insertPurchaseSimple(String idUser,int idItem,int idWl){
         SQLiteDatabase db = dbHelper.getWritableDatabase();
@@ -221,7 +214,6 @@ public class DbManager {
     /**
      * This method is used to update the total value of the user
      *
-     * @author Giacomo Detomaso
      *
      * @param table     - table name
      * @param tot       - total value
@@ -244,7 +236,6 @@ public class DbManager {
     /**
      * This method is used to update the validity of an item
      *
-     * @author Giacomo Detomaso
      *
      * @param valid     - validity of the item
      * @param id        - item's ID
@@ -265,7 +256,6 @@ public class DbManager {
     /**
      * This method is used to update the validity of the WL
      *
-     * @author Giacomo Detomaso
      *
      * @param valid     - validity of the list
      * @param id        - WL ID
@@ -284,11 +274,28 @@ public class DbManager {
     }
 
     /**
-     * This query is used to retrieve the user's totale
+     * A query to check if the login is correct
      *
-     * @author Giacomo Detomaso
+     * */
+    public Cursor queryCheckUserLogin(String username, String password){
+        String query = "SELECT users.* FROM users " +
+                "WHERE username = '" + username + "' AND password = '" + password + "';";
+
+        Cursor cursor = null;
+
+        try{
+            SQLiteDatabase db = dbHelper.getReadableDatabase();
+            cursor = db.rawQuery(query,null);
+        }catch (Exception e){
+            Toast.makeText(context,e.getMessage(),Toast.LENGTH_LONG).show();
+        }
+        return cursor;
+    }
+
+    /**
+     * This query is used to retrieve the user's total
      *
-     * @param username      - identify the user*/
+     **/
     public Cursor queryGetUserTotal(String username){
         String query = "SELECT " + DbStrings.TableUsersField.USERS_TOT + " " +
                         "FROM " + DbStrings.TableUsersField.TABLE_NAME + " " +
@@ -307,8 +314,7 @@ public class DbManager {
 
     /**
      * Used to get all the rows of a table
-     *
-     * @author Giacomo Detomaso*/
+     **/
     public Cursor queryGetAllRows(String table){
         Cursor cursor = null;
         try {
@@ -323,7 +329,7 @@ public class DbManager {
     /**
      * Used to count the number of rows of a table without any specific constraint
      *
-     * @author Giacomo Detomaso*/
+     * */
     public Cursor countQuery(String table){
         String query = "SELECT COUNT(*) AS numRows FROM " + table;
         Cursor cursor = null;
@@ -341,7 +347,7 @@ public class DbManager {
     /**
      * Used to count all the element of a wishlist
      *
-     * @author Giacomo Detomaso*/
+     * */
     public Cursor countQueryWLElements(int wlId){
         String query = "SELECT COUNT(*) AS numRows " +
                 "FROM purchases JOIN wishlists ON purchases.listId = wishLists.id " +
@@ -361,7 +367,7 @@ public class DbManager {
     /**
      * Used to sum all the entries
      *
-     * @author Giacomo Detomaso*/
+     * */
     public Cursor sumEntriesQuery(){
         String query = "SELECT SUM(entries.value) AS sumEntr FROM entries";
         Cursor cursor = null;
@@ -378,7 +384,7 @@ public class DbManager {
     /**
      * Used to sum all the purchases value
      *
-     * @author Giacomo Detomaso*/
+     * */
     public Cursor sumPurchasesQuery(){
         String query = "SELECT SUM(items.price) AS sumP FROM items WHERE isValid = 0";
         Cursor cursor = null;
@@ -394,7 +400,7 @@ public class DbManager {
     /**
      * Used to get the last item bought
      *
-     * @author Giacomo Detomaso*/
+     * */
     public Cursor getLastItemFromPurchasesQuery(int itemID){
         String query =
                 "SELECT items.name,items.price,categories.picId " +
@@ -415,7 +421,7 @@ public class DbManager {
     /**
      * Used to get all the data related to the entries
      *
-     * @author Giacomo Detomaso*/
+     * */
     public Cursor getEntriesDataQuery(int entriesId){
         String query = "SELECT entries.value,entries.dateEntr,categories.picId " +
                 "FROM entries JOIN categories ON entries.idcat = categories.id " +
@@ -434,7 +440,7 @@ public class DbManager {
     /**
      * Used to get all the WL data
      *
-     * @author Giacomo Detomaso*/
+     * */
     public Cursor getWishListDataQuery(int wlID){
         String query = "SELECT SUM(items.price) AS tot, categories.picId, wishLists.name " +
                 "FROM purchases JOIN wishLists ON purchases.listId = wishLists.id " +
@@ -455,7 +461,7 @@ public class DbManager {
     /**
      * Used to get all the WL items
      *
-     * @author Giacomo Detomaso*/
+     * */
     public Cursor getWishListsItems(int wlID){
         String query = "SELECT items.* " +
                 "FROM purchases JOIN wishlists ON purchases.listId = wishLists.id " +
@@ -475,7 +481,7 @@ public class DbManager {
     /**
      * Used to count the number of WL by their validity
      *
-     * @author Giacomo Detomaso*/
+     * */
     public Cursor getCountWishListsByValidity(int valid){
         String query = "SELECT COUNT(*) AS cont FROM wishlists WHERE isValid = " + valid;
         Cursor cursor = null;

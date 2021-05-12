@@ -8,7 +8,7 @@
     >
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/cardViewRegistration"
+        android:id="@+id/cardViewRegLog"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp"
@@ -26,7 +26,7 @@
             android:layout_height="wrap_content">
 
             <EditText
-                android:id="@+id/txtName"
+                android:id="@+id/txtUsernameLog"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="180dp"
@@ -34,14 +34,14 @@
                 android:ems="10"
                 android:hint="@string/username"
                 android:inputType="textPersonName"
-                app:layout_constraintBottom_toTopOf="@+id/txtPassword"
+                app:layout_constraintBottom_toTopOf="@+id/txtPasswordLog"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.503"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <EditText
-                android:id="@+id/txtPassword"
+                android:id="@+id/txtPasswordLog"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:ems="10"
@@ -63,13 +63,13 @@
                 android:text="@string/login"
                 android:textSize="30sp"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@+id/txtName"
+                app:layout_constraintBottom_toTopOf="@+id/txtUsernameLog"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <Button
-                android:id="@+id/btnReg"
+                android:id="@+id/btnLog"
                 android:layout_width="300dp"
                 android:layout_height="50dp"
                 android:layout_marginTop="50dp"
@@ -79,7 +79,7 @@
                 android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txtPassword" />
+                app:layout_constraintTop_toBottomOf="@+id/txtPasswordLog" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/fab"
@@ -90,7 +90,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btnReg" />
+                app:layout_constraintTop_toBottomOf="@+id/btnLog" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>

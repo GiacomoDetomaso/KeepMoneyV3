@@ -156,6 +156,7 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/cardViewPurchase"
         android:layout_width="match_parent"
+        android:elevation="10dp"
         android:layout_height="150dp"
         android:layout_marginStart="15dp"
         android:layout_marginTop="20dp"
@@ -199,7 +200,9 @@
         android:id="@+id/floatingActionButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="60dp"
+        app:layout_anchor="@id/cardViewPurchase"
+        app:layout_anchorGravity="top|center"
         app:layout_constraintBottom_toTopOf="@+id/cardViewPurchase"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

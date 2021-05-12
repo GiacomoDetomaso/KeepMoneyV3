@@ -13,6 +13,8 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.keepmoneyv3.R;
+import com.google.android.material.bottomappbar.BottomAppBarTopEdgeTreatment;
+import com.google.android.material.card.MaterialCardView;
 
 public class DashboardFragment extends Fragment {
 
@@ -23,7 +25,6 @@ public class DashboardFragment extends Fragment {
 
         dashboardViewModel = new ViewModelProvider(this).get(DashboardViewModel.class);
         View root = inflater.inflate(R.layout.fragment_dashboard, container, false);
-
 
         /*final TextView textView = root.findViewById(R.id.text_dashboard);
 

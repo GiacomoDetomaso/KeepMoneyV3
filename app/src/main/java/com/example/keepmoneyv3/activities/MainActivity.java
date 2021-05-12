@@ -9,8 +9,8 @@ import android.view.View;
 import com.example.keepmoneyv3.R;
 
 /**
- * This is the entry point of the application. It performs login and the access int the
- * RegistrationActivity and int the NavigationActivity
+ * This is the entry point of the application. It performs login and the access in the
+ * RegistrationActivity and in the NavigationActivity
  *
  * @author Michelangelo De Pascale
  *
@@ -31,6 +31,8 @@ public class MainActivity extends AppCompatActivity {
      * @see NavigationActivity
      * @see com.example.keepmoneyv3.ui.dashboard.DashboardFragment*/
     public void loginAction(View view){
+
+
         newActivityRunning(NavigationActivity.class, null);
     }
 
@@ -59,4 +61,5 @@ public class MainActivity extends AppCompatActivity {
 
         startActivity(intent);//start a new activity
     }
+
 }
