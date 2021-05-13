@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.text.Editable;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -87,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
      *
      * @param s                 - the class of the activity
      * @param additionalData    - optional bundle to pass as extras*/
-    private void newActivityRunning(Class s,Bundle additionalData){
+    private void newActivityRunning(@SuppressWarnings("rawtypes") Class s, Bundle additionalData){
         Intent intent = new Intent(this,s);
 
         if (additionalData != null){

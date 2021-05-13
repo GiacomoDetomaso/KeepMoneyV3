@@ -13,7 +13,8 @@ import com.example.keepmoneyv3.database.DbManager;
 import com.example.keepmoneyv3.utility.Keys;
 import com.example.keepmoneyv3.utility.User;
 
-import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * A class used to perform the registration of a new user
@@ -22,16 +23,17 @@ import java.util.ArrayList;
 
 public class RegistrationActivity extends AppCompatActivity {
 
-    //private ArrayList<User> users; // an ArrayList used to add all the user
     private DbManager dbManager; // database manager used to insert a new user
+    // compile the pattern for the regex
+    private static final Pattern EMAIL_REGEX_PATTERN = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
 
-        // initialization of the global variables
-        //users = new ArrayList<>();
+        // initialization of the global variable
         dbManager = new DbManager(getApplicationContext());
     }
 
@@ -57,17 +59,24 @@ public class RegistrationActivity extends AppCompatActivity {
         if(strNameReg.equals("") || strSurnameReg.equals("") || strUsernameReg.equals("") || strPasswordReg.equals("") || strEmail.equals("")){
             Toast.makeText(getApplicationContext(), "Campi vuoti! Inserire correttamente prima di procedere", Toast.LENGTH_LONG).show();
         } else {
-            long testValue = dbManager.insertUser(strUsernameReg, strPasswordReg, strNameReg, strSurnameReg, strEmail, 0f);//insert the user in the local db
+            Matcher matcher = EMAIL_REGEX_PATTERN.matcher(strEmail); // check if the mail match the pattern
+
+            // if the matching is successful perform the entry query
+            if (matcher.find()) {
+                long testValue = dbManager.insertUser(strUsernameReg, strPasswordReg, strNameReg, strSurnameReg, strEmail, 0f);//insert the user in the local db
 
             /*
               If the query is successful, instantiate the user and put it into a bundle to send to
               the NavigationActivity.
               */
-            if(testValue > 0){
-                User user = new User(strUsernameReg, strPasswordReg, strNameReg, strSurnameReg, strEmail, 0f);
-                Bundle navActivityBundle = new Bundle();
-                navActivityBundle.putSerializable(Keys.SerializableKeys.USER_KEY, user);
-                newActivityRunning(NavigationActivity.class, navActivityBundle);
+                if (testValue > 0) {
+                    User user = new User(strUsernameReg, strPasswordReg, strNameReg, strSurnameReg, strEmail, 0f);
+                    Bundle navActivityBundle = new Bundle();
+                    navActivityBundle.putSerializable(Keys.SerializableKeys.USER_KEY, user);
+                    newActivityRunning(navActivityBundle);
+                }
+            } else {
+                Toast.makeText(getApplicationContext(), "Indirizzo email sbagliato!", Toast.LENGTH_LONG).show();
             }
         }
 
@@ -78,11 +87,9 @@ public class RegistrationActivity extends AppCompatActivity {
      * Used to switch activity
      *
      * @author Michelangelo De Pascale
-     *
-     * @param s                 - the class of the activity
-     * @param additionalData    - optional bundle to pass as extras*/
-    private void newActivityRunning(Class s,Bundle additionalData){
-        Intent intent = new Intent(this,s);
+     *@param additionalData    - optional bundle to pass as extras */
+    private void newActivityRunning(Bundle additionalData){
+        Intent intent = new Intent(this, NavigationActivity.class);
 
         if (additionalData != null){
             intent.putExtras(additionalData);
@@ -91,3 +98,5 @@ public class RegistrationActivity extends AppCompatActivity {
         startActivity(intent);//start a new activity
     }
 }
+
+
