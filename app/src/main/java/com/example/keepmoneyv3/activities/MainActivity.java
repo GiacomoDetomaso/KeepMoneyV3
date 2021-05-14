@@ -21,7 +21,8 @@ import com.example.keepmoneyv3.utility.User;
  *
  * @author Michelangelo De Pascale
  *
- * @see NavigationActivity*/
+ * @see NavigationActivity
+ * @see RegistrationActivity*/
 
 public class MainActivity extends AppCompatActivity {
 
@@ -31,14 +32,18 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         dbManager = new DbManager(getApplicationContext());
+        addPredefinedCategories(); // method to add the predefined categories if the table is empty
     }
 
     /**
-     * This method perform the login action by checking with a query if the user is valid
+     * This method performs the login action, by checking with a query if the user's credentials
+     * are valid
      *
      * @author Michelangelo De Pascale
      * @see NavigationActivity
-     * @see com.example.keepmoneyv3.ui.dashboard.DashboardFragment*/
+     * @see com.example.keepmoneyv3.ui.dashboard.DashboardFragment
+     *
+     * @param view      - the actual view*/
     public void loginAction(View view){
 
         User user;
@@ -80,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     /**
-     * Used to switch activity
+     * Switches activity
      *
      * @author Michelangelo De Pascale
      *
@@ -94,6 +99,33 @@ public class MainActivity extends AppCompatActivity {
         }
 
         startActivity(intent);//start a new activity
+    }
+
+    /**
+     * A method used to add the predefined categories
+     * */
+    void addPredefinedCategories(){
+        Cursor cursor = dbManager.countQuery(DbStrings.TableCategoriesFields.TABLE_NAME);
+        int numRows; // rows number of the category table
+        if(cursor != null) {
+            // insert the categories if the table is empty (no records)
+            while (cursor.moveToNext()) {
+                numRows = cursor.getInt(cursor.getColumnIndex("numRows"));
+                if (numRows == 0) {
+                    dbManager.insertCategories("cat01", "Elettronica", R.drawable.ic_baseline_computer_24);
+                    dbManager.insertCategories("cat02", "Cibo", R.drawable.ic_baseline_fastfood_24);
+                    dbManager.insertCategories("cat03", "Famiglia", R.drawable.ic_baseline_family_24);
+                    dbManager.insertCategories("cat04", "Divertimento", R.drawable.ic_baseline_emoji_24);
+                    dbManager.insertCategories("cat05", "Casa", R.drawable.ic_baseline_home_24);
+                    dbManager.insertCategories("cat06", "Vacanza", R.drawable.ic_baseline_beach_access_24);
+                    dbManager.insertCategories("cat07", "Stipendio", R.drawable.ic_baseline_attach_money_24);
+                    dbManager.insertCategories("cat08", "Regalo", R.drawable.ic_baseline_card_giftcard_24);
+                    dbManager.insertCategories("cat09", "Scommessa", R.drawable.ic_baseline_thumb_up_24);
+                } else {
+                    Toast.makeText(getApplicationContext(), "Categorie inserite", Toast.LENGTH_LONG).show();
+                }
+            }
+        }
     }
 
 }

@@ -1,19 +1,25 @@
 package com.example.keepmoneyv3.activities;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Toast;
 
 import com.example.keepmoneyv3.R;
+import com.example.keepmoneyv3.dialogs.DialogAddNewType;
+import com.example.keepmoneyv3.dialogs.DialogEntries;
+import com.example.keepmoneyv3.utility.Category;
 import com.example.keepmoneyv3.utility.Keys;
 import com.example.keepmoneyv3.utility.User;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.DialogFragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-public class NavigationActivity extends AppCompatActivity {
+public class NavigationActivity extends AppCompatActivity implements DialogAddNewType.DialogAddNewTypeListener,
+        DialogEntries.DialogEntriesListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,8 +39,47 @@ public class NavigationActivity extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
         User user = (User) bundle.getSerializable(Keys.SerializableKeys.USER_KEY);
 
-        Toast.makeText(this, user.getUsername(), Toast.LENGTH_LONG).show();
-        
     }
 
+    public void addMoneyEvent(View view) {
+        DialogFragment dialogFragment = new DialogEntries();
+        dialogFragment.show(getSupportFragmentManager(), Keys.DialogTags.DIALOG_ENTRIES_TAG);
+    }
+
+    /**
+     * Callback method that send to the parent dialog the name of the
+     * selected category, during the entry acquisition
+     *
+     * @param cat       - category
+     * @see DialogEntries
+     * */
+    @Override
+    public void onTypeChosenEntries(Category cat) {
+        DialogEntries dialogEntries = (DialogEntries) getSupportFragmentManager().findFragmentByTag(Keys.DialogTags.DIALOG_ENTRIES_TAG);
+        if(dialogEntries != null)
+            dialogEntries.setCategory(cat);
+    }
+
+    /**
+     * Callback method that send to the parent dialog the name of the
+     * selected category, during the purchase acquisition
+     *
+     * @param cat       - category
+     *
+     * */
+    @Override
+    public void onTypeChoosePurchases(Category cat) {
+
+    }
+
+    /**
+     * Callback method that saves the entry inside the database
+     *
+     * @param val       - the value of the entry
+     * @param date      - the date of the entry
+     * @param idCat     - the id of the entry's category*/
+    @Override
+    public void DialogEntriesInsert(float val, String date, String idCat) {
+
+    }
 }

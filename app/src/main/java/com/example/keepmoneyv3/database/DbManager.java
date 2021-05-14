@@ -107,7 +107,7 @@ public class DbManager {
     }
 
     /**
-     * This method is used to insert an entry inside the DB
+     * This method is used to insert an entry inside the database
      *
      *
      * @param val       - the value of the entry
@@ -133,7 +133,7 @@ public class DbManager {
     }
 
     /**
-     * This method is used to insert a wishlist inside the DB
+     * This method is used to insert a wishlist inside the database
      *
      *
      * @param name      - the name of the list
@@ -158,7 +158,7 @@ public class DbManager {
     }
 
     /**
-     * This method is used to insert a purchase inside the DB
+     * This method is used to insert a purchase inside the database
      *
      *
      * @param dateP     - the date of the purchase
@@ -274,7 +274,10 @@ public class DbManager {
     }
 
     /**
-     * A query to check if the login is correct
+     * A query to check if the login credentials are correct
+     *
+     * @param username  - identifies an user uniquely
+     * @param password  - the password of the user account
      *
      * */
     public Cursor queryCheckUserLogin(String username, String password){
@@ -295,6 +298,7 @@ public class DbManager {
     /**
      * This query is used to retrieve the user's total
      *
+     * @param username  - identifies an user uniquely
      **/
     public Cursor queryGetUserTotal(String username){
         String query = "SELECT " + DbStrings.TableUsersField.USERS_TOT + " " +
@@ -314,6 +318,8 @@ public class DbManager {
 
     /**
      * Used to get all the rows of a table
+     *
+     * @param table         - the name of the table to access
      **/
     public Cursor queryGetAllRows(String table){
         Cursor cursor = null;
@@ -329,6 +335,7 @@ public class DbManager {
     /**
      * Used to count the number of rows of a table without any specific constraint
      *
+     * @param table         - the name of the table to access
      * */
     public Cursor countQuery(String table){
         String query = "SELECT COUNT(*) AS numRows FROM " + table;
@@ -347,6 +354,7 @@ public class DbManager {
     /**
      * Used to count all the element of a wishlist
      *
+     * @param wlId      - the id of the WishList
      * */
     public Cursor countQueryWLElements(int wlId){
         String query = "SELECT COUNT(*) AS numRows " +
@@ -400,6 +408,8 @@ public class DbManager {
     /**
      * Used to get the last item bought
      *
+     * @param itemID        - the id of the item
+     *
      * */
     public Cursor getLastItemFromPurchasesQuery(int itemID){
         String query =
@@ -421,6 +431,8 @@ public class DbManager {
     /**
      * Used to get all the data related to the entries
      *
+     * @param entriesId     - the id of the entry
+     *
      * */
     public Cursor getEntriesDataQuery(int entriesId){
         String query = "SELECT entries.value,entries.dateEntr,categories.picId " +
@@ -439,6 +451,8 @@ public class DbManager {
 
     /**
      * Used to get all the WL data
+     *
+     * @param wlID      - the id of the WishList
      *
      * */
     public Cursor getWishListDataQuery(int wlID){
@@ -461,6 +475,8 @@ public class DbManager {
     /**
      * Used to get all the WL items
      *
+     * @param wlID      - the id of the WishList
+     *
      * */
     public Cursor getWishListsItems(int wlID){
         String query = "SELECT items.* " +
@@ -480,6 +496,8 @@ public class DbManager {
 
     /**
      * Used to count the number of WL by their validity
+     *
+     * @param valid     - indicates the validity of the WishList
      *
      * */
     public Cursor getCountWishListsByValidity(int valid){

@@ -1,7 +1,7 @@
 package com.example.keepmoneyv3.database;
 
 /**
- * This class wraps some static classes,
+ * This class is used to wraps some static classes,
  * which are used to refer to database's table's names and fields
  *
  * @author Giacomo Detomaso

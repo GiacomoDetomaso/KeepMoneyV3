@@ -17,4 +17,7 @@
     <string name="nome">nome</string>
     <string name="cognome">cognome</string>
     <string name="gestisci_entrate_e_spese">Gestisci entrate e spese</string>
+    <string name="tipo">tipo</string>
+    <string name="data">data</string>
+    <string name="elettronica">elettronica</string>
 </resources>

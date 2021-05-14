@@ -40,6 +40,7 @@ public class RegistrationActivity extends AppCompatActivity {
     /**
      * The method that performs the registration of a new user
      *
+     * @param view      - the actual view
      * */
     public void registrationAction(View view){
         // take all the EditText to retrieve the Registration Data
@@ -74,6 +75,8 @@ public class RegistrationActivity extends AppCompatActivity {
                     Bundle navActivityBundle = new Bundle();
                     navActivityBundle.putSerializable(Keys.SerializableKeys.USER_KEY, user);
                     newActivityRunning(navActivityBundle);
+                } else {
+                    Toast.makeText(getApplicationContext(), "Nome utente già inserito", Toast.LENGTH_LONG).show();
                 }
             } else {
                 Toast.makeText(getApplicationContext(), "Indirizzo email sbagliato!", Toast.LENGTH_LONG).show();
@@ -87,7 +90,7 @@ public class RegistrationActivity extends AppCompatActivity {
      * Used to switch activity
      *
      * @author Michelangelo De Pascale
-     *@param additionalData    - optional bundle to pass as extras */
+     * @param additionalData    - optional bundle to pass as extras */
     private void newActivityRunning(Bundle additionalData){
         Intent intent = new Intent(this, NavigationActivity.class);
 
@@ -98,5 +101,6 @@ public class RegistrationActivity extends AppCompatActivity {
         startActivity(intent);//start a new activity
     }
 }
+
 
 

@@ -8,11 +8,13 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.keepmoneyv3.R;
+import com.example.keepmoneyv3.dialogs.DialogEntries;
 import com.google.android.material.bottomappbar.BottomAppBarTopEdgeTreatment;
 import com.google.android.material.card.MaterialCardView;
 
@@ -37,4 +39,7 @@ public class DashboardFragment extends Fragment {
         
         return root;
     }
+
+
+
 }
