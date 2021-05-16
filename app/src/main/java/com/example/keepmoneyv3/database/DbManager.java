@@ -215,18 +215,17 @@ public class DbManager {
      * This method is used to update the total value of the user
      *
      *
-     * @param table     - table name
      * @param tot       - total value
      * @param username  - username
      * */
-    public void updateUserTotal(String table,float tot,String username){
+    public void updateUserTotal(float tot,String username){
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         String whereClause = "username = '" + username + "'";//the where clause
         ContentValues contentValues = new ContentValues();
         contentValues.put(DbStrings.TableUsersField.USERS_TOT,tot);
 
         try {
-             db.update(table,contentValues,whereClause,null);
+             db.update(DbStrings.TableUsersField.TABLE_NAME,contentValues,whereClause,null);
 
         }catch (Exception e){
             Toast.makeText(context,e.getMessage(),Toast.LENGTH_LONG).show();

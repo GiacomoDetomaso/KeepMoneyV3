@@ -5,6 +5,8 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.keepmoneyv3.R;
+import com.example.keepmoneyv3.database.DbManager;
+import com.example.keepmoneyv3.database.DbStrings;
 import com.example.keepmoneyv3.dialogs.DialogAddNewType;
 import com.example.keepmoneyv3.dialogs.DialogEntries;
 import com.example.keepmoneyv3.utility.Category;
@@ -20,6 +22,8 @@ import androidx.navigation.ui.NavigationUI;
 
 public class NavigationActivity extends AppCompatActivity implements DialogAddNewType.DialogAddNewTypeListener,
         DialogEntries.DialogEntriesListener {
+
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +41,7 @@ public class NavigationActivity extends AppCompatActivity implements DialogAddNe
         NavigationUI.setupWithNavController(navView, navController);
 
         Bundle bundle = getIntent().getExtras();
-        User user = (User) bundle.getSerializable(Keys.SerializableKeys.USER_KEY);
+        user = (User) bundle.getSerializable(Keys.SerializableKeys.USER_KEY);
 
     }
 
@@ -80,6 +84,10 @@ public class NavigationActivity extends AppCompatActivity implements DialogAddNe
      * @param idCat     - the id of the entry's category*/
     @Override
     public void DialogEntriesInsert(float val, String date, String idCat) {
+        DbManager dbManager = new DbManager(getApplicationContext());
 
+        user.setTotal(user.getTotal() + val);
+        Toast.makeText(getApplicationContext(),"The total is: "+user.getTotal(),Toast.LENGTH_LONG).show();
+        dbManager.updateUserTotal(user.getTotal(), user.getUsername());
     }
 }
