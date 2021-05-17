@@ -1,5 +1,6 @@
 package com.example.keepmoneyv3.activities;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -14,6 +15,8 @@ import com.example.keepmoneyv3.database.DbManager;
 import com.example.keepmoneyv3.database.DbStrings;
 import com.example.keepmoneyv3.utility.Keys;
 import com.example.keepmoneyv3.utility.User;
+
+import java.util.Objects;
 
 /**
  * This is the entry point of the application. It performs login and the access in the
@@ -31,6 +34,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // app bar custom definition
+
         dbManager = new DbManager(getApplicationContext());
         addPredefinedCategories(); // method to add the predefined categories if the table is empty
     }

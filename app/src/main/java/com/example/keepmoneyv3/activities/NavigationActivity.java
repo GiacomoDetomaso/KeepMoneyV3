@@ -2,23 +2,25 @@ package com.example.keepmoneyv3.activities;
 
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Toast;
 
 import com.example.keepmoneyv3.R;
 import com.example.keepmoneyv3.database.DbManager;
-import com.example.keepmoneyv3.database.DbStrings;
 import com.example.keepmoneyv3.dialogs.DialogAddNewType;
 import com.example.keepmoneyv3.dialogs.DialogEntries;
 import com.example.keepmoneyv3.utility.Category;
 import com.example.keepmoneyv3.utility.Keys;
 import com.example.keepmoneyv3.utility.User;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
+
+import java.util.Objects;
 
 public class NavigationActivity extends AppCompatActivity implements DialogAddNewType.DialogAddNewTypeListener,
         DialogEntries.DialogEntriesListener {
@@ -29,11 +31,14 @@ public class NavigationActivity extends AppCompatActivity implements DialogAddNe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigation);
-        BottomNavigationView navView = findViewById(R.id.nav_view);
+
+        BottomNavigationView navView = findViewById(R.id.bottomNavigation);
+        //navView.inflateMenu(R.menu.bottom_nav_menu);
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
+
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications)
+                R.id.navigation_movements, R.id.navigation_dashboard, R.id.navigation_list)
                 .build();
 
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
@@ -85,9 +90,12 @@ public class NavigationActivity extends AppCompatActivity implements DialogAddNe
     @Override
     public void DialogEntriesInsert(float val, String date, String idCat) {
         DbManager dbManager = new DbManager(getApplicationContext());
+        long testValue = dbManager.insertEntries(val, date, idCat, user.getUsername()); // save the entry inside the DB
 
-        user.setTotal(user.getTotal() + val);
-        Toast.makeText(getApplicationContext(),"The total is: "+user.getTotal(),Toast.LENGTH_LONG).show();
-        dbManager.updateUserTotal(user.getTotal(), user.getUsername());
+        // check if the entry has been saved
+        if (testValue > 0) {
+            user.setTotal(user.getTotal() + val);
+            dbManager.updateUserTotal(user.getTotal(), user.getUsername());
+        }
     }
 }

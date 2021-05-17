@@ -1,22 +1,29 @@
 package com.example.keepmoneyv3.ui.dashboard;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.keepmoneyv3.R;
+import com.example.keepmoneyv3.activities.NavigationActivity;
 import com.example.keepmoneyv3.dialogs.DialogEntries;
 import com.google.android.material.bottomappbar.BottomAppBarTopEdgeTreatment;
 import com.google.android.material.card.MaterialCardView;
+
+import java.util.Objects;
 
 public class DashboardFragment extends Fragment {
 
@@ -39,6 +46,7 @@ public class DashboardFragment extends Fragment {
         
         return root;
     }
+
 
 
 

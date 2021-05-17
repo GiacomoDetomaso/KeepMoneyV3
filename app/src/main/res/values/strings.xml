@@ -20,4 +20,9 @@
     <string name="tipo">tipo</string>
     <string name="data">data</string>
     <string name="elettronica">elettronica</string>
+    <string name="budget">Budget</string>
+    <string name="spese_recenti">Spese Recenti</string>
+    <string name="wishlist">WishList</string>
+    <string name="title_movimenti">Movimenti</string>
+    <string name="keepmoney">KeepMoney</string>
 </resources>

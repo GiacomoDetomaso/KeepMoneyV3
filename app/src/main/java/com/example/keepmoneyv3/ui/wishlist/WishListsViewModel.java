@@ -1,14 +1,14 @@
-package com.example.keepmoneyv3.ui.notifications;
+package com.example.keepmoneyv3.ui.wishlist;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class NotificationsViewModel extends ViewModel {
+public class WishListsViewModel extends ViewModel {
 
     private MutableLiveData<String> mText;
 
-    public NotificationsViewModel() {
+    public WishListsViewModel() {
         mText = new MutableLiveData<>();
         mText.setValue("Qui un giorno ci saranno le wishlist");
     }

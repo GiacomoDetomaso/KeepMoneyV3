@@ -23,7 +23,7 @@ import java.util.regex.Pattern;
 
 public class RegistrationActivity extends AppCompatActivity {
 
-    private DbManager dbManager; // database manager used to insert a new user
+    private DbManager mDbManager; // database manager used to insert a new user
     // compile the pattern for the regex
     private static final Pattern EMAIL_REGEX_PATTERN = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
 
@@ -34,7 +34,7 @@ public class RegistrationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_registration);
 
         // initialization of the global variable
-        dbManager = new DbManager(getApplicationContext());
+        mDbManager = new DbManager(getApplicationContext());
     }
 
     /**
@@ -64,7 +64,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
             // if the matching is successful perform the entry query
             if (matcher.find()) {
-                long testValue = dbManager.insertUser(strUsernameReg, strPasswordReg, strNameReg, strSurnameReg, strEmail, 0f);//insert the user in the local db
+                long testValue = mDbManager.insertUser(strUsernameReg, strPasswordReg, strNameReg, strSurnameReg, strEmail, 0f);//insert the user in the local db
 
             /*
               If the query is successful, instantiate the user and put it into a bundle to send to
