@@ -76,9 +76,9 @@ public class DialogEntries extends DialogFragment {
         txtDate = root.findViewById(R.id.txtDateEntr);//the date of the entries
         txtType = root.findViewById(R.id.txtTypeEntr);//the category of the entries
 
-        txtDataAction(txtDate);
-        txtTypeAction(txtType);
-        dialogEntriesAction();
+        txtDataAction(txtDate); // call the dialog to choose the date
+        txtTypeAction(txtType); // call the category dialog to set the entry's category
+        dialogEntriesAction(); // perform the insert
 
         return builder.create();
     }
@@ -88,7 +88,7 @@ public class DialogEntries extends DialogFragment {
      * If it is the method calls the interface's method that will save the entry in the database.
      * The interface method is implemented in the NavigationActivity.
      *
-     * //@see DialogEntriesListener
+     * @see DialogEntriesListener
      * @see NavigationActivity
      * */
     private void dialogEntriesAction(){
@@ -137,7 +137,7 @@ public class DialogEntries extends DialogFragment {
                 FragmentManager manager = getFragmentManager();
 
                 if(manager != null)
-                    fragment.show(manager,Keys.DialogTags.DIALOG_DATE_PICKER);//show the date picker fragment
+                    fragment.show(manager,Keys.DialogTags.DIALOG_DATE_PICKER_TAG);//show the date picker fragment
             }
         });
     }

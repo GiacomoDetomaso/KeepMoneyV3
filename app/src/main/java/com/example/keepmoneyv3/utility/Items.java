@@ -10,8 +10,7 @@ public class Items implements Serializable {
     private float price;
     private String catID;
 
-    public Items(int id, String name, int amount, int valid, float price, String catID) {
-        this.id = id;
+    public Items(String name, int amount, int valid, float price, String catID) {
         this.name = name;
         this.price = price;
         this.amount = amount;
@@ -19,12 +18,15 @@ public class Items implements Serializable {
         this.valid = valid;
     }
 
-    public Items(int id, String name, int amount, int valid , float price) {
-        this.id = id;
+    public Items(String name, int amount, int valid , float price) {
         this.name = name;
         this.price = price;
         this.amount = amount;
         this.valid = valid;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public int getId() {

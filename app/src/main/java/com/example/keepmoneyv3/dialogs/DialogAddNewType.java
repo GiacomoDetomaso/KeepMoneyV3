@@ -66,7 +66,6 @@ public class DialogAddNewType extends DialogFragment {
     private ArrayList<Category> categories;
 
    public DialogAddNewType(ArrayList<Category> categories, String dialogTag){
-        //todo: add parameters
         this.categories = categories;
         this.dialogTag = dialogTag;
     }
@@ -93,13 +92,30 @@ public class DialogAddNewType extends DialogFragment {
         gridViewAction(gridView, gridViewCategoryAdapter);
         return builder.create();
     }
-    
+
+    /**
+     * This method is used to build the grid of the gridview
+     *
+     * @param gridViewCategoryAdapter       - the adapter of the gridview
+     *
+     * @see GridViewCategoryAdapter
+     * @see Category*/
     private void buildGrid(GridViewCategoryAdapter gridViewCategoryAdapter){
         for (Category c : categories){
             gridViewCategoryAdapter.buildMap(c.getId(),c.getName(),c.getPictureId());
         }
     }
 
+    /**
+     * This method is called when an item of the gridview is tapped.
+     * It is used to call the interface's method, in order to set the corresponding
+     * category title on the EditText.
+     *
+     * @param gridView      - the gridview
+     * @param adapter       - the adapter of the gridview
+     *
+     * @see DialogAddNewTypeListener
+     * @see NavigationActivity*/
     private void gridViewAction(GridView gridView, final GridViewCategoryAdapter adapter){
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -109,9 +125,8 @@ public class DialogAddNewType extends DialogFragment {
                     case Keys.DialogTags.DIALOG_ENTRIES_TAG:
                         listener.onTypeChosenEntries(categoryArrayList.get(position));
                         dismiss();//close the dialog
-
                         break;
-                    case "DialogPurchases":
+                    case Keys.DialogTags.DIALOG_PURCHASES_TAG:
                         listener.onTypeChoosePurchases(categoryArrayList.get(position));
                         dismiss();//close the dialog
                         break;

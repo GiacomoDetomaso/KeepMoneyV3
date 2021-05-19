@@ -35,8 +35,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // app bar custom definition
-
         dbManager = new DbManager(getApplicationContext());
         addPredefinedCategories(); // method to add the predefined categories if the table is empty
     }
@@ -110,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
     /**
      * A method used to add the predefined categories
      * */
-    void addPredefinedCategories(){
+    private void addPredefinedCategories(){
         Cursor cursor = dbManager.countQuery(DbStrings.TableCategoriesFields.TABLE_NAME);
         int numRows; // rows number of the category table
         if(cursor != null) {
@@ -127,8 +125,6 @@ public class MainActivity extends AppCompatActivity {
                     dbManager.insertCategories("cat07", "Stipendio", R.drawable.ic_baseline_attach_money_24);
                     dbManager.insertCategories("cat08", "Regalo", R.drawable.ic_baseline_card_giftcard_24);
                     dbManager.insertCategories("cat09", "Scommessa", R.drawable.ic_baseline_thumb_up_24);
-                } else {
-                    Toast.makeText(getApplicationContext(), "Categorie inserite", Toast.LENGTH_LONG).show();
                 }
             }
         }

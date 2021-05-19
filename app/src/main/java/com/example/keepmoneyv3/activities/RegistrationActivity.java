@@ -25,7 +25,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
     private DbManager mDbManager; // database manager used to insert a new user
     // compile the pattern for the regex
-    private static final Pattern EMAIL_REGEX_PATTERN = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
+    private static final Pattern EMAIL_REGEX_PATTERN = Pattern.compile(Keys.MiscellaneousKeys.EMAIL_REGEX, Pattern.CASE_INSENSITIVE);
 
 
     @Override

@@ -2,17 +2,19 @@ package com.example.keepmoneyv3.activities;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.keepmoneyv3.R;
 import com.example.keepmoneyv3.database.DbManager;
 import com.example.keepmoneyv3.dialogs.DialogAddNewType;
 import com.example.keepmoneyv3.dialogs.DialogEntries;
+import com.example.keepmoneyv3.dialogs.DialogPurchase;
 import com.example.keepmoneyv3.utility.Category;
+import com.example.keepmoneyv3.utility.Items;
 import com.example.keepmoneyv3.utility.Keys;
 import com.example.keepmoneyv3.utility.User;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 import androidx.navigation.NavController;
@@ -20,12 +22,22 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-import java.util.Objects;
+/**
+ * This class is the "hub" of the app. It is used to navigate through the various menus tabs
+ * and it performs all the database insert queries or update queries related to
+ *
+ * 1) Entries
+ * 2) Items
+ * 3) Purchases
+ * 4) WishLists
+ *
+ * @author Giacomo Detomaso and Michelangelo De Pascale
+ **/
 
 public class NavigationActivity extends AppCompatActivity implements DialogAddNewType.DialogAddNewTypeListener,
-        DialogEntries.DialogEntriesListener {
+        DialogEntries.DialogEntriesListener, DialogPurchase.DialogPurchaseListener {
 
-    private User user;
+    private User user; // the user passed as a bundle from login or registration
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,9 +62,24 @@ public class NavigationActivity extends AppCompatActivity implements DialogAddNe
 
     }
 
+    /**
+     * This method is triggered when the btnAddNewMoney is tapped.
+     *
+     * @param view      - the view of the dialog
+     * */
     public void addMoneyEvent(View view) {
         DialogFragment dialogFragment = new DialogEntries();
         dialogFragment.show(getSupportFragmentManager(), Keys.DialogTags.DIALOG_ENTRIES_TAG);
+    }
+
+    /**
+     * This method is triggered when the fabAddNewPurchase is tapped.
+     *
+     * @param view      - the view of the dialog
+     * */
+    public void addPurchaseEvent(View view){
+        DialogFragment dialogFragment = new DialogPurchase(user.getTotal()); // todo fix
+        dialogFragment.show(getSupportFragmentManager(), Keys.DialogTags.DIALOG_PURCHASES_TAG);
     }
 
     /**
@@ -78,7 +105,9 @@ public class NavigationActivity extends AppCompatActivity implements DialogAddNe
      * */
     @Override
     public void onTypeChoosePurchases(Category cat) {
-
+        DialogPurchase dialogPurchase = (DialogPurchase) getSupportFragmentManager().findFragmentByTag(Keys.DialogTags.DIALOG_PURCHASES_TAG);
+        if(dialogPurchase != null)
+            dialogPurchase.setCategory(cat);
     }
 
     /**
@@ -86,7 +115,9 @@ public class NavigationActivity extends AppCompatActivity implements DialogAddNe
      *
      * @param val       - the value of the entry
      * @param date      - the date of the entry
-     * @param idCat     - the id of the entry's category*/
+     * @param idCat     - the id of the entry's category
+     *
+     * @see com.example.keepmoneyv3.dialogs.DialogEntries.DialogEntriesListener*/
     @Override
     public void DialogEntriesInsert(float val, String date, String idCat) {
         DbManager dbManager = new DbManager(getApplicationContext());
@@ -97,5 +128,34 @@ public class NavigationActivity extends AppCompatActivity implements DialogAddNe
             user.setTotal(user.getTotal() + val);
             dbManager.updateUserTotal(user.getTotal(), user.getUsername());
         }
+    }
+
+    /**
+     * Callback method that saved the purchase inside the database
+     *
+     * @param item      - the item bought
+     * @param date      - the date of the purchase
+     * @param time       - the time of the purchase
+     *
+     * @see com.example.keepmoneyv3.dialogs.DialogPurchase.DialogPurchaseListener
+     * */
+    @Override
+    public void DialogPurchaseInsert(Items item, String date, String time) {
+        DbManager dbManager = new DbManager(getApplicationContext());
+        long testValue = dbManager.insertItems(item.getPrice(), item.getAmount(), item.getName(), item.getValid(), item.getCatID());
+
+        if(testValue > 0){
+            item.setId((int) testValue);
+            testValue = dbManager.insertPurchases(date, time, user.getUsername(), item.getId(), 0);
+
+            if (testValue > 0){
+                Toast.makeText(getApplicationContext(), "Spesa registrata correttamente", Toast.LENGTH_LONG).show();
+                // update total value
+                float purchasePrice = item.getPrice() * item.getAmount();
+                user.setTotal(user.getTotal() - purchasePrice);
+                dbManager.updateUserTotal(user.getTotal(), user.getUsername());
+            }
+        }
+
     }
 }
