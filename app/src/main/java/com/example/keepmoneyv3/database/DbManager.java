@@ -375,8 +375,9 @@ public class DbManager {
      * Used to sum all the entries
      *
      * */
-    public Cursor sumEntriesQuery(){
-        String query = "SELECT SUM(entries.value) AS sumEntr FROM entries";
+    public Cursor sumEntriesQuery(String username){
+        String query = "SELECT SUM(entries.value) AS sumEntr FROM entries JOIN users " +
+                "ON (users.username = entries.userId) WHERE username = '" + username + "'";
         Cursor cursor = null;
         try{
             SQLiteDatabase db = dbHelper.getReadableDatabase();
@@ -392,8 +393,11 @@ public class DbManager {
      * Used to sum all the purchases value
      *
      * */
-    public Cursor sumPurchasesQuery(){
-        String query = "SELECT SUM(items.price) AS sumP FROM items WHERE isValid = 0";
+    public Cursor sumPurchasesQuery(String username){
+        String query = "SELECT SUM(items.price*amount) AS sumPurch FROM items JOIN " +
+                "purchases ON (purchases.itemId = items.id) JOIN users " +
+                "ON (users.username = purchases.userId) WHERE isValid = 0 " +
+                "AND username = '" + username + "'";
         Cursor cursor = null;
         try{
             SQLiteDatabase db = dbHelper.getReadableDatabase();

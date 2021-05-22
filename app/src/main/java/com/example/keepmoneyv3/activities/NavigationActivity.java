@@ -1,14 +1,19 @@
 package com.example.keepmoneyv3.activities;
 
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.keepmoneyv3.R;
 import com.example.keepmoneyv3.database.DbManager;
+import com.example.keepmoneyv3.database.DbStrings;
 import com.example.keepmoneyv3.dialogs.DialogAddNewType;
 import com.example.keepmoneyv3.dialogs.DialogEntries;
 import com.example.keepmoneyv3.dialogs.DialogPurchase;
+import com.example.keepmoneyv3.ui.dashboard.DashboardFragment;
 import com.example.keepmoneyv3.utility.Category;
 import com.example.keepmoneyv3.utility.Items;
 import com.example.keepmoneyv3.utility.Keys;
@@ -35,7 +40,7 @@ import androidx.navigation.ui.NavigationUI;
  **/
 
 public class NavigationActivity extends AppCompatActivity implements DialogAddNewType.DialogAddNewTypeListener,
-        DialogEntries.DialogEntriesListener, DialogPurchase.DialogPurchaseListener {
+        DialogEntries.DialogEntriesListener, DialogPurchase.DialogPurchaseListener, DashboardFragment.DashboardFragmentListener {
 
     private User user; // the user passed as a bundle from login or registration
 
@@ -127,6 +132,7 @@ public class NavigationActivity extends AppCompatActivity implements DialogAddNe
         if (testValue > 0) {
             user.setTotal(user.getTotal() + val);
             dbManager.updateUserTotal(user.getTotal(), user.getUsername());
+            updateActivity();
         }
     }
 
@@ -154,8 +160,21 @@ public class NavigationActivity extends AppCompatActivity implements DialogAddNe
                 float purchasePrice = item.getPrice() * item.getAmount();
                 user.setTotal(user.getTotal() - purchasePrice);
                 dbManager.updateUserTotal(user.getTotal(), user.getUsername());
+                updateActivity();
             }
         }
 
+    }
+
+    @Override
+    public User GetUserFromSavedBundle(){
+        return user;
+    }
+
+    private void updateActivity() {
+        finish();
+        overridePendingTransition(0, 0);
+        startActivity(getIntent());
+        overridePendingTransition(0, 0);
     }
 }
