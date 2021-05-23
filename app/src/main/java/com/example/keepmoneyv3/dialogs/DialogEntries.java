@@ -129,6 +129,11 @@ public class DialogEntries extends DialogFragment {
         });
     }
 
+    /**
+     * This method is used to show the DatePicker to select the entry's date
+     *
+     * @param txtData       - the EditText that trigger the action
+     * */
     private void txtDataAction(EditText txtData){
         txtData.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -142,6 +147,11 @@ public class DialogEntries extends DialogFragment {
         });
     }
 
+    /**
+     * This method is used to show the dialog to select the category of the entry.
+     *
+     * @param txtType       - the EditText that trigger the action
+     * */
     private void txtTypeAction(EditText txtType){
 
         txtType.setOnClickListener(new View.OnClickListener() {
@@ -170,6 +180,7 @@ public class DialogEntries extends DialogFragment {
                 DialogAddNewType dialogAddNewType = new DialogAddNewType(categoriesEntries, Keys.DialogTags.DIALOG_ENTRIES_TAG);
                 FragmentManager manager = getFragmentManager();
 
+                // show the dialog to select Entry's category
                 if(manager != null)
                     dialogAddNewType.show(manager,Keys.DialogTags.DIALOG_ADD_NEW_TYPE_TAG);
 
@@ -196,6 +207,11 @@ public class DialogEntries extends DialogFragment {
         return i;
     }
 
+    /**
+     * This method is used to set the date string inside the EditText
+     *
+     * @param strDate       - the date string
+     * */
     void setStrDate(String strDate){
         txtDate = root.findViewById(R.id.txtDateEntr);
 
@@ -205,6 +221,11 @@ public class DialogEntries extends DialogFragment {
         txtDate.setText(strDate);
     }
 
+    /**
+     * This method is used to set the category name inside the EditText
+     *
+     * @param cat       - the category
+     * */
     public void setCategory(Category cat){
         this.category = cat;
         txtType.setText(cat.getName());

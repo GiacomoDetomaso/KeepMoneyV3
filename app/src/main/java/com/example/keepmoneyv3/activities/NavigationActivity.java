@@ -1,15 +1,11 @@
 package com.example.keepmoneyv3.activities;
 
-import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.keepmoneyv3.R;
 import com.example.keepmoneyv3.database.DbManager;
-import com.example.keepmoneyv3.database.DbStrings;
 import com.example.keepmoneyv3.dialogs.DialogAddNewType;
 import com.example.keepmoneyv3.dialogs.DialogEntries;
 import com.example.keepmoneyv3.dialogs.DialogPurchase;
@@ -132,7 +128,7 @@ public class NavigationActivity extends AppCompatActivity implements DialogAddNe
         if (testValue > 0) {
             user.setTotal(user.getTotal() + val);
             dbManager.updateUserTotal(user.getTotal(), user.getUsername());
-            updateActivity();
+            refreshActivity();
         }
     }
 
@@ -160,21 +156,30 @@ public class NavigationActivity extends AppCompatActivity implements DialogAddNe
                 float purchasePrice = item.getPrice() * item.getAmount();
                 user.setTotal(user.getTotal() - purchasePrice);
                 dbManager.updateUserTotal(user.getTotal(), user.getUsername());
-                updateActivity();
+                refreshActivity();
             }
         }
 
     }
 
+    /**
+     * This method is used to communicate with DashboardFragment. It send the user
+     * object to the fragment
+     *
+     * @see DashboardFragment
+     * */
     @Override
     public User GetUserFromSavedBundle(){
         return user;
     }
 
-    private void updateActivity() {
-        finish();
+    /**
+     * This method is used to refresh the activity once a new movement has been registered
+     * */
+    private void refreshActivity() {
+        finish(); // end the current activity
         overridePendingTransition(0, 0);
-        startActivity(getIntent());
+        startActivity(getIntent()); // restart the activity
         overridePendingTransition(0, 0);
     }
 }
