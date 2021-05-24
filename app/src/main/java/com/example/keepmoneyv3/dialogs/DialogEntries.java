@@ -132,7 +132,7 @@ public class DialogEntries extends DialogFragment {
     /**
      * This method is used to show the DatePicker to select the entry's date
      *
-     * @param txtData       - the EditText that trigger the action
+     * @param txtData       the EditText that trigger the action
      * */
     private void txtDataAction(EditText txtData){
         txtData.setOnClickListener(new View.OnClickListener() {
@@ -150,7 +150,7 @@ public class DialogEntries extends DialogFragment {
     /**
      * This method is used to show the dialog to select the category of the entry.
      *
-     * @param txtType       - the EditText that trigger the action
+     * @param txtType       the EditText that trigger the action
      * */
     private void txtTypeAction(EditText txtType){
 
@@ -194,10 +194,10 @@ public class DialogEntries extends DialogFragment {
      * If the research is unsuccessful the return parameter will be equals to the size of the
      * Arraylist.
      *
-     * @param categories        - all the categories
-     * @param catName           - the name of the category to search
+     * @param categories        all the categories
+     * @param catName           the name of the category to search
      *
-     * @return i                - the position inside the ArrayList of the category
+     * @return i                the position inside the ArrayList of the category
      * */
     private int searchCategoryName(ArrayList<Category> categories, String catName) {
         int i;

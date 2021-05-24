@@ -58,7 +58,7 @@ public class DialogPurchase extends DialogFragment {
             listener = (DialogPurchaseListener) context;//casting the interface
 
         }catch (ClassCastException e){
-            throw new ClassCastException(activity.toString() + "Must implement the interface");
+            throw new ClassCastException((activity != null ? activity.toString() : null) + "Must implement the interface");
         }
     }
 
@@ -199,3 +199,5 @@ public class DialogPurchase extends DialogFragment {
         txtType.setText(cat.getName());
     }
 }
+
+// todo doc

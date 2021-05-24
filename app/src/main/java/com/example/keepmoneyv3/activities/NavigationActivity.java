@@ -148,7 +148,7 @@ public class NavigationActivity extends AppCompatActivity implements DialogAddNe
 
         if(testValue > 0){
             item.setId((int) testValue);
-            testValue = dbManager.insertPurchases(date, time, user.getUsername(), item.getId(), 0);
+            testValue = dbManager.insertPurchases(date, time, user.getUsername(), item.getId(), Keys.MiscellaneousKeys.NO_WL_DEFAULT);
 
             if (testValue > 0){
                 Toast.makeText(getApplicationContext(), "Spesa registrata correttamente", Toast.LENGTH_LONG).show();

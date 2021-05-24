@@ -21,13 +21,15 @@ import com.example.keepmoneyv3.utility.Category;
 import com.example.keepmoneyv3.utility.Keys;
 
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 
 public class DialogAddNewType extends DialogFragment {
 
     private DialogAddNewTypeListener listener;
     private DialogAddNewTypeListenerWL listenerWL;
-    private String dialogTag;
+    private final String dialogTag;
 
     public interface DialogAddNewTypeListener {
         void onTypeChosenEntries(Category cat);
@@ -39,7 +41,7 @@ public class DialogAddNewType extends DialogFragment {
     }
 
     @Override
-    public void onAttach(Context context){
+    public void onAttach(@NotNull Context context){
         super.onAttach(context);
 
         NavigationActivity homeActivity;
@@ -58,12 +60,12 @@ public class DialogAddNewType extends DialogFragment {
             try {
                 listener = (DialogAddNewTypeListener) context;//casting the interface for home activity
             }catch (ClassCastException e){
-                throw new ClassCastException(homeActivity.toString() + "Must implement the interface");
+                throw new ClassCastException((homeActivity != null ? homeActivity.toString() : null) + "Must implement the interface");
             }
         }
     }
 
-    private ArrayList<Category> categories;
+    private final ArrayList<Category> categories;
 
    public DialogAddNewType(ArrayList<Category> categories, String dialogTag){
         this.categories = categories;
@@ -96,7 +98,7 @@ public class DialogAddNewType extends DialogFragment {
     /**
      * This method is used to build the grid of the gridview
      *
-     * @param gridViewCategoryAdapter       - the adapter of the gridview
+     * @param gridViewCategoryAdapter       the adapter of the gridview
      *
      * @see GridViewCategoryAdapter
      * @see Category*/
@@ -111,8 +113,8 @@ public class DialogAddNewType extends DialogFragment {
      * It is used to call the interface's method, in order to set the corresponding
      * category title on the EditText.
      *
-     * @param gridView      - the gridview
-     * @param adapter       - the adapter of the gridview
+     * @param gridView      the gridview
+     * @param adapter       the adapter of the gridview
      *
      * @see DialogAddNewTypeListener
      * @see NavigationActivity*/

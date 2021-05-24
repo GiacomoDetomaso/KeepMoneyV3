@@ -11,11 +11,11 @@ import android.widget.Toast;
  *
  * @author Giacomo Detomaso
  *
- * @see DbHelper        - used to get the DB
- * @see DbStrings       - used to access to all the tables
- * @see ContentValues   - used to set the values of the queries
- * @see Cursor          - used to provide the result of some queries
- * @see SQLiteDatabase  - used to perform queries
+ * @see DbHelper        used to get the DB
+ * @see DbStrings       used to access to all the tables
+ * @see ContentValues   used to set the values of the queries
+ * @see Cursor          used to provide the result of some queries
+ * @see SQLiteDatabase  used to perform queries
  * */
 public class DbManager {
     private final DbHelper dbHelper;
@@ -30,12 +30,12 @@ public class DbManager {
      * This method is used to insert an user inside the database
      *
      *
-     * @param username  - identifies an user uniquely
-     * @param password  - the password of the user account
-     * @param name      - the name of the user
-     * @param surname   - the surname of the user
-     * @param email     - email of the user
-     * @param total     - total amount of money of the user */
+     * @param username  identifies an user uniquely
+     * @param password  the password of the user account
+     * @param name      the name of the user
+     * @param surname   the surname of the user
+     * @param email     email of the user
+     * @param total     total amount of money of the user */
     public long insertUser(String username, String password, String name, String surname, String email, float total) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -60,9 +60,9 @@ public class DbManager {
      * This method is used to insert a category inside the database
      *
      *
-     * @param id        - identifies a category
-     * @param desc      - brief description of the category
-     * @param picId     - identifies the picture associated with the category*/
+     * @param id        identifies a category
+     * @param desc      brief description of the category
+     * @param picId     identifies the picture associated with the category*/
     public void insertCategories(String id, String desc, int picId) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -81,11 +81,11 @@ public class DbManager {
      * This method is used to insert an item inside the database
      *
      *
-     * @param price     - the price of the item
-     * @param amount    - indicates the amount item
-     * @param name      - the name of the item
-     * @param valid     - indicates if the item has been bought (valid = 1) or it's planned to (valid = 0)
-     * @param idCat     - identifies the category of the item
+     * @param price     the price of the item
+     * @param amount    indicates the amount item
+     * @param name      the name of the item
+     * @param valid     indicates if the item has been bought (valid = 1) or it's planned to (valid = 0)
+     * @param idCat     identifies the category of the item
      * */
     public long insertItems(float price, int amount, String name, int valid, String idCat){
         SQLiteDatabase db = dbHelper.getWritableDatabase();
@@ -110,10 +110,10 @@ public class DbManager {
      * This method is used to insert an entry inside the database
      *
      *
-     * @param val       - the value of the entry
-     * @param date      - the date of the entry
-     * @param idCat     - the category of the entry
-     * @param idUser    - the id of the user*/
+     * @param val       the value of the entry
+     * @param date      the date of the entry
+     * @param idCat     the category of the entry
+     * @param idUser    the id of the user*/
     public long insertEntries(float val, String date, String idCat, String idUser){
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -136,9 +136,9 @@ public class DbManager {
      * This method is used to insert a wishlist inside the database
      *
      *
-     * @param name      - the name of the list
-     * @param desc      - a description of the list
-     * @param valid     - indicates if the item has been bought (valid = 1) or it's planned to (valid = 0)
+     * @param name      the name of the list
+     * @param desc      a description of the list
+     * @param valid     indicates if the item has been bought (valid = 1) or it's planned to (valid = 0)
      * */
     public long insertWishLists(String name, String desc, int valid) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
@@ -161,11 +161,11 @@ public class DbManager {
      * This method is used to insert a purchase inside the database
      *
      *
-     * @param dateP     - the date of the purchase
-     * @param timeP     - the time of the purchase
-     * @param idUser    - the id of the user
-     * @param idItem    - the id of the item
-     * @param idWl      - the id of the wishlist
+     * @param dateP     the date of the purchase
+     * @param timeP     the time of the purchase
+     * @param idUser    the id of the user
+     * @param idItem    the id of the item
+     * @param idWl      the id of the wishlist
      * */
     public long insertPurchases(String dateP, String timeP, String idUser, int idItem, int idWl){
         SQLiteDatabase db = dbHelper.getWritableDatabase();
@@ -192,6 +192,10 @@ public class DbManager {
      * you define a wishlist, where you can't have the mentioned information when it is created.
      * Date and time will be added only when a wishlist will be bought.
      *
+     * @param idUser        the username
+     * @param idItem        the id of the item
+     * @param idWl          the id of WishList
+     *
      **/
     public long insertPurchaseSimple(String idUser,int idItem,int idWl){
         SQLiteDatabase db = dbHelper.getWritableDatabase();
@@ -215,8 +219,8 @@ public class DbManager {
      * This method is used to update the total value of the user
      *
      *
-     * @param tot       - total value
-     * @param username  - username
+     * @param tot       total value
+     * @param username  username
      * */
     public void updateUserTotal(float tot,String username){
         SQLiteDatabase db = dbHelper.getWritableDatabase();
@@ -236,8 +240,8 @@ public class DbManager {
      * This method is used to update the validity of an item
      *
      *
-     * @param valid     - validity of the item
-     * @param id        - item's ID
+     * @param valid     validity of the item
+     * @param id        item's ID
      * */
     public void updateItemsValidity(int valid, int id){
         SQLiteDatabase db = dbHelper.getWritableDatabase();
@@ -256,8 +260,8 @@ public class DbManager {
      * This method is used to update the validity of the WL
      *
      *
-     * @param valid     - validity of the list
-     * @param id        - WL ID
+     * @param valid     validity of the list
+     * @param id        WL ID
      * */
     public void updateWishListsValidity(int valid, int id){
         SQLiteDatabase db = dbHelper.getWritableDatabase();
@@ -275,8 +279,8 @@ public class DbManager {
     /**
      * A query to check if the login credentials are correct
      *
-     * @param username  - identifies an user uniquely
-     * @param password  - the password of the user account
+     * @param username  identifies an user uniquely
+     * @param password  the password of the user account
      *
      * */
     public Cursor queryCheckUserLogin(String username, String password){
@@ -297,7 +301,7 @@ public class DbManager {
     /**
      * This query is used to retrieve the user's total
      *
-     * @param username  - identifies an user uniquely
+     * @param username  identifies an user uniquely
      **/
     public Cursor queryGetUserTotal(String username){
         String query = "SELECT " + DbStrings.TableUsersField.USERS_TOT + " " +
@@ -318,7 +322,7 @@ public class DbManager {
     /**
      * Used to get all the rows of a table
      *
-     * @param table         - the name of the table to access
+     * @param table         the name of the table to access
      **/
     public Cursor queryGetAllRows(String table){
         Cursor cursor = null;
@@ -334,7 +338,7 @@ public class DbManager {
     /**
      * Used to count the number of rows of a table without any specific constraint
      *
-     * @param table         - the name of the table to access
+     * @param table         the name of the table to access
      * */
     public Cursor countQuery(String table){
         String query = "SELECT COUNT(*) AS numRows FROM " + table;
@@ -353,7 +357,7 @@ public class DbManager {
     /**
      * Used to count all the element of a wishlist
      *
-     * @param wlId      - the id of the WishList
+     * @param wlId      the id of the WishList
      * */
     public Cursor countQueryWLElements(int wlId){
         String query = "SELECT COUNT(*) AS numRows " +
@@ -374,6 +378,7 @@ public class DbManager {
     /**
      * Used to sum all the entries
      *
+     * @param username      the username
      * */
     public Cursor sumEntriesQuery(String username){
         String query = "SELECT SUM(entries.value) AS sumEntr FROM entries JOIN users " +
@@ -392,6 +397,7 @@ public class DbManager {
     /**
      * Used to sum all the purchases value
      *
+     * @param username      the username
      * */
     public Cursor sumPurchasesQuery(String username){
         String query = "SELECT SUM(items.price*amount) AS sumPurch FROM items JOIN " +
@@ -409,22 +415,25 @@ public class DbManager {
     }
 
     /**
-     * Used to get the last item bought
+     * Used to get the recent bought items from the single purchases
      *
-     * @param itemID        - the id of the item
-     *
+     * @param limit     the number of items
+     * @param listId    specify if the item is part of a wishlist
      * */
-    public Cursor getLastItemFromPurchasesQuery(int itemID){
+    public Cursor getRecentItemsQuery(int limit, int listId){
         String query =
-                "SELECT items.name,items.price,categories.picId " +
+                "SELECT items.name,items.price, items.amount,categories.picId " +
                 "FROM items JOIN categories ON categories.id = items.idCat" +
-                        " WHERE items.id = " + itemID + ";";
+                        " JOIN purchases ON purchases.itemId = items.id" +
+                        " WHERE listId = " + listId + "" +
+                        " ORDER BY items.id DESC" +
+                        " LIMIT " + limit + ";";
+
         Cursor cursor = null;
 
         try{
             SQLiteDatabase db = dbHelper.getReadableDatabase();
             cursor = db.rawQuery(query,null);
-            //Toast.makeText(context,query,Toast.LENGTH_LONG).show();
         }catch (Exception e){
             Toast.makeText(context,e.getMessage(),Toast.LENGTH_LONG).show();
         }
@@ -434,13 +443,14 @@ public class DbManager {
     /**
      * Used to get all the data related to the entries
      *
-     * @param entriesId     - the id of the entry
+     * @param entriesId     the id of the entry
      *
      * */
     public Cursor getEntriesDataQuery(int entriesId){
         String query = "SELECT entries.value,entries.dateEntr,categories.picId " +
                 "FROM entries JOIN categories ON entries.idcat = categories.id " +
                 "WHERE entries.id = " + entriesId + ";";
+
         Cursor cursor = null;
 
         try{
@@ -455,7 +465,7 @@ public class DbManager {
     /**
      * Used to get all the WL data
      *
-     * @param wlID      - the id of the WishList
+     * @param wlID      the id of the WishList
      *
      * */
     public Cursor getWishListDataQuery(int wlID){
@@ -478,7 +488,7 @@ public class DbManager {
     /**
      * Used to get all the WL items
      *
-     * @param wlID      - the id of the WishList
+     * @param wlID      the id of the WishList
      *
      * */
     public Cursor getWishListsItems(int wlID){
@@ -500,7 +510,7 @@ public class DbManager {
     /**
      * Used to count the number of WL by their validity
      *
-     * @param valid     - indicates the validity of the WishList
+     * @param valid     indicates the validity of the WishList
      *
      * */
     public Cursor getCountWishListsByValidity(int valid){

@@ -40,10 +40,10 @@ public class DatePickerDialogFrag extends DialogFragment implements DatePickerDi
     /**
      * This method is called when a date is picked. It is used to set the date on the EditText
      *
-     * @param view      - the view of the DatePicker
-     * @param year      - the year of the date
-     * @param month     - the month of the date
-     * @param day       - the day of the date*/
+     * @param view      the view of the DatePicker
+     * @param year      the year of the date
+     * @param month     the month of the date
+     * @param day       the day of the date*/
     public void onDateSet(DatePicker view, int year, int month, int day) {
         if (dialogCalled.equals(Keys.DialogTags.DIALOG_ENTRIES_TAG)) {
             DialogEntries dialogEntries = (DialogEntries) getFragmentManager().findFragmentByTag(dialogCalled);

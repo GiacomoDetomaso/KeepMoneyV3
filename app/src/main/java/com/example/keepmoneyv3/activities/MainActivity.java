@@ -1,6 +1,5 @@
 package com.example.keepmoneyv3.activities;
 
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -16,8 +15,6 @@ import com.example.keepmoneyv3.database.DbStrings;
 import com.example.keepmoneyv3.utility.Keys;
 import com.example.keepmoneyv3.utility.User;
 
-import java.util.Objects;
-
 /**
  * This is the entry point of the application. It performs login and the access in the
  * RegistrationActivity and in the NavigationActivity
@@ -25,8 +22,8 @@ import java.util.Objects;
  * @author Michelangelo De Pascale
  *
  * @see NavigationActivity
- * @see RegistrationActivity*/
-
+ * @see RegistrationActivity
+ * */
 public class MainActivity extends AppCompatActivity {
 
     private DbManager dbManager;
@@ -47,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
      * @see NavigationActivity
      * @see com.example.keepmoneyv3.ui.dashboard.DashboardFragment
      *
-     * @param view      - the actual view*/
+     * @param view      the actual view*/
     public void loginAction(View view){
 
         User user;
@@ -93,8 +90,8 @@ public class MainActivity extends AppCompatActivity {
      *
      * @author Michelangelo De Pascale
      *
-     * @param s                 - the class of the activity
-     * @param additionalData    - optional bundle to pass as extras*/
+     * @param s                 the class of the activity
+     * @param additionalData    optional bundle to pass as extras*/
     private void newActivityRunning(@SuppressWarnings("rawtypes") Class s, Bundle additionalData){
         Intent intent = new Intent(this,s);
 
