@@ -419,13 +419,15 @@ public class DbManager {
      *
      * @param limit     the number of items
      * @param listId    specify if the item is part of a wishlist
+     * @param username  the username
      * */
-    public Cursor getRecentItemsQuery(int limit, int listId){
+    public Cursor getRecentItemsQuery(int limit, int listId, String username){
         String query =
                 "SELECT items.name,items.price, items.amount,categories.picId " +
                 "FROM items JOIN categories ON categories.id = items.idCat" +
                         " JOIN purchases ON purchases.itemId = items.id" +
-                        " WHERE listId = " + listId + "" +
+                        " JOIN users ON users.username = purchases.userId" +
+                        " WHERE listId = " + listId + " AND users.username = '" + username + "'" +
                         " ORDER BY items.id DESC" +
                         " LIMIT " + limit + ";";
 

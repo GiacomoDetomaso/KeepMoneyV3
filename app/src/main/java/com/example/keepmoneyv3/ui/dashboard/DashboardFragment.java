@@ -25,6 +25,7 @@ import com.example.keepmoneyv3.utility.User;
 public class DashboardFragment extends Fragment {
     public interface DashboardFragmentListener{
         User GetUserFromSavedBundle();
+        void onDashboardFragmentOpened();
     }
 
     /**
@@ -55,18 +56,19 @@ public class DashboardFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.fragment_dashboard, container, false);
+        listener.onDashboardFragmentOpened(); // notify the NavigationActivity
+
+        /*
+         * calling the listener we have in NavigationActivity, it is possible to get the current logged user to grab his balance
+         * from the database
+         * */
+        User user = listener.GetUserFromSavedBundle();
 
         // using the ListAdapter to build the ListView with the recente purchases
         ListAdapter adapter = new ListAdapter(getContext());
         ListView listView = root.findViewById(R.id.listview);
         listView.setAdapter(adapter);
-        buildListView(adapter);
-
-        /*
-        * calling the listener we have in NavigationActivity, it is possible to get the current logged user to grab his balance
-        * from the database
-        * */
-        User user = listener.GetUserFromSavedBundle();
+        buildListView(adapter, user.getUsername());
 
         TextView txtToEntriesBox = root.findViewById(R.id.txtValEntr);
         TextView txtToUscBox = root.findViewById(R.id.txtValUsc);
@@ -128,8 +130,9 @@ public class DashboardFragment extends Fragment {
      * This method builds the ListView with the three recent purchases
      *
      * @param adapter       the adapter of the ListView
+     * @param username      the username
      * */
-    void buildListView(ListAdapter adapter) {
+    void buildListView(ListAdapter adapter, String username) {
         final int RECENT_ITEMS_LIMIT = 3;
 
         int picId;
@@ -138,7 +141,7 @@ public class DashboardFragment extends Fragment {
         String itemName;
 
         DbManager dbManager = new DbManager(getContext());
-        Cursor cursor = dbManager.getRecentItemsQuery(RECENT_ITEMS_LIMIT, Keys.MiscellaneousKeys.NO_WL_DEFAULT);
+        Cursor cursor = dbManager.getRecentItemsQuery(RECENT_ITEMS_LIMIT, Keys.MiscellaneousKeys.NO_WL_DEFAULT, username);
 
         if (cursor != null) {
 

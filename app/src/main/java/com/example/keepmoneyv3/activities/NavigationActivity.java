@@ -10,11 +10,13 @@ import com.example.keepmoneyv3.dialogs.DialogAddNewType;
 import com.example.keepmoneyv3.dialogs.DialogEntries;
 import com.example.keepmoneyv3.dialogs.DialogPurchase;
 import com.example.keepmoneyv3.ui.dashboard.DashboardFragment;
+import com.example.keepmoneyv3.ui.wishlist.WishListsFragment;
 import com.example.keepmoneyv3.utility.Category;
 import com.example.keepmoneyv3.utility.Items;
 import com.example.keepmoneyv3.utility.Keys;
 import com.example.keepmoneyv3.utility.User;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
@@ -36,7 +38,8 @@ import androidx.navigation.ui.NavigationUI;
  **/
 
 public class NavigationActivity extends AppCompatActivity implements DialogAddNewType.DialogAddNewTypeListener,
-        DialogEntries.DialogEntriesListener, DialogPurchase.DialogPurchaseListener, DashboardFragment.DashboardFragmentListener {
+        DialogEntries.DialogEntriesListener, DialogPurchase.DialogPurchaseListener, DashboardFragment.DashboardFragmentListener,
+        WishListsFragment.WishListsFragmentListener {
 
     private User user; // the user passed as a bundle from login or registration
 
@@ -173,6 +176,7 @@ public class NavigationActivity extends AppCompatActivity implements DialogAddNe
         return user;
     }
 
+
     /**
      * This method is used to refresh the activity once a new movement has been registered
      * */
@@ -182,4 +186,23 @@ public class NavigationActivity extends AppCompatActivity implements DialogAddNe
         startActivity(getIntent()); // restart the activity
         overridePendingTransition(0, 0);
     }
+
+    @Override
+    public void onWishListsFragmentOpened() {
+        FloatingActionButton fabPurchases = findViewById(R.id.fabAddNewPurchase);
+        fabPurchases.setVisibility(View.INVISIBLE);
+
+        FloatingActionButton fabWishList = findViewById(R.id.fabAddNewWishList);
+        fabWishList.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onDashboardFragmentOpened() {
+        FloatingActionButton fabPurchases = findViewById(R.id.fabAddNewPurchase);
+        fabPurchases.setVisibility(View.VISIBLE);
+
+        FloatingActionButton fabWishList = findViewById(R.id.fabAddNewWishList);
+        fabWishList.setVisibility(View.INVISIBLE);
+    }
+
 }

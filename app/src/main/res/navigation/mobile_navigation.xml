@@ -21,5 +21,5 @@
         android:id="@+id/navigation_list"
         android:name="com.example.keepmoneyv3.ui.wishlist.WishListsFragment"
         android:label="WishList"
-        tools:layout="@layout/fragment_notifications" />
+        tools:layout="@layout/fragment_wish_lists" />
 </navigation>
