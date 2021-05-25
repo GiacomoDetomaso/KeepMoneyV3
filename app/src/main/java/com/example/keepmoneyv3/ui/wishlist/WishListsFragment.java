@@ -7,10 +7,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.keepmoneyv3.R;
 import com.example.keepmoneyv3.activities.NavigationActivity;
+import com.example.keepmoneyv3.adapters.WishListAdapter;
 
 public class WishListsFragment extends Fragment {
 
@@ -40,6 +44,14 @@ public class WishListsFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
         listener.onWishListsFragmentOpened(); // notify the NavigationActivity
         View root = inflater.inflate(R.layout.fragment_wish_lists, container, false);
+
+        final int SPAN_COUNT = 2;
+        CardView cardViewWishList = root.findViewById(R.id.cardViewWishList);
+        RecyclerView recyclerView = cardViewWishList.findViewById(R.id.wishListRecyclerView);
+        WishListAdapter wishListAdapter = new WishListAdapter(getContext());
+        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), SPAN_COUNT));
+
+        recyclerView.setAdapter(wishListAdapter);
         return root;
     }
 }
