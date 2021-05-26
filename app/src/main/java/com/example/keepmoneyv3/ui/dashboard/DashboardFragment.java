@@ -63,6 +63,7 @@ public class DashboardFragment extends Fragment {
          * from the database
          * */
         User user = listener.GetUserFromSavedBundle();
+        Toast.makeText(getContext(), "" + user.getTotal(), Toast.LENGTH_LONG).show();
 
         // using the ListAdapter to build the ListView with the recente purchases
         ListAdapter adapter = new ListAdapter(getContext());

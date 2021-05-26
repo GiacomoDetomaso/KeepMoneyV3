@@ -1,5 +1,6 @@
 package com.example.keepmoneyv3.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
@@ -183,7 +184,13 @@ public class NavigationActivity extends AppCompatActivity implements DialogAddNe
     private void refreshActivity() {
         finish(); // end the current activity
         overridePendingTransition(0, 0);
-        startActivity(getIntent()); // restart the activity
+
+        Bundle bundleRefreshActivity = new Bundle();
+        bundleRefreshActivity.putSerializable(Keys.SerializableKeys.USER_KEY, user);
+
+        Intent intent = getIntent().putExtras(bundleRefreshActivity);
+        startActivity(intent);// restart the activity
+
         overridePendingTransition(0, 0);
     }
 
