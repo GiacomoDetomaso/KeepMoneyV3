@@ -7,13 +7,15 @@ import android.widget.Toast;
 
 import com.example.keepmoneyv3.R;
 import com.example.keepmoneyv3.database.DbManager;
+import com.example.keepmoneyv3.dialogs.DialogAddNameToWishList;
 import com.example.keepmoneyv3.dialogs.DialogAddNewType;
-import com.example.keepmoneyv3.dialogs.DialogEntries;
+import com.example.keepmoneyv3.dialogs.DialogAddWishListItems;
+import com.example.keepmoneyv3.dialogs.DialogIncome;
 import com.example.keepmoneyv3.dialogs.DialogPurchase;
 import com.example.keepmoneyv3.ui.dashboard.DashboardFragment;
 import com.example.keepmoneyv3.ui.wishlist.WishListsFragment;
 import com.example.keepmoneyv3.utility.Category;
-import com.example.keepmoneyv3.utility.Items;
+import com.example.keepmoneyv3.utility.Item;
 import com.example.keepmoneyv3.utility.Keys;
 import com.example.keepmoneyv3.utility.User;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -25,6 +27,10 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
+
+import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
 
 /**
  * This class is the "hub" of the app. It is used to navigate through the various menus tabs
@@ -39,8 +45,8 @@ import androidx.navigation.ui.NavigationUI;
  **/
 
 public class NavigationActivity extends AppCompatActivity implements DialogAddNewType.DialogAddNewTypeListener,
-        DialogEntries.DialogEntriesListener, DialogPurchase.DialogPurchaseListener, DashboardFragment.DashboardFragmentListener,
-        WishListsFragment.WishListsFragmentListener {
+        DialogIncome.DialogIncomeListener, DialogPurchase.DialogPurchaseListener, DashboardFragment.DashboardFragmentListener,
+        WishListsFragment.WishListsFragmentListener, DialogAddNameToWishList.DialogAddNameToWishListListener {
 
     private User user; // the user passed as a bundle from login or registration
 
@@ -73,8 +79,8 @@ public class NavigationActivity extends AppCompatActivity implements DialogAddNe
      * @param view      - the view of the dialog
      * */
     public void addMoneyEvent(View view) {
-        DialogFragment dialogFragment = new DialogEntries();
-        dialogFragment.show(getSupportFragmentManager(), Keys.DialogTags.DIALOG_ENTRIES_TAG);
+        DialogFragment dialogFragment = new DialogIncome();
+        dialogFragment.show(getSupportFragmentManager(), Keys.DialogTags.DIALOG_INCOME_TAG);
     }
 
     /**
@@ -83,8 +89,18 @@ public class NavigationActivity extends AppCompatActivity implements DialogAddNe
      * @param view      - the view of the dialog
      * */
     public void addPurchaseEvent(View view){
-        DialogFragment dialogFragment = new DialogPurchase(user.getTotal()); // todo fix
+        DialogFragment dialogFragment = new DialogPurchase(user.getTotal());
         dialogFragment.show(getSupportFragmentManager(), Keys.DialogTags.DIALOG_PURCHASES_TAG);
+    }
+
+    /**
+     * This method is triggered when the fabAddNewWishList is tapped.
+     *
+     * @param view      - the view of the dialog
+     * */
+    public void fabAddWishListAction(View view){
+        DialogFragment dialogFragment = new DialogAddWishListItems();
+        dialogFragment.show(getSupportFragmentManager(), Keys.DialogTags.DIALOG_ADD_WISH_LIST_ITEMS_TAG);
     }
 
     /**
@@ -92,13 +108,13 @@ public class NavigationActivity extends AppCompatActivity implements DialogAddNe
      * selected category, during the entry acquisition
      *
      * @param cat       - category
-     * @see DialogEntries
+     * @see DialogIncome
      * */
     @Override
     public void onTypeChosenEntries(Category cat) {
-        DialogEntries dialogEntries = (DialogEntries) getSupportFragmentManager().findFragmentByTag(Keys.DialogTags.DIALOG_ENTRIES_TAG);
-        if(dialogEntries != null)
-            dialogEntries.setCategory(cat);
+        DialogIncome dialogIncome = (DialogIncome) getSupportFragmentManager().findFragmentByTag(Keys.DialogTags.DIALOG_INCOME_TAG);
+        if(dialogIncome != null)
+            dialogIncome.setCategory(cat);
     }
 
     /**
@@ -116,17 +132,31 @@ public class NavigationActivity extends AppCompatActivity implements DialogAddNe
     }
 
     /**
+     * Callback method that send to the parent dialog the name of the
+     * selected category, during the addition of a new item in the wishlist
+     *
+     * @param cat       - category
+     *
+     * */
+    @Override
+    public void onTypeChooseWishListItem(Category cat) {
+        DialogAddWishListItems dialogAddWishListItems = (DialogAddWishListItems) getSupportFragmentManager().findFragmentByTag(Keys.DialogTags.DIALOG_ADD_WISH_LIST_ITEMS_TAG);
+        if(dialogAddWishListItems != null)
+            dialogAddWishListItems.setCategory(cat);
+    }
+
+    /**
      * Callback method that saves the entry inside the database
      *
      * @param val       - the value of the entry
      * @param date      - the date of the entry
      * @param idCat     - the id of the entry's category
      *
-     * @see com.example.keepmoneyv3.dialogs.DialogEntries.DialogEntriesListener*/
+     * @see DialogIncome.DialogIncomeListener */
     @Override
-    public void DialogEntriesInsert(float val, String date, String idCat) {
+    public void DialogIncomeInsert(float val, String date, String idCat) {
         DbManager dbManager = new DbManager(getApplicationContext());
-        long testValue = dbManager.insertEntries(val, date, idCat, user.getUsername()); // save the entry inside the DB
+        long testValue = dbManager.insertIncome(val, date, idCat, user.getUsername()); // save the entry inside the DB
 
         // check if the entry has been saved
         if (testValue > 0) {
@@ -141,18 +171,18 @@ public class NavigationActivity extends AppCompatActivity implements DialogAddNe
      *
      * @param item      - the item bought
      * @param date      - the date of the purchase
-     * @param time       - the time of the purchase
+     * @param time      - the time of the purchase
      *
      * @see com.example.keepmoneyv3.dialogs.DialogPurchase.DialogPurchaseListener
      * */
     @Override
-    public void DialogPurchaseInsert(Items item, String date, String time) {
+    public void DialogPurchaseInsert(@NotNull Item item, String date, String time) {
         DbManager dbManager = new DbManager(getApplicationContext());
         long testValue = dbManager.insertItems(item.getPrice(), item.getAmount(), item.getName(), item.getValid(), item.getCatID());
 
         if(testValue > 0){
             item.setId((int) testValue);
-            testValue = dbManager.insertPurchases(date, time, user.getUsername(), item.getId(), Keys.MiscellaneousKeys.NO_WL_DEFAULT);
+            testValue = dbManager.insertPurchases(date, time, user.getUsername(), item.getId(), Keys.MiscellaneousKeys.NOT_CONFIRMED);
 
             if (testValue > 0){
                 Toast.makeText(getApplicationContext(), "Spesa registrata correttamente", Toast.LENGTH_LONG).show();
@@ -164,6 +194,27 @@ public class NavigationActivity extends AppCompatActivity implements DialogAddNe
             }
         }
 
+    }
+
+    @Override
+    public void WishListInsert(@NotNull ArrayList<Item> items, String listName, String listDescription) {
+        DbManager dbManager = new DbManager(getApplicationContext());
+        int listId = (int) dbManager.insertWishLists(listName, listDescription, Keys.MiscellaneousKeys.NOT_CONFIRMED);
+
+        if(listId > 0) {
+            for (int i = 0; i < items.size(); i++) {
+                // insert items
+                int itemId = (int) dbManager.insertItems(items.get(i).getPrice(), items.get(i).getAmount(),
+                        items.get(i).getName(), items.get(i).getValid(), items.get(i).getCatID());
+
+                // insert purchases
+                if (itemId > 0) {
+                    dbManager.insertPurchaseSimple(user.getUsername(), itemId, listId);
+                }
+            }
+        }
+
+        refreshActivity();
     }
 
     /**

@@ -7,7 +7,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.GridView;
 
 import androidx.annotation.NonNull;
@@ -28,42 +27,26 @@ import java.util.ArrayList;
 public class DialogAddNewType extends DialogFragment {
 
     private DialogAddNewTypeListener listener;
-    private DialogAddNewTypeListenerWL listenerWL;
     private final String dialogTag;
 
     public interface DialogAddNewTypeListener {
         void onTypeChosenEntries(Category cat);
         void onTypeChoosePurchases(Category cat);
-    }
-
-    public interface DialogAddNewTypeListenerWL{
-        void onTypeChoose(Category cat);
+        void onTypeChooseWishListItem(Category cat);
     }
 
     @Override
     public void onAttach(@NotNull Context context){
         super.onAttach(context);
 
-        NavigationActivity homeActivity;
-        //WishListsActivity wishListsActivity;
-
-        if (dialogTag.equals("DialogWLAddName")){
-            //wishListsActivity = (WishListsActivity) getActivity();
-            try {
-                listenerWL = (DialogAddNewTypeListenerWL) context;//cast for wish list activity
-
-            }catch (ClassCastException e){
-                //throw new ClassCastException(wishListsActivity.toString() + "Must implement the interface");
-            }
-        }else {
-            homeActivity = (NavigationActivity) getActivity();
+        NavigationActivity navigationActivity = (NavigationActivity) getActivity();
             try {
                 listener = (DialogAddNewTypeListener) context;//casting the interface for home activity
             }catch (ClassCastException e){
-                throw new ClassCastException((homeActivity != null ? homeActivity.toString() : null) + "Must implement the interface");
+                throw new ClassCastException((navigationActivity != null ? navigationActivity.toString() : null) + "Must implement the interface");
             }
-        }
     }
+
 
     private final ArrayList<Category> categories;
 
@@ -119,23 +102,20 @@ public class DialogAddNewType extends DialogFragment {
      * @see DialogAddNewTypeListener
      * @see NavigationActivity*/
     private void gridViewAction(GridView gridView, final GridViewCategoryAdapter adapter){
-        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                ArrayList<Category> categoryArrayList = adapter.getCategories();
-                switch (dialogTag) {
-                    case Keys.DialogTags.DIALOG_ENTRIES_TAG:
-                        listener.onTypeChosenEntries(categoryArrayList.get(position));
-                        dismiss();//close the dialog
-                        break;
-                    case Keys.DialogTags.DIALOG_PURCHASES_TAG:
-                        listener.onTypeChoosePurchases(categoryArrayList.get(position));
-                        dismiss();//close the dialog
-                        break;
-                    case "DialogWLAddName":
-                        listenerWL.onTypeChoose(categoryArrayList.get(position));
-                        dismiss();
-                }
+        gridView.setOnItemClickListener((parent, view, position, id) -> {
+            ArrayList<Category> categoryArrayList = adapter.getCategories();
+            switch (dialogTag) {
+                case Keys.DialogTags.DIALOG_INCOME_TAG:
+                    listener.onTypeChosenEntries(categoryArrayList.get(position));
+                    dismiss();//close the dialog
+                    break;
+                case Keys.DialogTags.DIALOG_PURCHASES_TAG:
+                    listener.onTypeChoosePurchases(categoryArrayList.get(position));
+                    dismiss();//close the dialog
+                    break;
+                case Keys.DialogTags.DIALOG_ADD_WISH_LIST_ITEMS_TAG:
+                    listener.onTypeChooseWishListItem(categoryArrayList.get(position));
+                    dismiss();
             }
         });
     }

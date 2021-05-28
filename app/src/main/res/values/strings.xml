@@ -29,4 +29,8 @@
     <string name="prezzo">Prezzo</string>
     <string name="ora">Ora</string>
     <string name="quantit">Quantità</string>
+    <string name="avanti">Avanti</string>
+    <string name="nome_lista">Nome lista</string>
+    <string name="conferma">Conferma</string>
+    <string name="descrizione">Descrizione</string>
 </resources>

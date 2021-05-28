@@ -2,7 +2,7 @@ package com.example.keepmoneyv3.utility;
 
 import java.io.Serializable;
 
-public class Items implements Serializable {
+public class Item implements Serializable {
     private int id;
     private int amount;
     private int valid;
@@ -10,7 +10,7 @@ public class Items implements Serializable {
     private float price;
     private String catID;
 
-    public Items(String name, int amount, int valid, float price, String catID) {
+    public Item(String name, int amount, int valid, float price, String catID) {
         this.name = name;
         this.price = price;
         this.amount = amount;
@@ -18,7 +18,7 @@ public class Items implements Serializable {
         this.valid = valid;
     }
 
-    public Items(String name, int amount, int valid , float price) {
+    public Item(String name, int amount, int valid , float price) {
         this.name = name;
         this.price = price;
         this.amount = amount;

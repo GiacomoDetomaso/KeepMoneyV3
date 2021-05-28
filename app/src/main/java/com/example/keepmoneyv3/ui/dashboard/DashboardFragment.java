@@ -63,7 +63,6 @@ public class DashboardFragment extends Fragment {
          * from the database
          * */
         User user = listener.GetUserFromSavedBundle();
-        Toast.makeText(getContext(), "" + user.getTotal(), Toast.LENGTH_LONG).show();
 
         // using the ListAdapter to build the ListView with the recente purchases
         ListAdapter adapter = new ListAdapter(getContext());
@@ -71,8 +70,8 @@ public class DashboardFragment extends Fragment {
         listView.setAdapter(adapter);
         buildListView(adapter, user.getUsername());
 
-        TextView txtToEntriesBox = root.findViewById(R.id.txtValEntr);
-        TextView txtToUscBox = root.findViewById(R.id.txtValUsc);
+        TextView txtToEntriesBox = root.findViewById(R.id.txtBalanceIncomes);
+        TextView txtToUscBox = root.findViewById(R.id.txtBalancePurchases);
         TextView txtBudgetBox = root.findViewById(R.id.txtBudget);
 
         float entries,purchases;
@@ -105,10 +104,10 @@ public class DashboardFragment extends Fragment {
         float value = 0;
         switch (choice) {
             case ENTRIES:
-                cursor = dbManager.sumEntriesQuery(username);
+                cursor = dbManager.sumIncomesQuery(username);
                 if (cursor!=null){
                     while(cursor.moveToNext()) {
-                        value = cursor.getFloat(cursor.getColumnIndex("sumEntr"));
+                        value = cursor.getFloat(cursor.getColumnIndex("sumInc"));
                     }
                 }
                 break;
@@ -142,7 +141,7 @@ public class DashboardFragment extends Fragment {
         String itemName;
 
         DbManager dbManager = new DbManager(getContext());
-        Cursor cursor = dbManager.getRecentItemsQuery(RECENT_ITEMS_LIMIT, Keys.MiscellaneousKeys.NO_WL_DEFAULT, username);
+        Cursor cursor = dbManager.getRecentItemsQuery(RECENT_ITEMS_LIMIT, Keys.MiscellaneousKeys.NOT_CONFIRMED, username);
 
         if (cursor != null) {
 

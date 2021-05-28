@@ -22,7 +22,7 @@ public class DbHelper extends SQLiteOpenHelper {
         table = DbStrings.TableItemsFields.getCreateTable();//items table creation
         db.execSQL(table);
 
-        table = DbStrings.TableEntriesFields.getCreateTable();//entries table creation
+        table = DbStrings.TableIncomesFields.getCreateTable();//entries table creation
         db.execSQL(table);
 
         table = DbStrings.TableWishListsFields.getCreateTable();//wishlists table creation

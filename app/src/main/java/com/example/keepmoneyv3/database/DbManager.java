@@ -110,22 +110,22 @@ public class DbManager {
      * This method is used to insert an entry inside the database
      *
      *
-     * @param val       the value of the entry
-     * @param date      the date of the entry
-     * @param idCat     the category of the entry
+     * @param val       the value of the income
+     * @param date      the date of the income
+     * @param idCat     the category of the income
      * @param idUser    the id of the user*/
-    public long insertEntries(float val, String date, String idCat, String idUser){
+    public long insertIncome(float val, String date, String idCat, String idUser){
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put(DbStrings.TableEntriesFields.ENTRIES_VAL,val);
-        contentValues.put(DbStrings.TableEntriesFields.ENTRIES_DATE,date);
-        contentValues.put(DbStrings.TableEntriesFields.ENTRIES_ID_CAT,idCat);
-        contentValues.put(DbStrings.TableEntriesFields.ENTRIES_ID_USER,idUser);
+        contentValues.put(DbStrings.TableIncomesFields.INCOMES_VAL,val);
+        contentValues.put(DbStrings.TableIncomesFields.INCOMES_DATE,date);
+        contentValues.put(DbStrings.TableIncomesFields.INCOMES_ID_CAT,idCat);
+        contentValues.put(DbStrings.TableIncomesFields.INCOMES_ID_USER,idUser);
 
         long testValue = 0;
 
         try {
-            testValue = db.insert(DbStrings.TableEntriesFields.TABLE_NAME,null,contentValues);
+            testValue = db.insert(DbStrings.TableIncomesFields.TABLE_NAME,null,contentValues);
         }catch (Exception e){
             Toast.makeText(context,e.getMessage(),Toast.LENGTH_LONG).show();
         }
@@ -380,9 +380,9 @@ public class DbManager {
      *
      * @param username      the username
      * */
-    public Cursor sumEntriesQuery(String username){
-        String query = "SELECT SUM(entries.value) AS sumEntr FROM entries JOIN users " +
-                "ON (users.username = entries.userId) WHERE username = '" + username + "'";
+    public Cursor sumIncomesQuery(String username){
+        String query = "SELECT SUM(incomes.value) AS sumInc FROM incomes JOIN users " +
+                "ON (users.username = incomes.userId) WHERE username = '" + username + "'";
         Cursor cursor = null;
         try{
             SQLiteDatabase db = dbHelper.getReadableDatabase();
@@ -471,7 +471,7 @@ public class DbManager {
      *
      * */
     public Cursor getWishListDataQuery(int wlID){
-        String query = "SELECT SUM(items.price) AS tot, categories.picId, wishLists.name " +
+        String query = "SELECT SUM(items.price * items.amount) AS tot, categories.picId, wishLists.name " +
                 "FROM purchases JOIN wishLists ON purchases.listId = wishLists.id " +
                 "JOIN items ON items.id = purchases.itemId  " +
                 "JOIN categories ON categories.id = items.idCat " +

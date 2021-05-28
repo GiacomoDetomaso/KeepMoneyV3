@@ -59,7 +59,7 @@
         android:id="@+id/fabAddNewWishList"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="addPurchaseEvent"
+        android:onClick="fabAddWishListAction"
         android:src="@drawable/ic_baseline_format_list_bulleted_24"
         android:visibility="invisible"
         app:layout_anchor="@+id/fabAddNewPurchase"

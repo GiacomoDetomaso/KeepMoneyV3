@@ -45,11 +45,11 @@ public class DatePickerDialogFrag extends DialogFragment implements DatePickerDi
      * @param month     the month of the date
      * @param day       the day of the date*/
     public void onDateSet(DatePicker view, int year, int month, int day) {
-        if (dialogCalled.equals(Keys.DialogTags.DIALOG_ENTRIES_TAG)) {
-            DialogEntries dialogEntries = (DialogEntries) getFragmentManager().findFragmentByTag(dialogCalled);
-            assert dialogEntries != null;
+        if (dialogCalled.equals(Keys.DialogTags.DIALOG_INCOME_TAG)) {
+            DialogIncome dialogIncome = (DialogIncome) getFragmentManager().findFragmentByTag(dialogCalled);
+            assert dialogIncome != null;
             String data = day + "/" + month + "/" + year;
-            dialogEntries.setStrDate(data);
+            dialogIncome.setStrDate(data);
         }else {
             DialogPurchase dialogPurchase = (DialogPurchase) getFragmentManager().findFragmentByTag(dialogCalled);
             assert dialogPurchase != null;

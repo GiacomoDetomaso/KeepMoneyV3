@@ -75,26 +75,26 @@ public class DbStrings {
         }
     }
 
-    public static class TableEntriesFields{
-        public static final String TABLE_NAME = "entries";
-        public static final String ENTRIES_ID = "id";
-        public static final String ENTRIES_VAL = "value";
-        public static final String ENTRIES_DATE = "dateEntr";
-        public static final String ENTRIES_ID_CAT = "idCat";
-        public static final String ENTRIES_ID_USER = "userId";
+    public static class TableIncomesFields {
+        public static final String TABLE_NAME = "incomes";
+        public static final String INCOMES_ID = "id";
+        public static final String INCOMES_VAL = "value";
+        public static final String INCOMES_DATE = "dateIncome";
+        public static final String INCOMES_ID_CAT = "idCat";
+        public static final String INCOMES_ID_USER = "userId";
 
         private static final String CREATE_TABLE =
                 "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (\n" +
-                        ENTRIES_ID + " INTEGER PRIMARY KEY AUTOINCREMENT ,\n" +
-                        ENTRIES_VAL + " DECIMAL NOT NULL,\n" +
-                        ENTRIES_DATE + " DATE,\n" +
-                        ENTRIES_ID_CAT + " VARCHAR(8) NOT NULL,\n" +
-                        ENTRIES_ID_USER + " VARCHAR(100) NOT NULL,\n" +
+                        INCOMES_ID + " INTEGER PRIMARY KEY AUTOINCREMENT ,\n" +
+                        INCOMES_VAL + " DECIMAL NOT NULL,\n" +
+                        INCOMES_DATE + " DATE,\n" +
+                        INCOMES_ID_CAT + " VARCHAR(8) NOT NULL,\n" +
+                        INCOMES_ID_USER + " VARCHAR(100) NOT NULL,\n" +
 
-                        "FOREIGN KEY (" + ENTRIES_ID_CAT + ") REFERENCES " +  //foreign key declaration
+                        "FOREIGN KEY (" + INCOMES_ID_CAT + ") REFERENCES " +  //foreign key declaration
                         TableCategoriesFields.TABLE_NAME + " (" + TableCategoriesFields.CATEGORIES_ID + "),\n" +
 
-                        "FOREIGN KEY (" + ENTRIES_ID_USER + ") REFERENCES " +
+                        "FOREIGN KEY (" + INCOMES_ID_USER + ") REFERENCES " +
                         TableUsersField.TABLE_NAME + " (" + TableUsersField.USERS_ID + "));";
 
 

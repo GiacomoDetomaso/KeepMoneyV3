@@ -32,12 +32,12 @@ import java.util.ArrayList;
  *
  * @author Giacomo Detomaso
  * @see DialogFragment
- * @see DialogEntriesListener
+ * @see DialogIncomeListener
  * */
 
-public class DialogEntries extends DialogFragment {
-    public interface DialogEntriesListener{
-        void DialogEntriesInsert(float val,String date,String idCat);
+public class DialogIncome extends DialogFragment {
+    public interface DialogIncomeListener {
+        void DialogIncomeInsert(float val, String date, String idCat);
     }
 
     @Override
@@ -48,15 +48,15 @@ public class DialogEntries extends DialogFragment {
 
         try {
 
-            listener = (DialogEntriesListener) context;//casting the interface
+            listener = (DialogIncomeListener) context;//casting the interface
 
         }catch (ClassCastException e){
-            throw new ClassCastException(activity.toString() + "Must implement the interface");
+            throw new ClassCastException((activity != null ? activity.toString() : null) + "Must implement the interface");
         }
     }
 
-    private DialogEntriesListener listener;
-    private EditText txtDate,txtType, txtEntry;
+    private DialogIncomeListener listener;
+    private EditText txtDate,txtType, txtIncome;
     private View root;
     private String strDate;
     private Category category;
@@ -72,9 +72,9 @@ public class DialogEntries extends DialogFragment {
         builder.setView(root);
         builder.setTitle(Keys.DialogTitles.DIALOG_ENTRIES_TITLE);
 
-        txtEntry = root.findViewById(R.id.txtEntryPrice);//the entries
-        txtDate = root.findViewById(R.id.txtDateEntr);//the date of the entries
-        txtType = root.findViewById(R.id.txtTypeEntr);//the category of the entries
+        txtIncome = root.findViewById(R.id.txtIncomeValue);//the entries
+        txtDate = root.findViewById(R.id.txtDateIncome);//the date of the entries
+        txtType = root.findViewById(R.id.txtCategoryIncome);//the category of the entries
 
         txtDataAction(txtDate); // call the dialog to choose the date
         txtTypeAction(txtType); // call the category dialog to set the entry's category
@@ -88,43 +88,40 @@ public class DialogEntries extends DialogFragment {
      * If it is the method calls the interface's method that will save the entry in the database.
      * The interface method is implemented in the NavigationActivity.
      *
-     * @see DialogEntriesListener
+     * @see DialogIncomeListener
      * @see NavigationActivity
      * */
     private void dialogEntriesAction(){
-        Button button = root.findViewById(R.id.btnAddEntry);
+        Button button = root.findViewById(R.id.btnConfirmIncome);
 
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                EditText [] txtFields = {txtEntry, txtDate,txtType};
+        button.setOnClickListener(view -> {
+            EditText [] txtFields = {txtIncome, txtDate,txtType};
 
-                boolean isCorrect = true;//check if the values are correct
-                float val = 0;
+            boolean isCorrect = true;//check if the values are correct
+            float val = 0;
 
-                for (EditText t : txtFields){
-                    if (t.getText().toString().equals("")){
-                        isCorrect = false;//control if there are any empty edit texts
-                    }
+            for (EditText t : txtFields){
+                if (t.getText().toString().equals("")){
+                    isCorrect = false;//control if there are any empty edit texts
+                }
+            }
+
+            if (isCorrect){
+                try {
+                    val = Float.parseFloat(txtIncome.getText().toString());//control if the value is a number
+                }catch (Exception e){
+                    isCorrect = false;
                 }
 
                 if (isCorrect){
-                    try {
-                        val = Float.parseFloat(txtEntry.getText().toString());//control if the value is a number
-                    }catch (Exception e){
-                        isCorrect = false;
-                    }
-
-                    if (isCorrect){
-                        String idCat = category.getId();//extract the category id
-                        listener.DialogEntriesInsert(val, strDate,idCat);
-                        dismiss();//close the dialog
-                    }else {
-                        Toast.makeText(getActivity(),"Il campo prezzo non è un numero",Toast.LENGTH_LONG).show();
-                    }
+                    String idCat = category.getId();//extract the category id
+                    listener.DialogIncomeInsert(val, strDate,idCat);
+                    dismiss();//close the dialog
                 }else {
-                    Toast.makeText(getActivity(),"Campi vuoti impossibile inserire",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(),"Il campo prezzo non è un numero",Toast.LENGTH_LONG).show();
                 }
+            }else {
+                Toast.makeText(getActivity(),"Campi vuoti impossibile inserire",Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -135,15 +132,12 @@ public class DialogEntries extends DialogFragment {
      * @param txtData       the EditText that trigger the action
      * */
     private void txtDataAction(EditText txtData){
-        txtData.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DialogFragment fragment = new DatePickerDialogFrag(Keys.DialogTags.DIALOG_ENTRIES_TAG);
-                FragmentManager manager = getFragmentManager();
+        txtData.setOnClickListener(v -> {
+            DialogFragment fragment = new DatePickerDialogFrag(Keys.DialogTags.DIALOG_INCOME_TAG);
+            FragmentManager manager = getFragmentManager();
 
-                if(manager != null)
-                    fragment.show(manager,Keys.DialogTags.DIALOG_DATE_PICKER_TAG);//show the date picker fragment
-            }
+            if(manager != null)
+                fragment.show(manager,Keys.DialogTags.DIALOG_DATE_PICKER_TAG);//show the date picker fragment
         });
     }
 
@@ -154,37 +148,34 @@ public class DialogEntries extends DialogFragment {
      * */
     private void txtTypeAction(EditText txtType){
 
-        txtType.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DbManager dbManager = new DbManager(getContext());
-                Cursor cursor = dbManager.queryGetAllRows(DbStrings.TableCategoriesFields.TABLE_NAME);//get all the rows of the table category
-                ArrayList<Category> allCategories = new ArrayList<>();
+        txtType.setOnClickListener(v -> {
+            DbManager dbManager = new DbManager(getContext());
+            Cursor cursor = dbManager.queryGetAllRows(DbStrings.TableCategoriesFields.TABLE_NAME);//get all the rows of the table category
+            ArrayList<Category> allCategories = new ArrayList<>();
 
-                while (cursor.moveToNext()){
-                    String id = cursor.getString(cursor.getColumnIndex(DbStrings.TableCategoriesFields.CATEGORIES_ID));
-                    String desc = cursor.getString(cursor.getColumnIndex(DbStrings.TableCategoriesFields.CATEGORIES_DESC));
-                    int picid = cursor.getInt(cursor.getColumnIndex(DbStrings.TableCategoriesFields.CATEGORIES_PIC_ID));
-                    allCategories.add(new Category(id, desc, picid));
-                }
-
-                //get the entries categories
-                ArrayList<Category> categoriesEntries = new ArrayList<>();
-                int pos = searchCategoryName(allCategories, "Stipendio");
-                categoriesEntries.add(allCategories.get(pos));
-                pos = searchCategoryName(allCategories, "Regalo");
-                categoriesEntries.add(allCategories.get(pos));
-                pos = searchCategoryName(allCategories, "Scommessa");
-                categoriesEntries.add(allCategories.get(pos));
-
-                DialogAddNewType dialogAddNewType = new DialogAddNewType(categoriesEntries, Keys.DialogTags.DIALOG_ENTRIES_TAG);
-                FragmentManager manager = getFragmentManager();
-
-                // show the dialog to select Entry's category
-                if(manager != null)
-                    dialogAddNewType.show(manager,Keys.DialogTags.DIALOG_ADD_NEW_TYPE_TAG);
-
+            while (cursor.moveToNext()){
+                String id = cursor.getString(cursor.getColumnIndex(DbStrings.TableCategoriesFields.CATEGORIES_ID));
+                String desc = cursor.getString(cursor.getColumnIndex(DbStrings.TableCategoriesFields.CATEGORIES_DESC));
+                int picid = cursor.getInt(cursor.getColumnIndex(DbStrings.TableCategoriesFields.CATEGORIES_PIC_ID));
+                allCategories.add(new Category(id, desc, picid));
             }
+
+            //get the entries categories
+            ArrayList<Category> categoriesEntries = new ArrayList<>();
+            int pos = searchCategoryName(allCategories, "Stipendio");
+            categoriesEntries.add(allCategories.get(pos));
+            pos = searchCategoryName(allCategories, "Regalo");
+            categoriesEntries.add(allCategories.get(pos));
+            pos = searchCategoryName(allCategories, "Scommessa");
+            categoriesEntries.add(allCategories.get(pos));
+
+            DialogAddNewType dialogAddNewType = new DialogAddNewType(categoriesEntries, Keys.DialogTags.DIALOG_INCOME_TAG);
+            FragmentManager manager = getFragmentManager();
+
+            // show the dialog to select Entry's category
+            if(manager != null)
+                dialogAddNewType.show(manager,Keys.DialogTags.DIALOG_ADD_NEW_TYPE_TAG);
+
         });
     }
 
@@ -213,7 +204,7 @@ public class DialogEntries extends DialogFragment {
      * @param strDate       - the date string
      * */
     void setStrDate(String strDate){
-        txtDate = root.findViewById(R.id.txtDateEntr);
+        txtDate = root.findViewById(R.id.txtDateIncome);
 
         this.strDate = strDate;
         String [] dataSQL = strDate.split("/");

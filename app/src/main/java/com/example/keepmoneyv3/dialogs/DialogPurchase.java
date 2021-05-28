@@ -23,7 +23,7 @@ import com.example.keepmoneyv3.activities.NavigationActivity;
 import com.example.keepmoneyv3.database.DbManager;
 import com.example.keepmoneyv3.database.DbStrings;
 import com.example.keepmoneyv3.utility.Category;
-import com.example.keepmoneyv3.utility.Items;
+import com.example.keepmoneyv3.utility.Item;
 import com.example.keepmoneyv3.utility.Keys;
 
 import org.jetbrains.annotations.NotNull;
@@ -33,7 +33,7 @@ import java.util.ArrayList;
 public class DialogPurchase extends DialogFragment {
 
     public interface DialogPurchaseListener{
-        void DialogPurchaseInsert(Items item, String data, String ora);
+        void DialogPurchaseInsert(Item item, String data, String ora);
     }
 
     private DialogPurchaseListener listener;
@@ -91,94 +91,82 @@ public class DialogPurchase extends DialogFragment {
     }
 
     private void dialogPurchaseAction(){
-        addBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                EditText [] txtFields = {txtType,txtDate, txtItem, txtPrice,txtTime};
+        addBtn.setOnClickListener(view -> {
+            EditText [] txtFields = {txtType,txtDate, txtItem, txtPrice,txtTime};
 
-                boolean isCorrect = true;//check if the values are correct
-                float val = 0;
-                int amount = 0;
+            boolean isCorrect = true;//check if the values are correct
+            float val = 0;
+            int amount = 0;
 
-                for (EditText t : txtFields){
-                    if (t.getText().toString().equals("")){
-                        isCorrect = false;//control if there are any empty edit texts
-                        break;
-                    }
+            for (EditText t : txtFields){
+                if (t.getText().toString().equals("")){
+                    isCorrect = false;//control if there are any empty edit texts
+                    break;
+                }
+            }
+
+            if (isCorrect){
+                try {
+                    val = Float.parseFloat(txtPrice.getText().toString());//control if the value is a number
+                    amount = Integer.parseInt(txtAmount.getText().toString());//control if the amount is a number
+                }catch (Exception e){
+                    isCorrect = false;
                 }
 
-                if (isCorrect){
-                    try {
-                        val = Float.parseFloat(txtPrice.getText().toString());//control if the value is a number
-                        amount = Integer.parseInt(txtAmount.getText().toString());//control if the amount is a number
-                    }catch (Exception e){
-                        isCorrect = false;
-                    }
-
-                    if (isCorrect && val < total){
-                        String idCat = category.getId();//extract the category id
-                        String strItemName = txtItem.getText().toString();//item name
-                        Items item = new Items(strItemName, amount, 0, val, idCat);
-                        listener.DialogPurchaseInsert(item, strDate, strTime);
-                        dismiss();//close the dialog
-                    }else {
-                        Toast.makeText(getActivity(),"Il campo prezzo non è un numero o è maggiore rispetto alla disponibilità economica",Toast.LENGTH_LONG).show();
-                    }
+                if (isCorrect && val < total){
+                    String idCat = category.getId();//extract the category id
+                    String strItemName = txtItem.getText().toString();//item name
+                    Item item = new Item(strItemName, amount, Keys.MiscellaneousKeys.CONFIRMED, val, idCat);
+                    listener.DialogPurchaseInsert(item, strDate, strTime);
+                    dismiss();//close the dialog
                 }else {
-                    Toast.makeText(getActivity(),"Campi vuoti impossibile inserire",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(),"Il campo prezzo non è un numero o è maggiore rispetto alla disponibilità economica",Toast.LENGTH_LONG).show();
                 }
+            }else {
+                Toast.makeText(getActivity(),"Campi vuoti impossibile inserire",Toast.LENGTH_LONG).show();
             }
         });
     }
 
     private void txtDataAction(@NotNull EditText txtData){
-        txtData.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DialogFragment fragment = new DatePickerDialogFrag(Keys.DialogTags.DIALOG_PURCHASES_TAG);
-                FragmentManager manager = getFragmentManager();
+        txtData.setOnClickListener(v -> {
+            DialogFragment fragment = new DatePickerDialogFrag(Keys.DialogTags.DIALOG_PURCHASES_TAG);
+            FragmentManager manager = getFragmentManager();
 
-                assert manager != null;
-                fragment.show(manager,Keys.DialogTags.DIALOG_DATE_PICKER_TAG);//show the date picker fragment
-            }
+            assert manager != null;
+            fragment.show(manager,Keys.DialogTags.DIALOG_DATE_PICKER_TAG);//show the date picker fragment
         });
     }
 
     private void txtOraAction(@NotNull EditText txtOra){
-        txtOra.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DialogFragment fragment = new TimePickerDialogFrag();
-                FragmentManager manager = getFragmentManager();
+        txtOra.setOnClickListener(v -> {
+            DialogFragment fragment = new TimePickerDialogFrag();
+            FragmentManager manager = getFragmentManager();
 
-                assert manager != null;
-                fragment.show(manager,Keys.DialogTags.DIALOG_TIME_PICKER_TAG);//show the time picker fragment
-            }
+            assert manager != null;
+            fragment.show(manager,Keys.DialogTags.DIALOG_TIME_PICKER_TAG);//show the time picker fragment
         });
     }
 
     private void txtTypeAction(@NotNull EditText txtType){
-        txtType.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DbManager dbManager = new DbManager(getContext());
-                Cursor cursor = dbManager.queryGetAllRows(DbStrings.TableCategoriesFields.TABLE_NAME);
-                ArrayList<Category> allCategories = new ArrayList<>();
+        txtType.setOnClickListener(v -> {
+            DbManager dbManager = new DbManager(getContext());
+            Cursor cursor = dbManager.queryGetAllRows(DbStrings.TableCategoriesFields.TABLE_NAME);
+            ArrayList<Category> allCategories = new ArrayList<>();
 
-                while (cursor.moveToNext()){
-                    String id = cursor.getString(cursor.getColumnIndex(DbStrings.TableCategoriesFields.CATEGORIES_ID));
-                    String desc = cursor.getString(cursor.getColumnIndex(DbStrings.TableCategoriesFields.CATEGORIES_DESC));
-                    int picid = cursor.getInt(cursor.getColumnIndex(DbStrings.TableCategoriesFields.CATEGORIES_PIC_ID));
-                    allCategories.add(new Category(id, desc, picid));
-                }
-
-                DialogAddNewType dialogAddNewType = new DialogAddNewType(allCategories, Keys.DialogTags.DIALOG_PURCHASES_TAG);
-                FragmentManager manager = getFragmentManager();
-
-                if(manager != null)
-                    dialogAddNewType.show(manager,Keys.DialogTags.DIALOG_ADD_NEW_TYPE_TAG);
-
+            while (cursor.moveToNext()){
+                String id = cursor.getString(cursor.getColumnIndex(DbStrings.TableCategoriesFields.CATEGORIES_ID));
+                String desc = cursor.getString(cursor.getColumnIndex(DbStrings.TableCategoriesFields.CATEGORIES_DESC));
+                int picid = cursor.getInt(cursor.getColumnIndex(DbStrings.TableCategoriesFields.CATEGORIES_PIC_ID));
+                allCategories.add(new Category(id, desc, picid));
             }
+
+            DialogAddNewType dialogAddNewType = new DialogAddNewType(allCategories, Keys.DialogTags.DIALOG_PURCHASES_TAG);
+            FragmentManager manager = getFragmentManager();
+
+            if(manager != null)
+                dialogAddNewType.show(manager,Keys.DialogTags.DIALOG_ADD_NEW_TYPE_TAG);
+
         });
     }
 
@@ -199,5 +187,3 @@ public class DialogPurchase extends DialogFragment {
         txtType.setText(cat.getName());
     }
 }
-
-// todo doc
