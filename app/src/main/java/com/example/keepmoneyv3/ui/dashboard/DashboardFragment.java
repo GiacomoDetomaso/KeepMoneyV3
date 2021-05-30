@@ -66,7 +66,7 @@ public class DashboardFragment extends Fragment {
 
         // using the ListAdapter to build the ListView with the recente purchases
         ListAdapter adapter = new ListAdapter(getContext());
-        ListView listView = root.findViewById(R.id.listview);
+        ListView listView = root.findViewById(R.id.listviewRecentPurchases);
         listView.setAdapter(adapter);
         buildListView(adapter, user.getUsername());
 
@@ -112,7 +112,7 @@ public class DashboardFragment extends Fragment {
                 }
                 break;
             case PURCHASES:
-                cursor = dbManager.sumPurchasesQuery(username);
+                cursor = dbManager.sumPurchasesQuery(username, Keys.MiscellaneousKeys.CONFIRMED);
                 if (cursor!=null){
                     while(cursor.moveToNext()) {
                         value = cursor.getFloat(cursor.getColumnIndex("sumPurch"));

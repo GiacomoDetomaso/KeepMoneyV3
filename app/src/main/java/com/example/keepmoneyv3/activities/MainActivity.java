@@ -9,11 +9,13 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+
 import com.example.keepmoneyv3.R;
 import com.example.keepmoneyv3.database.DbManager;
 import com.example.keepmoneyv3.database.DbStrings;
 import com.example.keepmoneyv3.utility.Keys;
 import com.example.keepmoneyv3.utility.User;
+
 
 /**
  * This is the entry point of the application. It performs login and the access in the

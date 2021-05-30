@@ -4,7 +4,6 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -48,11 +47,8 @@ public class WishListAdapter extends RecyclerView.Adapter<WishListAdapter.WLView
             holder.txtListName.setText(items.get(position).getListName());
             holder.txtTotList.setText(totText);
 
-            root.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    listener.onItemClick(root, position); // specify what happens when a list is clicked
-                }
+            root.setOnClickListener(view -> {
+                listener.onItemClick(root, position); // specify what happens when a list is clicked
             });
         } else {
             Toast.makeText(context, "Non sono ancora presenti liste", Toast.LENGTH_LONG).show();
@@ -66,7 +62,6 @@ public class WishListAdapter extends RecyclerView.Adapter<WishListAdapter.WLView
 
      protected static class WLViewHolder extends RecyclerView.ViewHolder{
         TextView txtListName,txtTotList;
-        ImageView icon;
         CardView cardView;
         WLViewHolder(View itemView){
             super(itemView);

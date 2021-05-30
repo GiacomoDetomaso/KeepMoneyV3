@@ -90,7 +90,7 @@ public class DbManager {
     public long insertItems(float price, int amount, String name, int valid, String idCat){
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put(DbStrings.TableItemsFields.ITEMS_VALID,valid);
+        contentValues.put(DbStrings.TableItemsFields.ITEMS_IS_CONFIRMED,valid);
         contentValues.put(DbStrings.TableItemsFields.ITEMS_NAME ,name);
         contentValues.put(DbStrings.TableItemsFields.ITEMS_PRICE,price);
         contentValues.put(DbStrings.TableItemsFields.ITEMS_AMOUNT,amount);
@@ -145,7 +145,7 @@ public class DbManager {
         ContentValues contentValues = new ContentValues();
         contentValues.put(DbStrings.TableWishListsFields.WL_NAME,name);
         contentValues.put(DbStrings.TableWishListsFields.WL_DESC,desc);
-        contentValues.put(DbStrings.TableWishListsFields.WL_VALID, valid);
+        contentValues.put(DbStrings.TableWishListsFields.WL_IS_CONFIRMED, valid);
 
         long testValue = 0;
 
@@ -247,7 +247,7 @@ public class DbManager {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         String whereClause = " id = " + id;
         ContentValues contentValues = new ContentValues();
-        contentValues.put(DbStrings.TableItemsFields.ITEMS_VALID,valid);
+        contentValues.put(DbStrings.TableItemsFields.ITEMS_IS_CONFIRMED,valid);
 
         try {
             db.update(DbStrings.TableItemsFields.TABLE_NAME,contentValues,whereClause,null);
@@ -267,7 +267,7 @@ public class DbManager {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         String whereClause = " id = " + id;
         ContentValues contentValues = new ContentValues();
-        contentValues.put(DbStrings.TableItemsFields.ITEMS_VALID,valid);
+        contentValues.put(DbStrings.TableItemsFields.ITEMS_IS_CONFIRMED,valid);
 
         try {
             db.update(DbStrings.TableWishListsFields.TABLE_NAME,contentValues,whereClause,null);
@@ -399,10 +399,10 @@ public class DbManager {
      *
      * @param username      the username
      * */
-    public Cursor sumPurchasesQuery(String username){
+    public Cursor sumPurchasesQuery(String username, int isConfirmed){
         String query = "SELECT SUM(items.price*amount) AS sumPurch FROM items JOIN " +
                 "purchases ON (purchases.itemId = items.id) JOIN users " +
-                "ON (users.username = purchases.userId) WHERE isValid = 0 " +
+                "ON (users.username = purchases.userId) WHERE isConfirmed = " + isConfirmed + " " +
                 "AND username = '" + username + "'";
         Cursor cursor = null;
         try{
@@ -467,15 +467,17 @@ public class DbManager {
     /**
      * Used to get all the WL data
      *
-     * @param wlID      the id of the WishList
+     * @param username      the username
+     * @param isConfirmed   indicates if the user has confirmed the list or not
      *
      * */
-    public Cursor getWishListDataQuery(int wlID){
-        String query = "SELECT SUM(items.price * items.amount) AS tot, categories.picId, wishLists.name " +
+    public Cursor getWishListDataQuery(String username, int isConfirmed){
+        String query = "SELECT SUM(items.price * items.amount) AS tot, categories.picId, wishLists.* " +
                 "FROM purchases JOIN wishLists ON purchases.listId = wishLists.id " +
                 "JOIN items ON items.id = purchases.itemId  " +
                 "JOIN categories ON categories.id = items.idCat " +
-                "WHERE wishLists.id = " + wlID + ";";
+                "JOIN users ON users.username = purchases.userId " +
+                "WHERE users.username = '" + username + "' AND wishLists.isConfirmed = " + isConfirmed + ";";
         Cursor cursor = null;
 
         try{
@@ -516,7 +518,7 @@ public class DbManager {
      *
      * */
     public Cursor getCountWishListsByValidity(int valid){
-        String query = "SELECT COUNT(*) AS cont FROM wishlists WHERE isValid = " + valid;
+        String query = "SELECT COUNT(*) AS cont FROM wishlists WHERE isConfirmed = " + valid;
         Cursor cursor = null;
         try {
             SQLiteDatabase db = dbHelper.getReadableDatabase();

@@ -1,0 +1,190 @@
+@startuml
+
+title __DIALOGS's Class Diagram__\n
+
+  namespace com.example.keepmoneyv3 {
+    namespace dialogs {
+      class com.example.keepmoneyv3.dialogs.DatePickerDialogFrag {
+          - dialogCalled : String
+          + DatePickerDialogFrag()
+          + onCreateDialog()
+          + onDateSet()
+      }
+    }
+  }
+  
+
+  namespace com.example.keepmoneyv3 {
+    namespace dialogs {
+      class com.example.keepmoneyv3.dialogs.DialogAddNameToWishList {
+          - listItems : ArrayList<Item>
+          - root : View
+          + onAttach()
+          + onCreateDialog()
+          ~ DialogAddNameToWishList()
+          - btnAddListAction()
+      }
+    }
+  }
+  
+
+  namespace com.example.keepmoneyv3 {
+    namespace dialogs {
+      interface com.example.keepmoneyv3.dialogs.DialogAddNameToWishList.DialogAddNameToWishListListener {
+          {abstract} + WishListInsert()
+      }
+    }
+  }
+  
+
+  namespace com.example.keepmoneyv3 {
+    namespace dialogs {
+      class com.example.keepmoneyv3.dialogs.DialogAddNewType {
+          - categories : ArrayList<Category>
+          - dialogTag : String
+          + DialogAddNewType()
+          + onAttach()
+          + onCreateDialog()
+          - buildGrid()
+          - gridViewAction()
+      }
+    }
+  }
+  
+
+  namespace com.example.keepmoneyv3 {
+    namespace dialogs {
+      interface com.example.keepmoneyv3.dialogs.DialogAddNewType.DialogAddNewTypeListener {
+          {abstract} + onTypeChoosePurchases()
+          {abstract} + onTypeChooseWishListItem()
+          {abstract} + onTypeChosenEntries()
+      }
+    }
+  }
+  
+
+  namespace com.example.keepmoneyv3 {
+    namespace dialogs {
+      class com.example.keepmoneyv3.dialogs.DialogAddWishListItems {
+          - listItems : ArrayList<Item>
+          - root : View
+          - subTotal : float
+          - txtCategoryItemList : EditText
+          + DialogAddWishListItems()
+          + onCreateDialog()
+          + setCategory()
+          - btnAddNewItemAction()
+          - btnNextAction()
+          - txtCategoryAction()
+      }
+    }
+  }
+  
+
+  namespace com.example.keepmoneyv3 {
+    namespace dialogs {
+      class com.example.keepmoneyv3.dialogs.DialogIncome {
+          - root : View
+          - strDate : String
+          - txtDate : EditText
+          - txtIncome : EditText
+          - txtType : EditText
+          + onAttach()
+          + onCreateDialog()
+          + setCategory()
+          ~ setStrDate()
+          - dialogEntriesAction()
+          - searchCategoryName()
+          - txtDataAction()
+          - txtTypeAction()
+      }
+    }
+  }
+  
+
+  namespace com.example.keepmoneyv3 {
+    namespace dialogs {
+      interface com.example.keepmoneyv3.dialogs.DialogIncome.DialogIncomeListener {
+          {abstract} + DialogIncomeInsert()
+      }
+    }
+  }
+  
+
+  namespace com.example.keepmoneyv3 {
+    namespace dialogs {
+      class com.example.keepmoneyv3.dialogs.DialogPurchase {
+          - addBtn : Button
+          - strDate : String
+          - strTime : String
+          - total : float
+          - txtAmount : EditText
+          - txtDate : EditText
+          - txtItem : EditText
+          - txtPrice : EditText
+          - txtTime : EditText
+          - txtType : EditText
+          + DialogPurchase()
+          + onAttach()
+          + onCreateDialog()
+          + setCategory()
+          ~ setStrDate()
+          ~ setStrTime()
+          - dialogPurchaseAction()
+          - txtDataAction()
+          - txtOraAction()
+          - txtTypeAction()
+      }
+    }
+  }
+  
+
+  namespace com.example.keepmoneyv3 {
+    namespace dialogs {
+      interface com.example.keepmoneyv3.dialogs.DialogPurchase.DialogPurchaseListener {
+          {abstract} + DialogPurchaseInsert()
+      }
+    }
+  }
+  
+
+  namespace com.example.keepmoneyv3 {
+    namespace dialogs {
+      class com.example.keepmoneyv3.dialogs.TimePickerDialogFrag {
+          + onCreateDialog()
+          + onTimeSet()
+      }
+    }
+  }
+  
+
+  com.example.keepmoneyv3.dialogs.DatePickerDialogFrag .up.|> android.app.DatePickerDialog.OnDateSetListener
+  com.example.keepmoneyv3.dialogs.DatePickerDialogFrag -up-|> androidx.fragment.app.DialogFragment
+  com.example.keepmoneyv3.dialogs.DialogAddNameToWishList -up-|> androidx.fragment.app.DialogFragment
+  com.example.keepmoneyv3.dialogs.DialogAddNameToWishList o-- com.example.keepmoneyv3.dialogs.DialogAddNameToWishList.DialogAddNameToWishListListener : listener
+  com.example.keepmoneyv3.dialogs.DialogAddNameToWishList +-down- com.example.keepmoneyv3.dialogs.DialogAddNameToWishList.DialogAddNameToWishListListener
+  com.example.keepmoneyv3.dialogs.DialogAddNewType -up-|> androidx.fragment.app.DialogFragment
+  com.example.keepmoneyv3.dialogs.DialogAddNewType o-- com.example.keepmoneyv3.dialogs.DialogAddNewType.DialogAddNewTypeListener : listener
+  com.example.keepmoneyv3.dialogs.DialogAddNewType +-down- com.example.keepmoneyv3.dialogs.DialogAddNewType.DialogAddNewTypeListener
+  com.example.keepmoneyv3.dialogs.DialogAddWishListItems -up-|> androidx.fragment.app.DialogFragment
+  com.example.keepmoneyv3.dialogs.DialogAddWishListItems o-- com.example.keepmoneyv3.utility.Category : category
+  com.example.keepmoneyv3.dialogs.DialogIncome -up-|> androidx.fragment.app.DialogFragment
+  com.example.keepmoneyv3.dialogs.DialogIncome o-- com.example.keepmoneyv3.utility.Category : category
+  com.example.keepmoneyv3.dialogs.DialogIncome o-- com.example.keepmoneyv3.dialogs.DialogIncome.DialogIncomeListener : listener
+  com.example.keepmoneyv3.dialogs.DialogIncome +-down- com.example.keepmoneyv3.dialogs.DialogIncome.DialogIncomeListener
+  com.example.keepmoneyv3.dialogs.DialogPurchase -up-|> androidx.fragment.app.DialogFragment
+  com.example.keepmoneyv3.dialogs.DialogPurchase o-- com.example.keepmoneyv3.utility.Category : category
+  com.example.keepmoneyv3.dialogs.DialogPurchase o-- com.example.keepmoneyv3.dialogs.DialogPurchase.DialogPurchaseListener : listener
+  com.example.keepmoneyv3.dialogs.DialogPurchase +-down- com.example.keepmoneyv3.dialogs.DialogPurchase.DialogPurchaseListener
+  com.example.keepmoneyv3.dialogs.TimePickerDialogFrag .up.|> android.app.TimePickerDialog.OnTimeSetListener
+  com.example.keepmoneyv3.dialogs.TimePickerDialogFrag -up-|> androidx.fragment.app.DialogFragment
+
+
+right footer
+
+
+PlantUML diagram generated by SketchIt! (https://bitbucket.org/pmesmeur/sketch.it)
+For more information about this tool, please contact philippe.mesmeur@gmail.com
+endfooter
+
+@enduml

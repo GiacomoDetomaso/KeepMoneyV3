@@ -18,11 +18,13 @@ public class Item implements Serializable {
         this.valid = valid;
     }
 
-    public Item(String name, int amount, int valid , float price) {
+    public Item(int id, String name, int amount, int valid , float price, String catID) {
+        this.id = id;
         this.name = name;
         this.price = price;
         this.amount = amount;
         this.valid = valid;
+        this.catID = catID;
     }
 
     public void setId(int id) {

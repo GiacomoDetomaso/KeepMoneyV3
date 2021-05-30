@@ -56,7 +56,7 @@ public class DbStrings {
         public static final String ITEMS_PRICE = "price";
         public static final String ITEMS_AMOUNT = "amount";
         public static final String ITEMS_NAME = "name";
-        public static final String ITEMS_VALID = "isValid";
+        public static final String ITEMS_IS_CONFIRMED = "isConfirmed";
         public static final String ITEMS_ID_CAT = "idCat";
 
         private static final String CREATE_TABLE =
@@ -65,7 +65,7 @@ public class DbStrings {
                         ITEMS_PRICE + " DECIMAL NOT NULL,\n" +
                         ITEMS_NAME + " VARCHAR(255),\n" +
                         ITEMS_AMOUNT + " INT DEFAULT 0,\n" + // the parameter can be null
-                        ITEMS_VALID + " INT,\n" +
+                        ITEMS_IS_CONFIRMED + " INT,\n" +
                         ITEMS_ID_CAT + " VARCHAR(8) NOT NULL,\n" +
                         "FOREIGN KEY (" + ITEMS_ID_CAT + ") REFERENCES " +  //foreign key declaration
                         TableCategoriesFields.TABLE_NAME + " (" + TableCategoriesFields.CATEGORIES_ID + "));";
@@ -109,14 +109,14 @@ public class DbStrings {
         public static final String WL_ID = "id";
         public static final String WL_NAME = "name";
         public static final String WL_DESC = "description";
-        public static final String WL_VALID = "isValid";
+        public static final String WL_IS_CONFIRMED = "isConfirmed";
 
         static final String CREATE_TABLE =
                 "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (\n" +
                         WL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
                         WL_NAME + " VARCHAR(80) NOT NULL,\n" +
                         WL_DESC + " VARCHAR(255),\n" +
-                        WL_VALID + " INT);";
+                        WL_IS_CONFIRMED + " INT);";
 
         static String getCreateTable() {
             return CREATE_TABLE;
