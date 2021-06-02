@@ -45,7 +45,7 @@ public class ListAdapter extends BaseAdapter {
         View listView;
         if (view == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            listView = Objects.requireNonNull(inflater).inflate(R.layout.fragment_dashboard_list_view, null);
+            listView = Objects.requireNonNull(inflater).inflate(R.layout.default_list_view_item, null);
 
             ImageView imageView = listView.findViewById(R.id.firstImageview2); // image of the object
             TextView txtObj = listView.findViewById(R.id.textView); // object

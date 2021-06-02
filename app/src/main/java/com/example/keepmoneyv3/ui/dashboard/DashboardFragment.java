@@ -32,7 +32,7 @@ public class DashboardFragment extends Fragment {
      * An enum used to choose which sum calculate
      * **/
     private enum ChooseEP{
-        ENTRIES, PURCHASES
+        INCOMES, PURCHASES
     }
 
     private DashboardFragmentListener listener;
@@ -75,7 +75,7 @@ public class DashboardFragment extends Fragment {
         TextView txtBudgetBox = root.findViewById(R.id.txtBudget);
 
         float entries,purchases;
-        entries = sumEntriesOrPurchases(user.getUsername(),ChooseEP.ENTRIES);
+        entries = sumEntriesOrPurchases(user.getUsername(),ChooseEP.INCOMES);
         purchases = sumEntriesOrPurchases(user.getUsername(),ChooseEP.PURCHASES);
 
         String strEntries = entries + " €";
@@ -103,7 +103,7 @@ public class DashboardFragment extends Fragment {
         Cursor cursor;
         float value = 0;
         switch (choice) {
-            case ENTRIES:
+            case INCOMES:
                 cursor = dbManager.sumIncomesQuery(username);
                 if (cursor!=null){
                     while(cursor.moveToNext()) {
@@ -141,7 +141,7 @@ public class DashboardFragment extends Fragment {
         String itemName;
 
         DbManager dbManager = new DbManager(getContext());
-        Cursor cursor = dbManager.getRecentItemsQuery(RECENT_ITEMS_LIMIT, Keys.MiscellaneousKeys.NOT_CONFIRMED, username);
+        Cursor cursor = dbManager.getPurchasesItemsQuery(RECENT_ITEMS_LIMIT, Keys.MiscellaneousKeys.NOT_CONFIRMED, username);
 
         if (cursor != null) {
 

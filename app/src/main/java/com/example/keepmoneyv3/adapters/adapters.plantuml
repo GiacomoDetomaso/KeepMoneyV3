@@ -99,7 +99,7 @@ title __ADAPTERS's Class Diagram__\n
       }
     }
   }
-  
+
 
   com.example.keepmoneyv3.adapters.GridViewCategoryAdapter -up-|> android.widget.BaseAdapter
   com.example.keepmoneyv3.adapters.ListAdapter -up-|> android.widget.BaseAdapter

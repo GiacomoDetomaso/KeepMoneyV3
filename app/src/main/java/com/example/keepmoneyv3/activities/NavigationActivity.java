@@ -15,6 +15,7 @@ import com.example.keepmoneyv3.dialogs.DialogAddWishListItems;
 import com.example.keepmoneyv3.dialogs.DialogIncome;
 import com.example.keepmoneyv3.dialogs.DialogPurchase;
 import com.example.keepmoneyv3.ui.dashboard.DashboardFragment;
+import com.example.keepmoneyv3.ui.movements.MovementsFragment;
 import com.example.keepmoneyv3.ui.wishlist.WishListsFragment;
 import com.example.keepmoneyv3.utility.Category;
 import com.example.keepmoneyv3.utility.Item;
@@ -48,7 +49,7 @@ import java.util.ArrayList;
 
 public class NavigationActivity extends AppCompatActivity implements DialogAddNewType.DialogAddNewTypeListener,
         DialogIncome.DialogIncomeListener, DialogPurchase.DialogPurchaseListener, DashboardFragment.DashboardFragmentListener,
-        WishListsFragment.WishListsFragmentListener, DialogAddNameToWishList.DialogAddNameToWishListListener {
+        WishListsFragment.WishListsFragmentListener, DialogAddNameToWishList.DialogAddNameToWishListListener, MovementsFragment.MovementsFragmentListener {
 
     private User user; // the user passed as a bundle from login or registration
 
@@ -103,6 +104,9 @@ public class NavigationActivity extends AppCompatActivity implements DialogAddNe
     public void fabAddWishListAction(View view){
         DialogFragment dialogFragment = new DialogAddWishListItems();
         dialogFragment.show(getSupportFragmentManager(), Keys.DialogTags.DIALOG_ADD_WISH_LIST_ITEMS_TAG);
+    }
+
+    public void fabSortAction(View view){
     }
 
     /**
@@ -239,6 +243,18 @@ public class NavigationActivity extends AppCompatActivity implements DialogAddNe
         return user;
     }
 
+    @Override
+    public void onMovementsFragmentOpened() {
+        FloatingActionButton fabPurchases = findViewById(R.id.fabAddNewPurchase);
+        fabPurchases.setVisibility(View.INVISIBLE);
+
+        FloatingActionButton fabWishList = findViewById(R.id.fabAddNewWishList);
+        fabWishList.setVisibility(View.INVISIBLE);
+
+        FloatingActionButton fabSort = findViewById(R.id.fabSort);
+        fabSort.setVisibility(View.VISIBLE);
+    }
+
 
     /**
      * This method is used to refresh the activity once a new movement has been registered
@@ -267,6 +283,9 @@ public class NavigationActivity extends AppCompatActivity implements DialogAddNe
 
         FloatingActionButton fabWishList = findViewById(R.id.fabAddNewWishList);
         fabWishList.setVisibility(View.VISIBLE);
+
+        FloatingActionButton fabSort = findViewById(R.id.fabSort);
+        fabSort.setVisibility(View.INVISIBLE);
 
         return user;
     }
@@ -329,6 +348,9 @@ public class NavigationActivity extends AppCompatActivity implements DialogAddNe
 
         FloatingActionButton fabWishList = findViewById(R.id.fabAddNewWishList);
         fabWishList.setVisibility(View.INVISIBLE);
+
+        FloatingActionButton fabSort = findViewById(R.id.fabSort);
+        fabSort.setVisibility(View.INVISIBLE);
     }
 
 }

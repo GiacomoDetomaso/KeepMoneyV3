@@ -7,9 +7,9 @@
 
     <fragment
         android:id="@+id/navigation_movements"
-        android:name="com.example.keepmoneyv3.ui.home.HomeFragment"
+        android:name="com.example.keepmoneyv3.ui.movements.MovementsFragment"
         android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_movements" />
 
     <fragment
         android:id="@+id/navigation_dashboard"

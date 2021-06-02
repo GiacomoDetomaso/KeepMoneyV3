@@ -3,6 +3,11 @@ package com.example.keepmoneyv3.utility;
 public class Keys {
     public static class SerializableKeys{
         public static final String USER_KEY = "user";
+        public static final String INCOMES_ROWS_KEY = "incomes";
+        public static final String PURCHASES_ROWS_KEY = "purchases";
+        public static final String USERNAME_KEY = "username";
+        public static final String WISH_LIST_KEYS = "wishlist";
+        public static final String POSITION_KEY = "position";
     }
 
     public static class DialogTitles{

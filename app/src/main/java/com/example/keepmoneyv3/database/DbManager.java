@@ -1,5 +1,6 @@
 package com.example.keepmoneyv3.database;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -336,6 +337,55 @@ public class DbManager {
     }
 
     /**
+     * Used to get all the rows of a table
+     *
+     * @param username      the username
+     **/
+    public Cursor queryGetAllIncomesByUsername(String username){
+        Cursor cursor = null;
+        String query = "SELECT incomes.* " +
+                "FROM incomes JOIN users ON userId = username WHERE username = '" + username + "' ;";
+
+        try {
+            SQLiteDatabase db = dbHelper.getReadableDatabase();
+            cursor = db.rawQuery(query, null);
+        }catch (Exception e){
+            Toast.makeText(context,e.getMessage(),Toast.LENGTH_LONG).show();
+        }
+        return cursor;
+    }
+
+    public Cursor queryGetAllConfirmedWishListsByUsername(String username){
+        Cursor cursor = null;
+        String query = "SELECT wishLists.* FROM wishLists JOIN purchases ON purchases.listId = wishLists.id " +
+                "JOIN users ON users.username = purchases.userId " +
+                " WHERE username = '" + username + "' GROUP BY listId;";
+
+        try {
+            SQLiteDatabase db = dbHelper.getReadableDatabase();
+            cursor = db.rawQuery(query, null);
+        }catch (Exception e){
+            Toast.makeText(context,e.getMessage(),Toast.LENGTH_LONG).show();
+        }
+        return cursor;
+    }
+
+    public Cursor queryGetAllSimplePurchasesByUsername(String username){
+        Cursor cursor = null;
+        String query = "SELECT purchases.* FROM purchases " +
+                "JOIN users ON users.username = purchases.userId " +
+                " WHERE username = '" + username + "' AND listId = 0;";
+
+        try {
+            SQLiteDatabase db = dbHelper.getReadableDatabase();
+            cursor = db.rawQuery(query, null);
+        }catch (Exception e){
+            Toast.makeText(context,e.getMessage(),Toast.LENGTH_LONG).show();
+        }
+        return cursor;
+    }
+
+    /**
      * Used to count the number of rows of a table without any specific constraint
      *
      * @param table         the name of the table to access
@@ -353,6 +403,35 @@ public class DbManager {
 
         return cursor;
     }
+
+    public Cursor countIncomesRowsByUsername(String username){
+        String query = "SELECT COUNT(*) AS numRows " +
+                "FROM incomes  " +
+                "WHERE userId = '" + username + "';";
+        Cursor cursor = null;
+        try {
+            SQLiteDatabase db = dbHelper.getReadableDatabase();
+            cursor = db.rawQuery(query,null);
+        }catch (Exception e){
+            Toast.makeText(context,e.getMessage(),Toast.LENGTH_LONG).show();
+        }
+        return cursor;
+    }
+
+    public Cursor countSimplePurchasesRowsByUsername(String username){
+        String query = "SELECT COUNT(*) AS numRows " +
+                "FROM purchases " +
+                "WHERE userId = '" + username + "' AND listId = 0;";
+        Cursor cursor = null;
+        try {
+            SQLiteDatabase db = dbHelper.getReadableDatabase();
+            cursor = db.rawQuery(query,null);
+        }catch (Exception e){
+            Toast.makeText(context,e.getMessage(),Toast.LENGTH_LONG).show();
+        }
+        return cursor;
+    }
+
 
     /**
      * Used to count all the element of a wishlist
@@ -421,15 +500,26 @@ public class DbManager {
      * @param listId    specify if the item is part of a wishlist
      * @param username  the username
      * */
-    public Cursor getRecentItemsQuery(int limit, int listId, String username){
-        String query =
-                "SELECT items.name,items.price, items.amount,categories.picId " +
-                "FROM items JOIN categories ON categories.id = items.idCat" +
-                        " JOIN purchases ON purchases.itemId = items.id" +
-                        " JOIN users ON users.username = purchases.userId" +
-                        " WHERE listId = " + listId + " AND users.username = '" + username + "'" +
-                        " ORDER BY items.id DESC" +
-                        " LIMIT " + limit + ";";
+    public Cursor getPurchasesItemsQuery(int limit, int listId, String username){
+        String query;
+        if(limit > 0) {
+             query =
+                    "SELECT items.name,items.price, items.amount,categories.picId " +
+                            "FROM items JOIN categories ON categories.id = items.idCat" +
+                            " JOIN purchases ON purchases.itemId = items.id" +
+                            " JOIN users ON users.username = purchases.userId" +
+                            " WHERE listId = " + listId + " AND users.username = '" + username + "'" +
+                            " ORDER BY items.id DESC" +
+                            " LIMIT " + limit + ";";
+        } else {
+            query =
+                    "SELECT items.name,items.price, items.amount,categories.picId " +
+                            "FROM items JOIN categories ON categories.id = items.idCat" +
+                            " JOIN purchases ON purchases.itemId = items.id" +
+                            " JOIN users ON users.username = purchases.userId" +
+                            " WHERE listId = " + listId + " AND users.username = '" + username + "'" +
+                            " ORDER BY items.id DESC;";
+        }
 
         Cursor cursor = null;
 
@@ -445,13 +535,13 @@ public class DbManager {
     /**
      * Used to get all the data related to the entries
      *
-     * @param entriesId     the id of the entry
+     * @param username     the username
      *
      * */
-    public Cursor getEntriesDataQuery(int entriesId){
-        String query = "SELECT entries.value,entries.dateEntr,categories.picId " +
-                "FROM entries JOIN categories ON entries.idcat = categories.id " +
-                "WHERE entries.id = " + entriesId + ";";
+    public Cursor getEntriesDataQueryByUsername(String username){
+        String query = "SELECT incomes.value,incomes.dateIncome,categories.picId " +
+                "FROM incomes JOIN categories ON incomes.idcat = categories.id " +
+                "WHERE userId = '" + username + "';";
 
         Cursor cursor = null;
 
@@ -511,21 +601,4 @@ public class DbManager {
         return cursor;
     }
 
-    /**
-     * Used to count the number of WL by their validity
-     *
-     * @param valid     indicates the validity of the WishList
-     *
-     * */
-    public Cursor getCountWishListsByValidity(int valid){
-        String query = "SELECT COUNT(*) AS cont FROM wishlists WHERE isConfirmed = " + valid;
-        Cursor cursor = null;
-        try {
-            SQLiteDatabase db = dbHelper.getReadableDatabase();
-            cursor = db.rawQuery(query,null);
-        }catch (Exception e){
-            Toast.makeText(context,e.getMessage(),Toast.LENGTH_LONG).show();
-        }
-        return cursor;
-    }
 }

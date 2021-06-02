@@ -8,13 +8,13 @@ import java.io.Serializable;
  * @author Michelangelo De Pascale
  * */
 
-public class Entry implements Serializable {
+public class Income implements Serializable {
     private int id;
     private float value;
     private String idUser, idCat;
     private String date;
 
-    public Entry(int id, String idUser, String idCat, String date, float value) {
+    public Income(int id, String idUser, String idCat, String date, float value) {
         this.id = id;
         this.idUser = idUser;
         this.idCat = idCat;

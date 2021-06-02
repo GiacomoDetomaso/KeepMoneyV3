@@ -65,5 +65,16 @@
         app:layout_anchor="@+id/fabAddNewPurchase"
         app:layout_anchorGravity="center" />
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabSort"
+        android:layout_width="wrap_content"
+        android:visibility="invisible"
+        android:onClick="fabSortAction"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        app:layout_anchor="@+id/fabAddNewPurchase"
+        app:layout_anchorGravity="center"
+        app:srcCompat="@drawable/ic_baseline_beach_access_24" />
+
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
