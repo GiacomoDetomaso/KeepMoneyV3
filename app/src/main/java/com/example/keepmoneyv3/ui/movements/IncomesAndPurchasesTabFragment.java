@@ -17,7 +17,10 @@ import com.example.keepmoneyv3.R;
 import com.example.keepmoneyv3.adapters.ListAdapter;
 import com.example.keepmoneyv3.database.DbManager;
 import com.example.keepmoneyv3.database.DbStrings;
+import com.example.keepmoneyv3.utility.DefaultListViewItems;
 import com.example.keepmoneyv3.utility.Keys;
+
+import org.jetbrains.annotations.NotNull;
 
 public class IncomesAndPurchasesTabFragment extends Fragment {
 
@@ -48,7 +51,7 @@ public class IncomesAndPurchasesTabFragment extends Fragment {
                     buildPurchaseListView(listAdapter, username);
                     Button button = root.findViewById(R.id.button2);
                     button.setOnClickListener(view -> {
-                        // todo sort arraylist
+                        Toast.makeText(getContext(), "Ciao", Toast.LENGTH_LONG).show();
                     });
                 } else {
                     Toast.makeText(getContext(), "Non sono presenti spese semplici", Toast.LENGTH_SHORT).show();
@@ -60,6 +63,7 @@ public class IncomesAndPurchasesTabFragment extends Fragment {
 
                 if(sizeE > 0){
                     buildEntriesListView(listAdapter, username);
+                    deletePurchase(listView, listAdapter);
                 } else {
                     Toast.makeText(getContext(),"Nono sono presenti ancora entrate",Toast.LENGTH_LONG).show();
                 }
@@ -80,7 +84,7 @@ public class IncomesAndPurchasesTabFragment extends Fragment {
     void buildPurchaseListView(ListAdapter adapter, String username) {
         final int ITEMS_LIMIT = 0; // no limit
 
-        int picId;
+        int picId, itemId;
         int amount;
         float itemPrice;
         String itemName;
@@ -91,11 +95,12 @@ public class IncomesAndPurchasesTabFragment extends Fragment {
         if (cursor != null) {
 
             while (cursor.moveToNext()) {
+                itemId = cursor.getInt(cursor.getColumnIndex(DbStrings.TableItemsFields.ITEMS_ID));
                 itemName = cursor.getString(cursor.getColumnIndex(DbStrings.TableItemsFields.ITEMS_NAME));
                 itemPrice = cursor.getFloat(cursor.getColumnIndex(DbStrings.TableItemsFields.ITEMS_PRICE));
                 amount = cursor.getInt(cursor.getColumnIndex(DbStrings.TableItemsFields.ITEMS_AMOUNT));
                 picId = cursor.getInt(cursor.getColumnIndex(DbStrings.TableCategoriesFields.CATEGORIES_PIC_ID));
-                adapter.buildMap(itemName, picId, itemPrice * amount); // build the list view
+                adapter.buildMap(itemId, itemName, picId, itemPrice * amount); // build the list view
             }
 
         } else {
@@ -104,7 +109,7 @@ public class IncomesAndPurchasesTabFragment extends Fragment {
     }
 
     private void buildEntriesListView(ListAdapter adapter, String username){
-            int picId;
+            int picId, incomeID;
             float value;
             String date;
 
@@ -116,26 +121,21 @@ public class IncomesAndPurchasesTabFragment extends Fragment {
             } else {
 
                 while (cursor.moveToNext()) {
+                    incomeID = cursor.getInt(cursor.getColumnIndex(DbStrings.TableIncomesFields.INCOMES_ID));
                     date = cursor.getString(cursor.getColumnIndex(DbStrings.TableIncomesFields.INCOMES_DATE));
                     value = cursor.getFloat(cursor.getColumnIndex(DbStrings.TableIncomesFields.INCOMES_VAL));
                     picId = cursor.getInt(cursor.getColumnIndex(DbStrings.TableCategoriesFields.CATEGORIES_PIC_ID));
-                    adapter.buildMap(date, picId, value);
+                    adapter.buildMap(incomeID, date, picId, value);
                 }
             }
     }
 
-    /*private void listViewPurchasesAction(ListView listView){
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Purchase purchase = confirmedPurchases.get(i);
-                //Toast.makeText(getContext(),"i " + i + "id: " + purchase.getId(),Toast.LENGTH_LONG).show();
-                DialogPurchasesInfo dialogPurchasesInfo = new DialogPurchasesInfo(purchase);
-                FragmentManager fragmentManager = getFragmentManager();
-                assert fragmentManager != null;
-                dialogPurchasesInfo.show(fragmentManager,"DialogPurchasesInfo");
-            }
+    private void deletePurchase(@NotNull ListView listView, ListAdapter listAdapter){
+        listView.setOnItemClickListener((parent, view, position, id) -> {
+            DefaultListViewItems defaultListViewItems = (DefaultListViewItems) listAdapter.getItem(position);
+            Toast.makeText(getContext(), "" + defaultListViewItems.getId(), Toast.LENGTH_LONG).show();
         });
-    }*/
+    }
+
 }
 

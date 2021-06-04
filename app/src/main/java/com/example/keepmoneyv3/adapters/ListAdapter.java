@@ -10,19 +10,19 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.keepmoneyv3.R;
+import com.example.keepmoneyv3.utility.DefaultListViewItems;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Objects;
 
 public class ListAdapter extends BaseAdapter {
     private final Context context;//the context of the application
-    private final ArrayList<ListPurchases>items;
+    private final ArrayList<DefaultListViewItems>items;
 
    public ListAdapter(Context context){
         this.context = context;
         items = new ArrayList<>();
-    }
+   }
 
     @Override
     public int getCount() {
@@ -70,36 +70,16 @@ public class ListAdapter extends BaseAdapter {
      * @param image         the image of the category of the item
      * @param price         the price of the purchase
      * */
-   public void buildMap(String itemName, int image, float price){
-        ListPurchases listPurchases = new ListPurchases(itemName, image, price);
-        items.add(listPurchases);
+   public void buildMap(int id, String itemName, int image, float price){
+        DefaultListViewItems defaultListViewItems = new DefaultListViewItems(id, itemName, image, price);
+        items.add(defaultListViewItems);
     }
 
-    /**
-     * This class represents the purchases' information that will be displayed in the ListView
-     * */
-    private static class ListPurchases implements Serializable {
-        private final String itemName;
-        private final int image;
-        private final float price;
-
-        public ListPurchases(String itemName, int image, float price) {
-            this.itemName = itemName;
-            this.image = image;
-            this.price = price;
-        }
-
-        public String getItemName() {
-            return itemName;
-        }
-
-        public int getImage() {
-            return image;
-        }
-
-        public float getPrice() {
-            return price;
-        }
+    public void buildMap(ArrayList<DefaultListViewItems> defaultListPurchases, int sort){
+        
     }
+
+
+
 
 }

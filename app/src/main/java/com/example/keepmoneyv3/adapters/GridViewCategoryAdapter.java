@@ -18,12 +18,12 @@ import java.util.Objects;
 
 public class GridViewCategoryAdapter extends BaseAdapter {
 
-    private Context context;//the context of the application
-    private ArrayList<Category> categories;
+    private final Context context;//the context of the application
+    private final ArrayList<Category> categories;
 
     public GridViewCategoryAdapter(Context context){
         this.context = context;
-        categories = new ArrayList<Category>();
+        categories = new ArrayList<>();
     }
 
     @Override

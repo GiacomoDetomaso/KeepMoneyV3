@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -27,7 +28,6 @@ public class MovementsFragment extends Fragment {
 
     public interface MovementsFragmentListener{
         User GetUserFromSavedBundle();
-        void onMovementsFragmentOpened();
     }
 
     private MovementsFragment.MovementsFragmentListener listener;
@@ -50,7 +50,6 @@ public class MovementsFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_movements, container, false);
-        listener.onMovementsFragmentOpened();
 
         User user = listener.GetUserFromSavedBundle();
 

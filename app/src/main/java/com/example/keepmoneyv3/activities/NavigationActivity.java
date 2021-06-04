@@ -106,9 +106,6 @@ public class NavigationActivity extends AppCompatActivity implements DialogAddNe
         dialogFragment.show(getSupportFragmentManager(), Keys.DialogTags.DIALOG_ADD_WISH_LIST_ITEMS_TAG);
     }
 
-    public void fabSortAction(View view){
-    }
-
     /**
      * Callback method that send to the parent dialog the name of the
      * selected category, during the entry acquisition
@@ -200,7 +197,6 @@ public class NavigationActivity extends AppCompatActivity implements DialogAddNe
                 refreshActivity();
             }
         }
-
     }
 
     /**
@@ -243,19 +239,6 @@ public class NavigationActivity extends AppCompatActivity implements DialogAddNe
         return user;
     }
 
-    @Override
-    public void onMovementsFragmentOpened() {
-        FloatingActionButton fabPurchases = findViewById(R.id.fabAddNewPurchase);
-        fabPurchases.setVisibility(View.INVISIBLE);
-
-        FloatingActionButton fabWishList = findViewById(R.id.fabAddNewWishList);
-        fabWishList.setVisibility(View.INVISIBLE);
-
-        FloatingActionButton fabSort = findViewById(R.id.fabSort);
-        fabSort.setVisibility(View.VISIBLE);
-    }
-
-
     /**
      * This method is used to refresh the activity once a new movement has been registered
      * */
@@ -283,9 +266,6 @@ public class NavigationActivity extends AppCompatActivity implements DialogAddNe
 
         FloatingActionButton fabWishList = findViewById(R.id.fabAddNewWishList);
         fabWishList.setVisibility(View.VISIBLE);
-
-        FloatingActionButton fabSort = findViewById(R.id.fabSort);
-        fabSort.setVisibility(View.INVISIBLE);
 
         return user;
     }
@@ -349,8 +329,6 @@ public class NavigationActivity extends AppCompatActivity implements DialogAddNe
         FloatingActionButton fabWishList = findViewById(R.id.fabAddNewWishList);
         fabWishList.setVisibility(View.INVISIBLE);
 
-        FloatingActionButton fabSort = findViewById(R.id.fabSort);
-        fabSort.setVisibility(View.INVISIBLE);
     }
 
 }

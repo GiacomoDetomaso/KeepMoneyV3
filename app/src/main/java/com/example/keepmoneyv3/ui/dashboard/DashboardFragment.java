@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -135,7 +136,7 @@ public class DashboardFragment extends Fragment {
     void buildListView(ListAdapter adapter, String username) {
         final int RECENT_ITEMS_LIMIT = 3;
 
-        int picId;
+        int picId, itemId;
         int amount;
         float itemPrice;
         String itemName;
@@ -146,11 +147,12 @@ public class DashboardFragment extends Fragment {
         if (cursor != null) {
 
             while (cursor.moveToNext()) {
+                itemId = cursor.getInt(cursor.getColumnIndex(DbStrings.TableItemsFields.ITEMS_ID));
                 itemName = cursor.getString(cursor.getColumnIndex(DbStrings.TableItemsFields.ITEMS_NAME));
                 itemPrice = cursor.getFloat(cursor.getColumnIndex(DbStrings.TableItemsFields.ITEMS_PRICE));
                 amount = cursor.getInt(cursor.getColumnIndex(DbStrings.TableItemsFields.ITEMS_AMOUNT));
                 picId = cursor.getInt(cursor.getColumnIndex(DbStrings.TableCategoriesFields.CATEGORIES_PIC_ID));
-                adapter.buildMap(itemName, picId, itemPrice * amount); // build the list view
+                adapter.buildMap(itemId, itemName, picId, itemPrice * amount); // build the list view
             }
 
         } else {

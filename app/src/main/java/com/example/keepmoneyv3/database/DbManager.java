@@ -1,6 +1,5 @@
 package com.example.keepmoneyv3.database;
 
-import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -192,13 +191,12 @@ public class DbManager {
      * is a purchase with no information about the date and the time. It's used when
      * you define a wishlist, where you can't have the mentioned information when it is created.
      * Date and time will be added only when a wishlist will be bought.
-     *
-     * @param idUser        the username
+     *  @param idUser        the username
      * @param idItem        the id of the item
      * @param idWl          the id of WishList
      *
      **/
-    public long insertPurchaseSimple(String idUser,int idItem,int idWl){
+    public void insertPurchaseSimple(String idUser, int idItem, int idWl){
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
 
@@ -206,14 +204,11 @@ public class DbManager {
         contentValues.put(DbStrings.TablePurchasesFields.PURCH_ITEM_ID,idItem);
         contentValues.put(DbStrings.TablePurchasesFields.PURCH_WL_ID,idWl);
 
-        long testValue = 0;
-
         try {
-            testValue = db.insert(DbStrings.TablePurchasesFields.TABLE_NAME,null,contentValues);
+            db.insert(DbStrings.TablePurchasesFields.TABLE_NAME,null,contentValues);
         }catch (Exception e){
             Toast.makeText(context,e.getMessage(),Toast.LENGTH_LONG).show();
         }
-        return testValue;
     }
 
     /**
@@ -287,27 +282,6 @@ public class DbManager {
     public Cursor queryCheckUserLogin(String username, String password){
         String query = "SELECT users.* FROM users " +
                 "WHERE username = '" + username + "' AND password = '" + password + "';";
-
-        Cursor cursor = null;
-
-        try{
-            SQLiteDatabase db = dbHelper.getReadableDatabase();
-            cursor = db.rawQuery(query,null);
-        }catch (Exception e){
-            Toast.makeText(context,e.getMessage(),Toast.LENGTH_LONG).show();
-        }
-        return cursor;
-    }
-
-    /**
-     * This query is used to retrieve the user's total
-     *
-     * @param username  identifies an user uniquely
-     **/
-    public Cursor queryGetUserTotal(String username){
-        String query = "SELECT " + DbStrings.TableUsersField.USERS_TOT + " " +
-                        "FROM " + DbStrings.TableUsersField.TABLE_NAME + " " +
-                        "WHERE username = '" + username + "'";
 
         Cursor cursor = null;
 
@@ -504,7 +478,7 @@ public class DbManager {
         String query;
         if(limit > 0) {
              query =
-                    "SELECT items.name,items.price, items.amount,categories.picId " +
+                    "SELECT items.id, items.name,items.price, items.amount,categories.picId " +
                             "FROM items JOIN categories ON categories.id = items.idCat" +
                             " JOIN purchases ON purchases.itemId = items.id" +
                             " JOIN users ON users.username = purchases.userId" +
@@ -513,7 +487,7 @@ public class DbManager {
                             " LIMIT " + limit + ";";
         } else {
             query =
-                    "SELECT items.name,items.price, items.amount,categories.picId " +
+                    "SELECT items.id, items.name,items.price, items.amount,categories.picId " +
                             "FROM items JOIN categories ON categories.id = items.idCat" +
                             " JOIN purchases ON purchases.itemId = items.id" +
                             " JOIN users ON users.username = purchases.userId" +
@@ -539,7 +513,7 @@ public class DbManager {
      *
      * */
     public Cursor getEntriesDataQueryByUsername(String username){
-        String query = "SELECT incomes.value,incomes.dateIncome,categories.picId " +
+        String query = "SELECT incomes.id, incomes.value,incomes.dateIncome,categories.picId " +
                 "FROM incomes JOIN categories ON incomes.idcat = categories.id " +
                 "WHERE userId = '" + username + "';";
 
@@ -562,12 +536,13 @@ public class DbManager {
      *
      * */
     public Cursor getWishListDataQuery(String username, int isConfirmed){
-        String query = "SELECT SUM(items.price * items.amount) AS tot, categories.picId, wishLists.* " +
+        String query = "SELECT SUM(items.price * items.amount) AS tot, wishLists.* " +
                 "FROM purchases JOIN wishLists ON purchases.listId = wishLists.id " +
                 "JOIN items ON items.id = purchases.itemId  " +
                 "JOIN categories ON categories.id = items.idCat " +
                 "JOIN users ON users.username = purchases.userId " +
-                "WHERE users.username = '" + username + "' AND wishLists.isConfirmed = " + isConfirmed + ";";
+                "WHERE users.username = '" + username + "' AND wishLists.isConfirmed = " + isConfirmed + " " +
+                "GROUP BY listId;";
         Cursor cursor = null;
 
         try{
@@ -586,10 +561,11 @@ public class DbManager {
      *
      * */
     public Cursor getWishListsItems(int wlID){
-        String query = "SELECT items.* " +
+        String query = "SELECT items.*, categories.picId " +
                 "FROM purchases JOIN wishlists ON purchases.listId = wishLists.id " +
                 "JOIN items ON items.id = purchases.itemId  " +
-                "WHERE wishLists.id = " + wlID + ";";//+ " LIMIT 1";
+                "JOIN categories ON categories.id = items.idCat " +
+                "WHERE wishLists.id = " + wlID + ";";
         Cursor cursor = null;
 
         try{

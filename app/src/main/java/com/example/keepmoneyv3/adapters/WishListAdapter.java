@@ -23,7 +23,7 @@ public class WishListAdapter extends RecyclerView.Adapter<WishListAdapter.WLView
     }
 
     private final Context context;
-    private final ArrayList<ListPurchases> items;
+    private final ArrayList<ListViewData> items;
     private View root;
     private OnItemClickListener listener;
 
@@ -78,8 +78,8 @@ public class WishListAdapter extends RecyclerView.Adapter<WishListAdapter.WLView
      * @param price         the price of the purchase
      * */
     public void buildMap(String listName,float price){
-        WishListAdapter.ListPurchases listPurchases = new WishListAdapter.ListPurchases(listName, price);
-        items.add(listPurchases);
+        ListViewData listViewData = new ListViewData(listName, price);
+        items.add(listViewData);
     }
 
     public void setOnItemClickListener(OnItemClickListener listener) {
@@ -89,11 +89,11 @@ public class WishListAdapter extends RecyclerView.Adapter<WishListAdapter.WLView
     /**
      * This class represents the purchases' information that will be displayed in the ListView
      * */
-    private static class ListPurchases implements Serializable {
+    private static class ListViewData implements Serializable {
         private final String listName;
         private final float price;
 
-        public ListPurchases(String listName,float price) {
+        public ListViewData(String listName, float price) {
             this.listName = listName;
             this.price = price;
         }
