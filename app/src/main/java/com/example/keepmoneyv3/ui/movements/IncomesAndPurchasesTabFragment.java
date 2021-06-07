@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -31,12 +32,10 @@ import java.util.ArrayList;
 public class IncomesAndPurchasesTabFragment extends Fragment {
 
     private int sort;
-    private final FloatingActionButton fab;
 
 
-    public IncomesAndPurchasesTabFragment (int sort, FloatingActionButton fab) {
+    public IncomesAndPurchasesTabFragment (int sort) {
         this.sort = sort;
-        this.fab = fab;
     }
 
     @Nullable
@@ -63,33 +62,50 @@ public class IncomesAndPurchasesTabFragment extends Fragment {
 
         switch (position){
             case PURCHASE_LIST_PAGE:
+                Button bP = root.findViewById(R.id.button2);
 
                 int sizeP = bundle.getInt(Keys.SerializableKeys.PURCHASES_ROWS_KEY);
 
                 if(sizeP > 0){
                     buildPurchaseListView(listAdapter, username);
                     deletePurchase(listView, listAdapter, user);
+                    bP.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                                    if(sort < 2) {
+                                        sort++;
+                                    } else {
+                                        sort = 0;
+                                    }
+                                    ArrayListViewAdapter listAdapterSort = new ArrayListViewAdapter(getContext());
+                                    buildPurchaseListView(listAdapterSort, username);
+                                    listView.setAdapter(listAdapterSort);
+                        }
+                    });
                 } else {
                     Toast.makeText(getContext(), "Non sono presenti spese semplici", Toast.LENGTH_SHORT).show();
                 }
                 break;
 
             case INCOMES_LIST_PAGE:
+                Button bI = root.findViewById(R.id.button2);
                 int sizeE = bundle.getInt(Keys.SerializableKeys.INCOMES_ROWS_KEY);
 
                 if(sizeE > 0){
                     buildIncomesListView(listAdapter, username);
                     deleteIncome(listView, listAdapter, user);
-
-                    fab.setOnClickListener(view -> {
-                        if(sort < 2) {
-                            sort++;
-                        } else {
-                            sort = 0;
+                    bI.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            if(sort < 2) {
+                                sort++;
+                            } else {
+                                sort = 0;
+                            }
+                            ArrayListViewAdapter listAdapterSort = new ArrayListViewAdapter(getContext());
+                            buildIncomesListView(listAdapterSort, username);
+                            listView.setAdapter(listAdapterSort);
                         }
-                        ArrayListViewAdapter listAdapterSort = new ArrayListViewAdapter(getContext());
-                        buildIncomesListView(listAdapterSort, username);
-                        listView.setAdapter(listAdapterSort);
                     });
 
                 } else {
@@ -120,16 +136,16 @@ public class IncomesAndPurchasesTabFragment extends Fragment {
         Cursor cursor = dbManager.getPurchasesItemsQuery(ITEMS_LIMIT, Keys.MiscellaneousKeys.NOT_CONFIRMED, username);
 
         if (cursor != null) {
-
+            ArrayList<DefaultListViewItems> listToOrder = new ArrayList<>();
             while (cursor.moveToNext()) {
                 itemId = cursor.getInt(cursor.getColumnIndex(DbStrings.TableItemsFields.ITEMS_ID));
                 itemName = cursor.getString(cursor.getColumnIndex(DbStrings.TableItemsFields.ITEMS_NAME));
                 itemPrice = cursor.getFloat(cursor.getColumnIndex(DbStrings.TableItemsFields.ITEMS_PRICE));
                 amount = cursor.getInt(cursor.getColumnIndex(DbStrings.TableItemsFields.ITEMS_AMOUNT));
                 picId = cursor.getInt(cursor.getColumnIndex(DbStrings.TableCategoriesFields.CATEGORIES_PIC_ID));
-                adapter.buildMap(itemId, itemName, picId, itemPrice * amount); // build the list view
+                listToOrder.add(new DefaultListViewItems(itemId, itemName, picId, itemPrice * amount));
             }
-
+            adapter.buildMap(listToOrder, sort);
         } else {
             Toast.makeText(getContext(), "Errore nel reperire le informazioni", Toast.LENGTH_LONG).show();
         }

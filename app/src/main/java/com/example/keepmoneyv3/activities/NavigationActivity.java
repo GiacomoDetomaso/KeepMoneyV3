@@ -272,18 +272,15 @@ public class NavigationActivity extends AppCompatActivity implements DialogAddNe
     }
 
     @Override
-    public FloatingActionButton onMovementsFragmentOpened() {
+    public void onMovementsFragmentOpened() {
         FloatingActionButton fabPurchases = findViewById(R.id.fabAddNewPurchase);
-        fabPurchases.setVisibility(View.INVISIBLE);
+        fabPurchases.setVisibility(View.VISIBLE);
 
-        FloatingActionButton fabMovements = findViewById(R.id.fabOrderMovements);
-        fabMovements.setVisibility(View.VISIBLE);
+        FloatingActionButton fabWishList = findViewById(R.id.fabAddNewWishList);
+        fabWishList.setVisibility(View.INVISIBLE);
 
-        return findViewById(R.id.fabOrderMovements);
     }
 
-    public void hello(View view) {
-    }
 
     /**
      * This method is used to Confirm the WishList.
@@ -343,9 +340,6 @@ public class NavigationActivity extends AppCompatActivity implements DialogAddNe
 
         FloatingActionButton fabWishList = findViewById(R.id.fabAddNewWishList);
         fabWishList.setVisibility(View.INVISIBLE);
-
-        FloatingActionButton fabMovements = findViewById(R.id.fabOrderMovements);
-        fabMovements.setVisibility(View.INVISIBLE);
 
     }
 

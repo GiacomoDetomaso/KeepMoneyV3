@@ -29,7 +29,7 @@ public class MovementsFragment extends Fragment {
 
     public interface MovementsFragmentListener{
         User GetUserFromSavedBundle();
-        FloatingActionButton onMovementsFragmentOpened();
+        void onMovementsFragmentOpened();
     }
 
     private MovementsFragment.MovementsFragmentListener listener;
@@ -53,7 +53,7 @@ public class MovementsFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_movements, container, false);
 
         User user = listener.GetUserFromSavedBundle();
-        FloatingActionButton fab= listener.onMovementsFragmentOpened();
+        listener.onMovementsFragmentOpened();
 
 
         // tab pager data
@@ -66,7 +66,7 @@ public class MovementsFragment extends Fragment {
         // set the tab pager
         ViewPager viewPager = root.findViewById(R.id.pager);
         TabLayout tabLayout = root.findViewById(R.id.tab_layout);
-        TabPagerAdapter tabPagerAdapter = new TabPagerAdapter(getParentFragmentManager(), simplePurchasesRows, incomesRows, user, confirmedWishLists, sort, fab);
+        TabPagerAdapter tabPagerAdapter = new TabPagerAdapter(getParentFragmentManager(), simplePurchasesRows, incomesRows, user, confirmedWishLists, sort);
 
 
         viewPager.setAdapter(tabPagerAdapter);
