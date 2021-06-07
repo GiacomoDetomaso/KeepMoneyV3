@@ -6,6 +6,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.widget.Toast;
 
+import com.example.keepmoneyv3.utility.Keys;
+
 /**
  * This is the Database manager. Its methods perform all the queries used int the application
  *
@@ -130,6 +132,89 @@ public class DbManager {
             Toast.makeText(context,e.getMessage(),Toast.LENGTH_LONG).show();
         }
         return testValue;
+    }
+
+    /**
+     * This method is used to remove a purchase entry from the database
+     *
+     *
+     * @param itemId     the id of the item
+     * @param purchaseId the id of the purchase
+     * */
+    public int removePurchase(int itemId, int purchaseId){
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+        int affectedRows = 0;
+        affectedRows += db.delete("purchases", "id =?",new String[]{Integer.toString(purchaseId)});
+        affectedRows += db.delete("items","id=?", new String[]{Integer.toString(itemId)});
+
+        return affectedRows;
+    }
+
+    /**
+     * This method is used to get the cost of a specific item
+     *
+     *
+     * @param itemId     the id of the item
+     * */
+    public Cursor queryGetIncomeValueFromItemId(int itemId){
+        String query = "SELECT value FROM incomes WHERE id = '" + itemId + "';";
+        Cursor cursor = null;
+        try{
+            SQLiteDatabase db = dbHelper.getReadableDatabase();
+            cursor = db.rawQuery(query,null);
+        }catch (Exception e){
+            Toast.makeText(context,e.getMessage(),Toast.LENGTH_LONG).show();
+        }
+        return cursor;
+    }
+
+    /**
+     * This method is used to remove an income entry from the database
+     *
+     *
+     * @param incomeId the id of the income
+     * */
+    public int removeIncome(int incomeId){
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        int affectedRows= db.delete("incomes","id =?", new String[]{Integer.toString(incomeId)});
+        return affectedRows;
+    }
+
+    /**
+     * This method is used to get the related purchaseId of an item
+     *
+     *
+     * @param itemId     the id of the item
+     * */
+    public Cursor queryGetPurchaseIdFromItemId(int itemId){
+        String query = "SELECT purchases.id FROM purchases JOIN items ON purchases.itemId = items.id WHERE itemId = '" + itemId + "';";
+        Cursor cursor = null;
+        try{
+            SQLiteDatabase db = dbHelper.getReadableDatabase();
+            cursor = db.rawQuery(query,null);
+        }catch (Exception e){
+            Toast.makeText(context,e.getMessage(),Toast.LENGTH_LONG).show();
+        }
+        return cursor;
+    }
+
+    /**
+     * This method is used to get the cost of a specific item
+     *
+     *
+     * @param itemId     the id of the item
+     * */
+    public Cursor queryGetCostFromItemId(int itemId){
+        String query = "SELECT price * amount AS cost FROM items WHERE id = '" + itemId + "';";
+        Cursor cursor = null;
+        try{
+            SQLiteDatabase db = dbHelper.getReadableDatabase();
+            cursor = db.rawQuery(query,null);
+        }catch (Exception e){
+            Toast.makeText(context,e.getMessage(),Toast.LENGTH_LONG).show();
+        }
+        return cursor;
     }
 
     /**

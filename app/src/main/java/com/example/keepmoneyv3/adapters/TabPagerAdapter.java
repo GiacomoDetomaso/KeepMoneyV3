@@ -11,7 +11,9 @@ import androidx.fragment.app.FragmentStatePagerAdapter;
 import com.example.keepmoneyv3.ui.movements.IncomesAndPurchasesTabFragment;
 import com.example.keepmoneyv3.ui.movements.WishListsTabFragment;
 import com.example.keepmoneyv3.utility.Keys;
+import com.example.keepmoneyv3.utility.User;
 import com.example.keepmoneyv3.utility.WishLists;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 
@@ -19,15 +21,19 @@ public class TabPagerAdapter extends FragmentStatePagerAdapter {
 
     private final int simplePurchasesRows;
     private final int incomesRows;
-    private final String username;
+    private final User user;
     private final ArrayList<WishLists>confirmedWishLists;
+    private final int sort;
+    private final FloatingActionButton fab;
 
-    public TabPagerAdapter(FragmentManager fm, int simplePurchasesRows, int incomesRows, String username,ArrayList<WishLists>confirmedWishLists) {
+    public TabPagerAdapter(FragmentManager fm, int simplePurchasesRows, int incomesRows, User user, ArrayList<WishLists>confirmedWishLists, int sort, FloatingActionButton fab) {
         super(fm);
         this.simplePurchasesRows = simplePurchasesRows;
         this.incomesRows = incomesRows;
-        this.username = username;
+        this.user = user;
         this.confirmedWishLists = confirmedWishLists;
+        this.sort = sort;
+        this.fab = fab;
     }
 
     @NonNull
@@ -43,17 +49,17 @@ public class TabPagerAdapter extends FragmentStatePagerAdapter {
         // send the correct data to the CollectionTabFragment according to the selected tab
         switch (position){
             case PURCHASE_LIST_PAGE:
-                tabFragment = new IncomesAndPurchasesTabFragment();
+                tabFragment = new IncomesAndPurchasesTabFragment(sort,fab);
                 args.putInt(Keys.SerializableKeys.PURCHASES_ROWS_KEY,simplePurchasesRows);;
                 args.putInt(Keys.SerializableKeys.POSITION_KEY,PURCHASE_LIST_PAGE);
-                args.putString(Keys.SerializableKeys.USERNAME_KEY, username);
+                args.putSerializable(Keys.SerializableKeys.USERNAME_KEY, user);
                 tabFragment.setArguments(args);
                 break;
             case ENTRIES_LIST_PAGE:
-                tabFragment = new IncomesAndPurchasesTabFragment();
+                tabFragment = new IncomesAndPurchasesTabFragment(sort,fab);
                 args.putSerializable(Keys.SerializableKeys.INCOMES_ROWS_KEY,incomesRows);
                 args.putInt(Keys.SerializableKeys.POSITION_KEY,ENTRIES_LIST_PAGE);
-                args.putString(Keys.SerializableKeys.USERNAME_KEY, username);
+                args.putSerializable(Keys.SerializableKeys.USERNAME_KEY, user);
                 tabFragment.setArguments(args);
                 break;
             case WL_LIST_PAGE:
@@ -61,7 +67,7 @@ public class TabPagerAdapter extends FragmentStatePagerAdapter {
                 tabFragment.setArguments(args);
                 args.putSerializable(Keys.SerializableKeys.WISH_LIST_KEYS, confirmedWishLists);
                 args.putInt(Keys.SerializableKeys.POSITION_KEY,WL_LIST_PAGE);
-                args.putString(Keys.SerializableKeys.USERNAME_KEY, username);
+                args.putSerializable(Keys.SerializableKeys.USERNAME_KEY, user);
         }
 
         return tabFragment;

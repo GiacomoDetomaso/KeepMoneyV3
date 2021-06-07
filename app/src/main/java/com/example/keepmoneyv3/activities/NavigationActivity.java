@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ListAdapter;
 import android.widget.Toast;
 
 import com.example.keepmoneyv3.R;
@@ -270,6 +271,20 @@ public class NavigationActivity extends AppCompatActivity implements DialogAddNe
         return user;
     }
 
+    @Override
+    public FloatingActionButton onMovementsFragmentOpened() {
+        FloatingActionButton fabPurchases = findViewById(R.id.fabAddNewPurchase);
+        fabPurchases.setVisibility(View.INVISIBLE);
+
+        FloatingActionButton fabMovements = findViewById(R.id.fabOrderMovements);
+        fabMovements.setVisibility(View.VISIBLE);
+
+        return findViewById(R.id.fabOrderMovements);
+    }
+
+    public void hello(View view) {
+    }
+
     /**
      * This method is used to Confirm the WishList.
      * It Updates the isConfirmed field of the WishList's table
@@ -328,6 +343,9 @@ public class NavigationActivity extends AppCompatActivity implements DialogAddNe
 
         FloatingActionButton fabWishList = findViewById(R.id.fabAddNewWishList);
         fabWishList.setVisibility(View.INVISIBLE);
+
+        FloatingActionButton fabMovements = findViewById(R.id.fabOrderMovements);
+        fabMovements.setVisibility(View.INVISIBLE);
 
     }
 

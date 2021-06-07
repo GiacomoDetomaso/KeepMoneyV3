@@ -8,21 +8,26 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.keepmoneyv3.R;
 import com.example.keepmoneyv3.utility.DefaultListViewItems;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Objects;
 
 public class ListAdapter extends BaseAdapter {
     private final Context context;//the context of the application
     private final ArrayList<DefaultListViewItems>items;
 
+
    public ListAdapter(Context context){
         this.context = context;
         items = new ArrayList<>();
    }
+
 
     @Override
     public int getCount() {
@@ -75,10 +80,55 @@ public class ListAdapter extends BaseAdapter {
         items.add(defaultListViewItems);
     }
 
-    public void buildMap(ArrayList<DefaultListViewItems> defaultListPurchases, int sort){
-        
+    public void buildMap(ArrayList<DefaultListViewItems> defaultListViewItems, int sort){
+        switch (sort) {
+            case 0:
+                for (int i = 0; i < defaultListViewItems.size(); i++) {
+                    items.add(defaultListViewItems.get(i));
+                }
+                break;
+            case 1:
+                quickSort(defaultListViewItems,0, defaultListViewItems.size()-1);
+                for (int i = 0; i < defaultListViewItems.size(); i++) {
+                    items.add(defaultListViewItems.get(i));
+                }
+                break;
+            case 2:
+                Toast.makeText(context.getApplicationContext(), "Funzione implementata presto!",Toast.LENGTH_SHORT).show();
+                break;
+        }
     }
 
+    static int partition(ArrayList<DefaultListViewItems> arr, int low, int high) {
+        float pivot = arr.get(high).getPrice();
+
+        // Index of smaller element and
+        // indicates the right position
+        // of pivot found so far
+        int i = (low - 1);
+
+        for(int j = low; j <= high - 1; j++) {
+            if (arr.get(j).getPrice() < pivot) {
+                i++;
+                Collections.swap(arr,i,j);
+            }
+        }
+        Collections.swap(arr,i+1,high);
+        return (i + 1);
+    }
+
+    static void quickSort(ArrayList<DefaultListViewItems> arr, int low, int high) {
+        if (low < high) {
+            // pi is partitioning index, arr[p]
+            // is now at right place
+            int pi = partition(arr, low, high);
+
+            // Separately sort elements before
+            // partition and after partition
+            quickSort(arr, low, pi - 1);
+            quickSort(arr, pi + 1, high);
+        }
+    }
 
 
 

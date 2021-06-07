@@ -20,6 +20,7 @@ import com.example.keepmoneyv3.database.DbStrings;
 import com.example.keepmoneyv3.utility.Keys;
 import com.example.keepmoneyv3.utility.User;
 import com.example.keepmoneyv3.utility.WishLists;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
@@ -28,9 +29,11 @@ public class MovementsFragment extends Fragment {
 
     public interface MovementsFragmentListener{
         User GetUserFromSavedBundle();
+        FloatingActionButton onMovementsFragmentOpened();
     }
 
     private MovementsFragment.MovementsFragmentListener listener;
+    private int sort = 0;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -39,9 +42,7 @@ public class MovementsFragment extends Fragment {
         NavigationActivity activity = (NavigationActivity) getActivity();
 
         try {
-
             listener = (MovementsFragment.MovementsFragmentListener) context;//casting the interface
-
         }catch (ClassCastException e){
             throw new ClassCastException((activity != null ? activity.toString() : null) + "Must implement the interface");
         }
@@ -52,6 +53,8 @@ public class MovementsFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_movements, container, false);
 
         User user = listener.GetUserFromSavedBundle();
+        FloatingActionButton fab= listener.onMovementsFragmentOpened();
+
 
         // tab pager data
         String username = user.getUsername();
@@ -63,7 +66,8 @@ public class MovementsFragment extends Fragment {
         // set the tab pager
         ViewPager viewPager = root.findViewById(R.id.pager);
         TabLayout tabLayout = root.findViewById(R.id.tab_layout);
-        TabPagerAdapter tabPagerAdapter = new TabPagerAdapter(getParentFragmentManager(), simplePurchasesRows, incomesRows, username, confirmedWishLists);
+        TabPagerAdapter tabPagerAdapter = new TabPagerAdapter(getParentFragmentManager(), simplePurchasesRows, incomesRows, user, confirmedWishLists, sort, fab);
+
 
         viewPager.setAdapter(tabPagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
