@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.TimePicker;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -16,11 +15,12 @@ import androidx.fragment.app.Fragment;
 
 import com.example.keepmoneyv3.R;
 import com.example.keepmoneyv3.activities.NavigationActivity;
-import com.example.keepmoneyv3.adapters.ListAdapter;
+import com.example.keepmoneyv3.adapters.ArrayListViewAdapter;
 import com.example.keepmoneyv3.database.DbManager;
 import com.example.keepmoneyv3.database.DbStrings;
 import com.example.keepmoneyv3.utility.Keys;
 import com.example.keepmoneyv3.utility.User;
+
 
 
 public class DashboardFragment extends Fragment {
@@ -65,8 +65,11 @@ public class DashboardFragment extends Fragment {
          * */
         User user = listener.GetUserFromSavedBundle();
 
-        // using the ListAdapter to build the ListView with the recente purchases
-        ListAdapter adapter = new ListAdapter(getContext());
+        // using the ListAdapter to build the ListView with the recent purchases
+        Context context = getContext();
+        assert context != null;
+
+        ArrayListViewAdapter adapter = new ArrayListViewAdapter(context);
         ListView listView = root.findViewById(R.id.listviewRecentPurchases);
         listView.setAdapter(adapter);
         buildListView(adapter, user.getUsername());
@@ -133,7 +136,7 @@ public class DashboardFragment extends Fragment {
      * @param adapter       the adapter of the ListView
      * @param username      the username
      * */
-    void buildListView(ListAdapter adapter, String username) {
+    void buildListView(ArrayListViewAdapter adapter, String username) {
         final int RECENT_ITEMS_LIMIT = 3;
 
         int picId, itemId;

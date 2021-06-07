@@ -1,14 +1,12 @@
 package com.example.keepmoneyv3.ui.movements;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
+import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -18,7 +16,6 @@ import androidx.fragment.app.Fragment;
 
 import com.example.keepmoneyv3.R;
 import com.example.keepmoneyv3.adapters.ArrayListViewAdapter;
-import com.example.keepmoneyv3.adapters.ListAdapter;
 import com.example.keepmoneyv3.database.DbManager;
 import com.example.keepmoneyv3.database.DbStrings;
 import com.example.keepmoneyv3.utility.DefaultListViewItems;
@@ -29,12 +26,12 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.List;
+
 
 public class IncomesAndPurchasesTabFragment extends Fragment {
 
     private int sort;
-    private FloatingActionButton fab;
+    private final FloatingActionButton fab;
 
 
     public IncomesAndPurchasesTabFragment (int sort, FloatingActionButton fab) {
@@ -53,7 +50,9 @@ public class IncomesAndPurchasesTabFragment extends Fragment {
         final int position = bundle.getInt(Keys.SerializableKeys.POSITION_KEY);
 
         ListView listView = root.findViewById(R.id.listViewTab);
-        ListAdapter listAdapter = new ListAdapter(getContext());
+        Context context = getContext();
+        assert context != null;
+        ArrayListViewAdapter listAdapter = new ArrayListViewAdapter(getContext());
 
         User user = (User) bundle.getSerializable(Keys.SerializableKeys.USERNAME_KEY);
         String username = user.getUsername();
@@ -69,10 +68,6 @@ public class IncomesAndPurchasesTabFragment extends Fragment {
 
                 if(sizeP > 0){
                     buildPurchaseListView(listAdapter, username);
-                    Button button = root.findViewById(R.id.button2);
-                    button.setOnClickListener(view -> {
-                        Toast.makeText(getContext(), "Ciao", Toast.LENGTH_LONG).show();
-                    });
                     deletePurchase(listView, listAdapter, user);
                 } else {
                     Toast.makeText(getContext(), "Non sono presenti spese semplici", Toast.LENGTH_SHORT).show();
@@ -86,7 +81,7 @@ public class IncomesAndPurchasesTabFragment extends Fragment {
                     buildIncomesListView(listAdapter, username);
                     deleteIncome(listView, listAdapter, user);
 
-                    /*fab.setOnClickListener(view -> {
+                    fab.setOnClickListener(view -> {
                         if(sort < 2) {
                             sort++;
                         } else {
@@ -94,7 +89,7 @@ public class IncomesAndPurchasesTabFragment extends Fragment {
                         }
                         buildIncomesListView(listAdapter, username);
                         Toast.makeText(getContext(),"Sort value: "+sort, Toast.LENGTH_SHORT).show();
-                    });*/
+                    });
 
                 } else {
                     Toast.makeText(getContext(),"Nono sono presenti ancora entrate",Toast.LENGTH_SHORT).show();
@@ -113,7 +108,7 @@ public class IncomesAndPurchasesTabFragment extends Fragment {
      * @param adapter       the adapter of the ListView
      * @param username      the username
      * */
-    void buildPurchaseListView(ListAdapter adapter, String username) {
+    void buildPurchaseListView(ArrayListViewAdapter adapter, String username) {
         final int ITEMS_LIMIT = 0; // no limit
 
         int picId, itemId;
@@ -140,7 +135,7 @@ public class IncomesAndPurchasesTabFragment extends Fragment {
         }
     }
 
-    private void buildIncomesListView(ListAdapter adapter, String username){
+    private void buildIncomesListView(ArrayListViewAdapter adapter, String username){
             int picId, incomeID;
             float value;
             String date;
@@ -151,7 +146,7 @@ public class IncomesAndPurchasesTabFragment extends Fragment {
             if (cursor == null) {
                 Toast.makeText(getContext(),"Errore nel reperire le informazioni",Toast.LENGTH_LONG).show();
             } else {
-                ArrayList<DefaultListViewItems> listToOrder = new ArrayList<DefaultListViewItems>();
+                ArrayList<DefaultListViewItems> listToOrder = new ArrayList<>();
                 adapter.notifyDataSetChanged();
                 while (cursor.moveToNext()) {
                     incomeID = cursor.getInt(cursor.getColumnIndex(DbStrings.TableIncomesFields.INCOMES_ID));
@@ -164,34 +159,32 @@ public class IncomesAndPurchasesTabFragment extends Fragment {
             }
     }
 
-    private void deletePurchase(@NotNull ListView listView, ListAdapter listAdapter, User user){
+    private void deletePurchase(@NotNull ListView listView, ArrayListViewAdapter listAdapter, User user){
         listView.setOnItemClickListener((parent, view, position, id) -> {
             AlertDialog alertDialog = new AlertDialog.Builder(getContext()).create();
             alertDialog.setTitle("Conferma eliminazione");
             alertDialog.setMessage("Confermi l'eliminazione della seguente spesa?");
+
             alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Annulla",
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    });
+                    (dialog, which) -> dialog.dismiss());
+
             alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Conferma",
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            DefaultListViewItems defaultListViewItem = (DefaultListViewItems) listAdapter.getItem(position);
+                    (dialog, which) -> {
+                        DefaultListViewItems defaultListViewItem = listAdapter.getItem(position);
+                        if(defaultListViewItem != null) {
                             int itemId = defaultListViewItem.getId();
                             DbManager dbManager = new DbManager(getContext());
                             Cursor cursor = dbManager.queryGetPurchaseIdFromItemId(itemId);
                             if (cursor == null) {
-                                Toast.makeText(getContext(),"Si è verificato un errore nell'ottenimento delle informazioni necessarie all'eliminazione dell'oggetto",Toast.LENGTH_LONG).show();
+                                Toast.makeText(getContext(), "Si è verificato un errore nell'ottenimento delle informazioni necessarie all'eliminazione dell'oggetto", Toast.LENGTH_LONG).show();
                             } else {
                                 while (cursor.moveToNext()) {
                                     int purchaseId = cursor.getInt(cursor.getColumnIndex("id"));
                                     addBackMoneyToUser(itemId, user);
-                                    dbManager.removePurchase(itemId,purchaseId);
+                                    dbManager.removePurchase(itemId, purchaseId);
 
-                                    getActivity().getSupportFragmentManager().popBackStack();
-}
+                                    requireActivity().getSupportFragmentManager().popBackStack();
+                                }
                             }
                         }
                     });
@@ -199,30 +192,28 @@ public class IncomesAndPurchasesTabFragment extends Fragment {
         });
     }
 
-    private void deleteIncome(@NotNull ListView listView, ListAdapter listAdapter, User user){
+    private void deleteIncome(@NotNull ListView listView, ArrayListViewAdapter listAdapter, User user){
         listView.setOnItemClickListener((parent, view, position, id) -> {
             AlertDialog alertDialog = new AlertDialog.Builder(getContext()).create();
             alertDialog.setTitle("Conferma eliminazione");
             alertDialog.setMessage("Confermi l'eliminazione della seguente entrata?");
+
             alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Annulla",
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    });
+                    (dialog, which) -> dialog.dismiss());
+
             alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Conferma",
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            DefaultListViewItems defaultListViewItem = (DefaultListViewItems) listAdapter.getItem(position);
+                    (dialog, which) -> {
+                        DefaultListViewItems defaultListViewItem = listAdapter.getItem(position);
+                        if(defaultListViewItem != null) {
                             int itemId = defaultListViewItem.getId();
                             DbManager dbManager = new DbManager(getContext());
-                            if(removeMoneyFromUser(itemId,user)==1){
+                            if (removeMoneyFromUser(itemId, user) == 1) {
                                 dbManager.removeIncome(itemId);
 
-                                getActivity().getSupportFragmentManager().popBackStack();
+                                requireActivity().getSupportFragmentManager().popBackStack();
 
                             } else {
-                                Toast.makeText(getContext(),"Impossibile rimuovere la spesa, saldo negativo!",Toast.LENGTH_LONG).show();
+                                Toast.makeText(getContext(), "Impossibile rimuovere la spesa, saldo negativo!", Toast.LENGTH_LONG).show();
                             }
                         }
                     });
