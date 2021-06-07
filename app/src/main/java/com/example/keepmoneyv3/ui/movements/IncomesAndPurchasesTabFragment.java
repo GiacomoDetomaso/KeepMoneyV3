@@ -87,8 +87,9 @@ public class IncomesAndPurchasesTabFragment extends Fragment {
                         } else {
                             sort = 0;
                         }
-                        buildIncomesListView(listAdapter, username);
-                        Toast.makeText(getContext(),"Sort value: "+sort, Toast.LENGTH_SHORT).show();
+                        ArrayListViewAdapter listAdapterSort = new ArrayListViewAdapter(getContext());
+                        buildIncomesListView(listAdapterSort, username);
+                        listView.setAdapter(listAdapterSort);
                     });
 
                 } else {
@@ -98,7 +99,6 @@ public class IncomesAndPurchasesTabFragment extends Fragment {
         }
 
         listView.setAdapter(listAdapter);
-
         return root;
     }
 
