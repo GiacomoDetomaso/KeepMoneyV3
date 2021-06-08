@@ -33,7 +33,6 @@ public class MovementsFragment extends Fragment {
     }
 
     private MovementsFragment.MovementsFragmentListener listener;
-    private int sort = 0;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -66,7 +65,7 @@ public class MovementsFragment extends Fragment {
         // set the tab pager
         ViewPager viewPager = root.findViewById(R.id.pager);
         TabLayout tabLayout = root.findViewById(R.id.tab_layout);
-        TabPagerAdapter tabPagerAdapter = new TabPagerAdapter(getParentFragmentManager(), simplePurchasesRows, incomesRows, user, confirmedWishLists, sort);
+        TabPagerAdapter tabPagerAdapter = new TabPagerAdapter(getParentFragmentManager(), simplePurchasesRows, incomesRows, user, confirmedWishLists);
 
 
         viewPager.setAdapter(tabPagerAdapter);

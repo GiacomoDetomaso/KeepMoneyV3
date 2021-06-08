@@ -23,15 +23,13 @@ public class TabPagerAdapter extends FragmentStatePagerAdapter {
     private final int incomesRows;
     private final User user;
     private final ArrayList<WishLists>confirmedWishLists;
-    private final int sort;
 
-    public TabPagerAdapter(FragmentManager fm, int simplePurchasesRows, int incomesRows, User user, ArrayList<WishLists>confirmedWishLists, int sort) {
+    public TabPagerAdapter(FragmentManager fm, int simplePurchasesRows, int incomesRows, User user, ArrayList<WishLists>confirmedWishLists) {
         super(fm);
         this.simplePurchasesRows = simplePurchasesRows;
         this.incomesRows = incomesRows;
         this.user = user;
         this.confirmedWishLists = confirmedWishLists;
-        this.sort = sort;
     }
 
     @NonNull
@@ -47,14 +45,14 @@ public class TabPagerAdapter extends FragmentStatePagerAdapter {
         // send the correct data to the CollectionTabFragment according to the selected tab
         switch (position){
             case PURCHASE_LIST_PAGE:
-                tabFragment = new IncomesAndPurchasesTabFragment(sort);
+                tabFragment = new IncomesAndPurchasesTabFragment();
                 args.putInt(Keys.SerializableKeys.PURCHASES_ROWS_KEY,simplePurchasesRows);;
                 args.putInt(Keys.SerializableKeys.POSITION_KEY,PURCHASE_LIST_PAGE);
                 args.putSerializable(Keys.SerializableKeys.USERNAME_KEY, user);
                 tabFragment.setArguments(args);
                 break;
             case ENTRIES_LIST_PAGE:
-                tabFragment = new IncomesAndPurchasesTabFragment(sort);
+                tabFragment = new IncomesAndPurchasesTabFragment();
                 args.putSerializable(Keys.SerializableKeys.INCOMES_ROWS_KEY,incomesRows);
                 args.putInt(Keys.SerializableKeys.POSITION_KEY,ENTRIES_LIST_PAGE);
                 args.putSerializable(Keys.SerializableKeys.USERNAME_KEY, user);

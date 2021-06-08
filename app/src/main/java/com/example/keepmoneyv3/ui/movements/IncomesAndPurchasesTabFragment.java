@@ -33,9 +33,7 @@ public class IncomesAndPurchasesTabFragment extends Fragment {
 
     private int sort;
 
-
-    public IncomesAndPurchasesTabFragment (int sort) {
-        this.sort = sort;
+    public IncomesAndPurchasesTabFragment () {
     }
 
     @Nullable
@@ -69,18 +67,24 @@ public class IncomesAndPurchasesTabFragment extends Fragment {
                 if(sizeP > 0){
                     buildPurchaseListView(listAdapter, username);
                     deletePurchase(listView, listAdapter, user);
-                    bP.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                                    if(sort < 2) {
-                                        sort++;
-                                    } else {
-                                        sort = 0;
-                                    }
-                                    ArrayListViewAdapter listAdapterSort = new ArrayListViewAdapter(getContext());
-                                    buildPurchaseListView(listAdapterSort, username);
-                                    listView.setAdapter(listAdapterSort);
+                    bP.setOnClickListener(view -> {
+                        switch(sort) {
+                            case 0:
+                                bP.setText("Ordinamento per: prezzo crescente");
+                                sort++;
+                            break;
+                            case 1:
+                                bP.setText("Ordinamento per: prezzo decrescente");
+                                sort++;
+                                break;
+                            case 2:
+                                bP.setText("Ordinamento per: più recente");
+                                sort = 0;
+                                break;
                         }
+                        ArrayListViewAdapter listAdapterSort = new ArrayListViewAdapter(getContext());
+                        buildPurchaseListView(listAdapterSort, username);
+                        listView.setAdapter(listAdapterSort);
                     });
                 } else {
                     Toast.makeText(getContext(), "Non sono presenti spese semplici", Toast.LENGTH_SHORT).show();
@@ -94,18 +98,24 @@ public class IncomesAndPurchasesTabFragment extends Fragment {
                 if(sizeE > 0){
                     buildIncomesListView(listAdapter, username);
                     deleteIncome(listView, listAdapter, user);
-                    bI.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            if(sort < 2) {
+                    bI.setOnClickListener(view -> {
+                        switch(sort) {
+                            case 0:
+                                bI.setText("Ordinamento per: prezzo crescente");
                                 sort++;
-                            } else {
+                                break;
+                            case 1:
+                                bI.setText("Ordinamento per: prezzo decrescente");
+                                sort++;
+                                break;
+                            case 2:
+                                bI.setText("Ordinamento per: più recente");
                                 sort = 0;
-                            }
-                            ArrayListViewAdapter listAdapterSort = new ArrayListViewAdapter(getContext());
-                            buildIncomesListView(listAdapterSort, username);
-                            listView.setAdapter(listAdapterSort);
+                                break;
                         }
+                        ArrayListViewAdapter listAdapterSort = new ArrayListViewAdapter(getContext());
+                        buildIncomesListView(listAdapterSort, username);
+                        listView.setAdapter(listAdapterSort);
                     });
 
                 } else {
