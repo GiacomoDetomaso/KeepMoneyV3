@@ -18,8 +18,7 @@ import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.example.keepmoneyv3.R;
-import com.example.keepmoneyv3.database.DbManager;
-import com.example.keepmoneyv3.database.DbStrings;
+import com.example.keepmoneyv3.database.*;
 import com.example.keepmoneyv3.utility.Category;
 import com.example.keepmoneyv3.utility.Item;
 import com.example.keepmoneyv3.utility.Keys;
@@ -60,6 +59,9 @@ public class DialogAddWishListItems extends DialogFragment {
         return builder.create();
     }
 
+    /**
+     * This method adds a new item to the wishlist
+     * */
     private void btnAddNewItemAction() {
         Button button = root.findViewById(R.id.btnAddNewItem);
 
@@ -129,6 +131,9 @@ public class DialogAddWishListItems extends DialogFragment {
     }
 
 
+    /**
+     * Set the category of the item
+     * */
     private void txtCategoryAction(@NotNull EditText txtType) {
         txtType.setOnClickListener(v -> {
             DbManager dbManager = new DbManager(getContext());
@@ -151,6 +156,9 @@ public class DialogAddWishListItems extends DialogFragment {
         });
     }
 
+    /**
+     * Writes the category in its EditText
+     * */
     public void setCategory(@NotNull Category cat){
         this.category = cat;
         txtCategoryItemList.setText(cat.getName());

@@ -1,5 +1,6 @@
 package com.example.keepmoneyv3.ui.movements;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.database.Cursor;
@@ -17,12 +18,10 @@ import androidx.fragment.app.Fragment;
 
 import com.example.keepmoneyv3.R;
 import com.example.keepmoneyv3.adapters.ArrayListViewAdapter;
-import com.example.keepmoneyv3.database.DbManager;
-import com.example.keepmoneyv3.database.DbStrings;
+import com.example.keepmoneyv3.database.*;
 import com.example.keepmoneyv3.utility.DefaultListViewItems;
 import com.example.keepmoneyv3.utility.Keys;
 import com.example.keepmoneyv3.utility.User;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -36,6 +35,7 @@ public class IncomesAndPurchasesTabFragment extends Fragment {
     public IncomesAndPurchasesTabFragment () {
     }
 
+    @SuppressLint("SetTextI18n")
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

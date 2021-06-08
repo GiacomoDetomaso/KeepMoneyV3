@@ -65,6 +65,16 @@
         app:layout_anchor="@+id/fabAddNewPurchase"
         app:layout_anchorGravity="center" />
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabStats"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="fabStatAction"
+        android:src="@drawable/ic_baseline_analytics_24"
+        android:visibility="invisible"
+        app:layout_anchor="@+id/fabAddNewPurchase"
+        app:layout_anchorGravity="center" />
+
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

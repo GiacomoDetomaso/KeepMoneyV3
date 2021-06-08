@@ -69,6 +69,10 @@ public class DialogAddNameToWishList extends DialogFragment {
         return builder.create();
     }
 
+    /**
+     * Set the name to the wishlist as a result of an event triggered by the
+     * onClickListener of btnAddList
+     * */
     private void btnAddListAction(){
         Button btnAddList = root.findViewById(R.id.btnAddList);
 

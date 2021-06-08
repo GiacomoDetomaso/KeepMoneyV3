@@ -20,8 +20,7 @@ import androidx.fragment.app.FragmentManager;
 
 import com.example.keepmoneyv3.R;
 import com.example.keepmoneyv3.activities.NavigationActivity;
-import com.example.keepmoneyv3.database.DbManager;
-import com.example.keepmoneyv3.database.DbStrings;
+import com.example.keepmoneyv3.database.*;
 import com.example.keepmoneyv3.utility.Category;
 import com.example.keepmoneyv3.utility.Item;
 import com.example.keepmoneyv3.utility.Keys;
@@ -90,6 +89,9 @@ public class DialogPurchase extends DialogFragment {
         return builder.create();
     }
 
+    /**
+     * Adds a new purchase
+     * */
     private void dialogPurchaseAction(){
         addBtn.setOnClickListener(view -> {
             EditText [] txtFields = {txtType,txtDate, txtItem, txtPrice,txtTime};
@@ -128,6 +130,9 @@ public class DialogPurchase extends DialogFragment {
         });
     }
 
+    /**
+     * Set the date of the purchase
+     * */
     private void txtDataAction(@NotNull EditText txtData){
         txtData.setOnClickListener(v -> {
             DialogFragment fragment = new DatePickerDialogFrag(Keys.DialogTags.DIALOG_PURCHASES_TAG);
@@ -138,8 +143,11 @@ public class DialogPurchase extends DialogFragment {
         });
     }
 
-    private void txtOraAction(@NotNull EditText txtOra){
-        txtOra.setOnClickListener(v -> {
+    /**
+     * Set the time of the purchase
+     * */
+    private void txtOraAction(@NotNull EditText txtTime){
+        txtTime.setOnClickListener(v -> {
             DialogFragment fragment = new TimePickerDialogFrag();
             FragmentManager manager = getFragmentManager();
 
@@ -148,6 +156,9 @@ public class DialogPurchase extends DialogFragment {
         });
     }
 
+    /**
+     * Set the category of the item
+     * */
     private void txtTypeAction(@NotNull EditText txtType){
         txtType.setOnClickListener(v -> {
             DbManager dbManager = new DbManager(getContext());

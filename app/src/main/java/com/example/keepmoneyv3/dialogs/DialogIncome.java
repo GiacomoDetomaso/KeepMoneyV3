@@ -19,8 +19,7 @@ import androidx.fragment.app.FragmentManager;
 
 import com.example.keepmoneyv3.R;
 import com.example.keepmoneyv3.activities.NavigationActivity;
-import com.example.keepmoneyv3.database.DbManager;
-import com.example.keepmoneyv3.database.DbStrings;
+import com.example.keepmoneyv3.database.*;
 import com.example.keepmoneyv3.utility.Category;
 import com.example.keepmoneyv3.utility.Keys;
 

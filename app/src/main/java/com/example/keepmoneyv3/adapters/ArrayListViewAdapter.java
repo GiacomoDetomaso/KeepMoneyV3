@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -68,7 +67,7 @@ public class ArrayListViewAdapter extends ArrayAdapter<DefaultListViewItems> {
     }
 
     /**
-     * This method is used to add new ListPurchases objects in the ArrayList
+     * This method is used to add a single DefaultListViewItems object in the ArrayList
      *
      * @param itemName      the name of the item
      * @param image         the image of the category of the item
@@ -79,6 +78,13 @@ public class ArrayListViewAdapter extends ArrayAdapter<DefaultListViewItems> {
         objects.add(defaultListViewItems);
     }
 
+    /**
+     * This method is used to add all the DefaultListViewItems objects in the ArrayList,
+     * with the option to sort them
+     *
+     * @param defaultListViewItems      the ArrayList
+     * @param sort                      indicates if the ArrayList has to be sorted
+     * */
     public void buildMap(ArrayList<DefaultListViewItems> defaultListViewItems, int sort){
         switch (sort) {
             case 0:
@@ -95,6 +101,13 @@ public class ArrayListViewAdapter extends ArrayAdapter<DefaultListViewItems> {
         }
     }
 
+    /**
+     * Method to create a partition of the given array (ASC)
+     *
+     * @param arr       the array to sort
+     * @param low       the lower bound of the array
+     * @param high      the upper bound of the array
+     * */
     static int partition(ArrayList<DefaultListViewItems> arr, int low, int high) {
         float pivot = arr.get(high).getPrice();
 
@@ -106,13 +119,20 @@ public class ArrayListViewAdapter extends ArrayAdapter<DefaultListViewItems> {
         for(int j = low; j <= high - 1; j++) {
             if (arr.get(j).getPrice() < pivot) {
                 i++;
-                Collections.swap(arr,i,j);
+                Collections.swap(arr,i,j); // swap the elements
             }
         }
         Collections.swap(arr,i+1,high);
         return (i + 1);
     }
 
+    /**
+     * Recursive method to perform the quicksort (ASC)
+     *
+     * @param arr       the array to sort
+     * @param low       the lower bound of the array
+     * @param high      the upper bound of the array
+     * */
     static void quickSort(ArrayList<DefaultListViewItems> arr, int low, int high) {
         if (low < high) {
             // pi is partitioning index, arr[p]
@@ -126,6 +146,13 @@ public class ArrayListViewAdapter extends ArrayAdapter<DefaultListViewItems> {
         }
     }
 
+    /**
+     * Recursive method to perform the quicksort (DESC)
+     *
+     * @param arr       the array to sort
+     * @param low       the lower bound of the array
+     * @param high      the upper bound of the array
+     * */
     static void reverseQuickSort(ArrayList<DefaultListViewItems> arr, int low, int high) {
         if (low < high) {
             // pi is partitioning index, arr[p]
@@ -139,6 +166,13 @@ public class ArrayListViewAdapter extends ArrayAdapter<DefaultListViewItems> {
         }
     }
 
+    /**
+     * Method to create a partition of the given array (DESC)
+     *
+     * @param arr       the array to sort
+     * @param low       the lower bound of the array
+     * @param high      the upper bound of the array
+     * */
     static int reversePartition(ArrayList<DefaultListViewItems> arr, int low, int high) {
         float pivot = arr.get(high).getPrice();
 

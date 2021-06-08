@@ -15,6 +15,7 @@ public class Keys {
         public static final String DIALOG_ADD_NEW_TYPE_TITLE = "Categorie";
         public static final String DIALOG_PURCHASES_TITLE = "Spese";
         public static final String DIALOG_ADD_WISH_LIST_TITLE = "Aggiungi lista";
+        public static final String DIALOG_EDIT_WISH_LIST_TITLE = "Modifica Lista";
     }
 
     public static class DialogTags{
@@ -25,6 +26,8 @@ public class Keys {
         public static final String DIALOG_TIME_PICKER_TAG = "TimePickerDialogFrag";
         public static final String DIALOG_ADD_WISH_LIST_ITEMS_TAG = "DialogAddWishListItems";
         public static final String DIALOG_ADD_NAME_TO_WISH_LIST_TAG = "DialogAddNameToWishList";
+        public static final String DIALOG_EDIT_WISH_LIST_TAG = "DialogEditWishList";
+        public static final String DIALOG_EDIT_WISH_LIST_ELEMENT_TAG = "DialogEditWishListElement";
     }
 
     public static class MiscellaneousKeys{

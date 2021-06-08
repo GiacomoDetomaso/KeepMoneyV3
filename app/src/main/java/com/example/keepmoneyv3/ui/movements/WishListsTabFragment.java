@@ -8,15 +8,13 @@ import android.view.ViewGroup;
 import android.widget.ExpandableListView;
 import android.widget.Toast;
 
-import androidx.annotation.AttrRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.keepmoneyv3.R;
 import com.example.keepmoneyv3.adapters.ExpandableListViewAdapter;
-import com.example.keepmoneyv3.database.DbManager;
-import com.example.keepmoneyv3.database.DbStrings;
+import com.example.keepmoneyv3.database.*;
 import com.example.keepmoneyv3.utility.DefaultListViewItems;
 import com.example.keepmoneyv3.utility.Keys;
 import com.example.keepmoneyv3.utility.WishLists;
@@ -55,6 +53,12 @@ public class WishListsTabFragment extends Fragment {
         return root;
     }
 
+    /**
+     * Builds the HashMap to send to the ExpandableWishListAdapter
+     *
+     * @param confirmedWl       the wishlist to populate
+     * @param map               the map to populate
+     * */
     private void buildDefaultWishListItemsMap(ArrayList<WishLists>confirmedWl, HashMap<String, ArrayList<DefaultListViewItems>> map){
         DbManager dbManager = new DbManager(getContext());
 
@@ -80,6 +84,12 @@ public class WishListsTabFragment extends Fragment {
 
     }
 
+    /**
+     * Get the titles of the ExpandableWishListAdapter
+     *
+     * @param wishLists         the wishlists used to retrieve its list names
+     * @param titles            the arraylist populated with the names of all wishlists
+     * */
     private void getWLTitles(ArrayList<WishLists>wishLists,ArrayList<String>titles){
         for (WishLists wl : wishLists){
             titles.add(wl.getName());

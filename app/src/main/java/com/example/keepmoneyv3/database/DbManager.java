@@ -6,8 +6,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.widget.Toast;
 
-import com.example.keepmoneyv3.utility.Keys;
-
 /**
  * This is the Database manager. Its methods perform all the queries used int the application
  *
@@ -177,8 +175,7 @@ public class DbManager {
      * */
     public int removeIncome(int incomeId){
         SQLiteDatabase db = dbHelper.getWritableDatabase();
-        int affectedRows= db.delete("incomes","id =?", new String[]{Integer.toString(incomeId)});
-        return affectedRows;
+        return db.delete("incomes","id =?", new String[]{Integer.toString(incomeId)});
     }
 
     /**
@@ -344,7 +341,7 @@ public class DbManager {
      * @param valid     validity of the list
      * @param id        WL ID
      * */
-    public void updateWishListsValidity(int valid, int id){
+    public void updateAtWishListConfirmation(int valid, int id){
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         String whereClause = " id = " + id;
         ContentValues contentValues = new ContentValues();
@@ -356,6 +353,42 @@ public class DbManager {
             Toast.makeText(context,e.getMessage(),Toast.LENGTH_LONG).show();
         }
     }
+
+    public void updatePurchasesDateAndTime(String date, String time, int id){
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        String whereClause = " id = " + id;
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(DbStrings.TablePurchasesFields.PURCH_DATE,date);
+        contentValues.put(DbStrings.TablePurchasesFields.PURCH_TIME,time);
+
+        try {
+            db.update(DbStrings.TablePurchasesFields.TABLE_NAME,contentValues,whereClause,null);
+        }catch (Exception e){
+            Toast.makeText(context,e.getMessage(),Toast.LENGTH_LONG).show();
+        }
+    }
+
+    /**
+     * This query is used to update the information related to the WishList item
+     *
+     * @param price     the new price of the item
+     * @param amount    the new amount of the item
+     * @param id        the id of the item to update
+     * */
+    public void updateWishListItemInfo(float price, int amount, int id){
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        String whereClause = " id = " + id;
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(DbStrings.TableItemsFields.ITEMS_PRICE,price);
+        contentValues.put(DbStrings.TableItemsFields.ITEMS_AMOUNT,amount);
+
+        try {
+            db.update(DbStrings.TableItemsFields.TABLE_NAME,contentValues,whereClause,null);
+        }catch (Exception e){
+            Toast.makeText(context,e.getMessage(),Toast.LENGTH_LONG).show();
+        }
+    }
+
 
     /**
      * A query to check if the login credentials are correct
@@ -396,55 +429,6 @@ public class DbManager {
     }
 
     /**
-     * Used to get all the rows of a table
-     *
-     * @param username      the username
-     **/
-    public Cursor queryGetAllIncomesByUsername(String username){
-        Cursor cursor = null;
-        String query = "SELECT incomes.* " +
-                "FROM incomes JOIN users ON userId = username WHERE username = '" + username + "' ;";
-
-        try {
-            SQLiteDatabase db = dbHelper.getReadableDatabase();
-            cursor = db.rawQuery(query, null);
-        }catch (Exception e){
-            Toast.makeText(context,e.getMessage(),Toast.LENGTH_LONG).show();
-        }
-        return cursor;
-    }
-
-    public Cursor queryGetAllConfirmedWishListsByUsername(String username){
-        Cursor cursor = null;
-        String query = "SELECT wishLists.* FROM wishLists JOIN purchases ON purchases.listId = wishLists.id " +
-                "JOIN users ON users.username = purchases.userId " +
-                " WHERE username = '" + username + "' GROUP BY listId;";
-
-        try {
-            SQLiteDatabase db = dbHelper.getReadableDatabase();
-            cursor = db.rawQuery(query, null);
-        }catch (Exception e){
-            Toast.makeText(context,e.getMessage(),Toast.LENGTH_LONG).show();
-        }
-        return cursor;
-    }
-
-    public Cursor queryGetAllSimplePurchasesByUsername(String username){
-        Cursor cursor = null;
-        String query = "SELECT purchases.* FROM purchases " +
-                "JOIN users ON users.username = purchases.userId " +
-                " WHERE username = '" + username + "' AND listId = 0;";
-
-        try {
-            SQLiteDatabase db = dbHelper.getReadableDatabase();
-            cursor = db.rawQuery(query, null);
-        }catch (Exception e){
-            Toast.makeText(context,e.getMessage(),Toast.LENGTH_LONG).show();
-        }
-        return cursor;
-    }
-
-    /**
      * Used to count the number of rows of a table without any specific constraint
      *
      * @param table         the name of the table to access
@@ -463,6 +447,11 @@ public class DbManager {
         return cursor;
     }
 
+    /**
+     * Count the number of rows of the incomes table
+     *
+     * @param username      the username
+     * */
     public Cursor countIncomesRowsByUsername(String username){
         String query = "SELECT COUNT(*) AS numRows " +
                 "FROM incomes  " +
@@ -477,6 +466,11 @@ public class DbManager {
         return cursor;
     }
 
+    /**
+     * Count the number of rows of the purchases table
+     *
+     * @param username      the username
+     * */
     public Cursor countSimplePurchasesRowsByUsername(String username){
         String query = "SELECT COUNT(*) AS numRows " +
                 "FROM purchases " +
@@ -488,28 +482,6 @@ public class DbManager {
         }catch (Exception e){
             Toast.makeText(context,e.getMessage(),Toast.LENGTH_LONG).show();
         }
-        return cursor;
-    }
-
-
-    /**
-     * Used to count all the element of a wishlist
-     *
-     * @param wlId      the id of the WishList
-     * */
-    public Cursor countQueryWLElements(int wlId){
-        String query = "SELECT COUNT(*) AS numRows " +
-                "FROM purchases JOIN wishlists ON purchases.listId = wishLists.id " +
-                "WHERE purchases.listId = " + wlId;
-        Cursor cursor = null;
-        try {
-            SQLiteDatabase db = dbHelper.getReadableDatabase();
-            cursor = db.rawQuery(query,null);
-
-        }catch (Exception e){
-            Toast.makeText(context,e.getMessage(),Toast.LENGTH_LONG).show();
-        }
-
         return cursor;
     }
 

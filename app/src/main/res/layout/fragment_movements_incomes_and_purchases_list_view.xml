@@ -9,7 +9,7 @@
     <ListView
         android:id="@+id/listViewTab"
         android:layout_width="match_parent"
-        android:layout_height="630dp"
+        android:layout_height="450dp"
         android:layout_marginTop="60dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

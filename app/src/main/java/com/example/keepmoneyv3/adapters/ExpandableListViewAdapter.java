@@ -38,12 +38,12 @@ public class ExpandableListViewAdapter extends BaseExpandableListAdapter {
     }
 
     @Override
-    public Object getGroup(int groupPosition) {
+    public String getGroup(int groupPosition) {
         return titles.get(groupPosition);
     }
 
     @Override
-    public Object getChild(int groupPosition, int childPosition) {
+    public DefaultListViewItems getChild(int groupPosition, int childPosition) {
         return Objects.requireNonNull(this.map.get(this.titles.get(groupPosition)))
                 .get(childPosition);
     }

@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/navigation_movements"
         android:name="com.example.keepmoneyv3.ui.movements.MovementsFragment"
-        android:label="@string/title_home"
+        android:label="Movimenti"
         tools:layout="@layout/fragment_movements" />
 
     <fragment

@@ -1,10 +1,10 @@
 package com.example.keepmoneyv3.activities;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ListAdapter;
 import android.widget.Toast;
 
 import com.example.keepmoneyv3.R;
@@ -13,6 +13,7 @@ import com.example.keepmoneyv3.database.DbStrings;
 import com.example.keepmoneyv3.dialogs.DialogAddNameToWishList;
 import com.example.keepmoneyv3.dialogs.DialogAddNewType;
 import com.example.keepmoneyv3.dialogs.DialogAddWishListItems;
+import com.example.keepmoneyv3.dialogs.DialogEditWishList;
 import com.example.keepmoneyv3.dialogs.DialogIncome;
 import com.example.keepmoneyv3.dialogs.DialogPurchase;
 import com.example.keepmoneyv3.ui.dashboard.DashboardFragment;
@@ -34,7 +35,9 @@ import androidx.navigation.ui.NavigationUI;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * This class is the "hub" of the app. It is used to navigate through the various menus tabs
@@ -50,7 +53,8 @@ import java.util.ArrayList;
 
 public class NavigationActivity extends AppCompatActivity implements DialogAddNewType.DialogAddNewTypeListener,
         DialogIncome.DialogIncomeListener, DialogPurchase.DialogPurchaseListener, DashboardFragment.DashboardFragmentListener,
-        WishListsFragment.WishListsFragmentListener, DialogAddNameToWishList.DialogAddNameToWishListListener, MovementsFragment.MovementsFragmentListener {
+        WishListsFragment.WishListsFragmentListener, DialogAddNameToWishList.DialogAddNameToWishListListener,
+        MovementsFragment.MovementsFragmentListener, DialogEditWishList.DialogEditWishListListener {
 
     private User user; // the user passed as a bundle from login or registration
 
@@ -105,6 +109,10 @@ public class NavigationActivity extends AppCompatActivity implements DialogAddNe
     public void fabAddWishListAction(View view){
         DialogFragment dialogFragment = new DialogAddWishListItems();
         dialogFragment.show(getSupportFragmentManager(), Keys.DialogTags.DIALOG_ADD_WISH_LIST_ITEMS_TAG);
+    }
+
+    public void fabStatAction(View view){
+        Toast.makeText(getApplicationContext(), "La funzione di statistiche sui movimenti verrà implementata presto", Toast.LENGTH_SHORT).show();
     }
 
     /**
@@ -257,13 +265,15 @@ public class NavigationActivity extends AppCompatActivity implements DialogAddNe
     }
 
     /**
-     * Makes visible the FAB to add a new wishlist and
-     * invisible the FAB to add a new purchase
+     * Change Floating Action Buttons visibility, according the the selected fragment
      * */
     @Override
     public User onWishListsFragmentOpened() {
         FloatingActionButton fabPurchases = findViewById(R.id.fabAddNewPurchase);
         fabPurchases.setVisibility(View.INVISIBLE);
+
+        FloatingActionButton fabStat = findViewById(R.id.fabStats);
+        fabStat.setVisibility(View.INVISIBLE);
 
         FloatingActionButton fabWishList = findViewById(R.id.fabAddNewWishList);
         fabWishList.setVisibility(View.VISIBLE);
@@ -271,14 +281,35 @@ public class NavigationActivity extends AppCompatActivity implements DialogAddNe
         return user;
     }
 
+    /**
+     * Change Floating Action Buttons visibility, according the the selected fragment
+     * */
     @Override
     public void onMovementsFragmentOpened() {
+        FloatingActionButton fabPurchases = findViewById(R.id.fabAddNewPurchase);
+        fabPurchases.setVisibility(View.INVISIBLE);
+
+        FloatingActionButton fabWishList = findViewById(R.id.fabAddNewWishList);
+        fabWishList.setVisibility(View.INVISIBLE);
+
+        FloatingActionButton fabStat = findViewById(R.id.fabStats);
+        fabStat.setVisibility(View.VISIBLE);
+
+    }
+
+    /**
+     * Change Floating Action Buttons visibility, according the the selected fragment
+     * */
+    @Override
+    public void onDashboardFragmentOpened() {
         FloatingActionButton fabPurchases = findViewById(R.id.fabAddNewPurchase);
         fabPurchases.setVisibility(View.VISIBLE);
 
         FloatingActionButton fabWishList = findViewById(R.id.fabAddNewWishList);
         fabWishList.setVisibility(View.INVISIBLE);
 
+        FloatingActionButton fabStat = findViewById(R.id.fabStats);
+        fabStat.setVisibility(View.INVISIBLE);
     }
 
 
@@ -311,14 +342,34 @@ public class NavigationActivity extends AppCompatActivity implements DialogAddNe
             }
         }
 
+
+
         if(user.getTotal() > listTotal) {
+            int purchId = 0;
+            // update wishlists
+            dbManager.updateAtWishListConfirmation(Keys.MiscellaneousKeys.CONFIRMED, listId);
 
-            dbManager.updateWishListsValidity(Keys.MiscellaneousKeys.CONFIRMED, listId);
+            String format = "dd/MM/yyyy HH:mm:ss";
+            @SuppressLint("SimpleDateFormat") SimpleDateFormat formatter = new SimpleDateFormat(format);
+            Date date = new Date();
+            String dateWishList = formatter.format(date).split(" ")[0];
+            String timeWishList = formatter.format(date).split(" ")[1];
 
+            // update item and purchases
             for (Item item : wishListItems) {
+                cursor = dbManager.queryGetPurchaseIdFromItemId(item.getId());
+
+                if(cursor != null) {
+                    while (cursor.moveToNext()) {
+                        purchId = cursor.getInt(cursor.getColumnIndex(DbStrings.TablePurchasesFields.PURCH_ID));
+                    }
+                    dbManager.updatePurchasesDateAndTime(dateWishList, timeWishList, purchId);
+                }
+
                 dbManager.updateItemsValidity(Keys.MiscellaneousKeys.CONFIRMED, item.getId());
             }
 
+            // update user total
             user.setTotal(user.getTotal() - listTotal);
             dbManager.updateUserTotal(user.getTotal(), user.getUsername());
 
@@ -327,20 +378,6 @@ public class NavigationActivity extends AppCompatActivity implements DialogAddNe
         } else {
             Toast.makeText(getApplicationContext(), "Impossibile completare l'acquisto della lista perchè il budget è insufficente", Toast.LENGTH_LONG).show();
         }
-    }
-
-    /**
-     * Makes invisible the FAB to add a new wishlist and
-     * visible the FAB to add a new purchase
-     * */
-    @Override
-    public void onDashboardFragmentOpened() {
-        FloatingActionButton fabPurchases = findViewById(R.id.fabAddNewPurchase);
-        fabPurchases.setVisibility(View.VISIBLE);
-
-        FloatingActionButton fabWishList = findViewById(R.id.fabAddNewWishList);
-        fabWishList.setVisibility(View.INVISIBLE);
-
     }
 
 }

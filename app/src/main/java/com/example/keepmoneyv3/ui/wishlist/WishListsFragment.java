@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,6 +20,7 @@ import com.example.keepmoneyv3.activities.NavigationActivity;
 import com.example.keepmoneyv3.adapters.WishListAdapter;
 import com.example.keepmoneyv3.database.DbManager;
 import com.example.keepmoneyv3.database.DbStrings;
+import com.example.keepmoneyv3.dialogs.DialogEditWishList;
 import com.example.keepmoneyv3.utility.Keys;
 import com.example.keepmoneyv3.utility.User;
 import com.example.keepmoneyv3.utility.WishLists;
@@ -90,6 +92,7 @@ public class WishListsFragment extends Fragment {
     }
 
 
+    @NotNull
     private AlertDialog.Builder buildWishListOptionsDialog(String name, int listId, float total){
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
 
@@ -105,14 +108,15 @@ public class WishListsFragment extends Fragment {
 
         //Button Three : Neutral
         builder.setNeutralButton("Modifica", (dialog, which) -> {
-            Toast.makeText(getContext(), "Appare la modifica", Toast.LENGTH_LONG).show();
+            DialogFragment dialogFragment = new DialogEditWishList();
+            dialogFragment.show(getParentFragmentManager(), Keys.DialogTags.DIALOG_EDIT_WISH_LIST_TAG);
             dialog.cancel();
         });
 
         return builder;
     }
 
-    private void gridViewItemAction(@NotNull WishListAdapter wishListAdapter, User user){
+    private void gridViewItemAction(@NotNull WishListAdapter wishListAdapter, @NotNull User user){
         ArrayList<WishLists>wishLists = new ArrayList<>();
 
         DbManager dbManager = new DbManager(getContext());
