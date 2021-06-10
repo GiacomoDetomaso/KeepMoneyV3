@@ -22,7 +22,11 @@ import com.example.keepmoneyv3.utility.Keys;
 
 import java.util.ArrayList;
 
-
+/**
+ * This class is used to display the form to set the name and the description of the WishList
+ *
+ * @author Giacomo Detomaso
+ * */
 public class DialogAddNameToWishList extends DialogFragment {
     public interface DialogAddNameToWishListListener{
         void WishListInsert(ArrayList<Item>items, String listName, String listDescription);
@@ -32,10 +36,16 @@ public class DialogAddNameToWishList extends DialogFragment {
     private final ArrayList<Item> listItems;
     private DialogAddNameToWishListListener listener;
 
+    /**
+     * @see NavigationActivity
+     * */
     DialogAddNameToWishList(ArrayList<Item>listItems){
         this.listItems = listItems;
     }
 
+    /**
+     * This method attach the listener to the NavigationActivity
+     * */
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
@@ -51,6 +61,9 @@ public class DialogAddNameToWishList extends DialogFragment {
         }
     }
 
+    /**
+     * This method describes what happens when the dialog is created
+     * */
     @SuppressLint("InflateParams")
     @NonNull
     @Override

@@ -36,7 +36,16 @@ public class Keys {
         public static final int CONFIRMED = 1;
     }
 
-    public static class PredefinedCategories{
-        // todo
+    public static class PredefinedCategoriesId{
+        public static final String CAT_TECH_ID = "cat01";
+        public static final String CAT_FOOD_ID = "cat02";
+        public static final String CAT_FAMILY_ID = "cat03";
+        public static final String CAT_FUN_ID = "cat04";
+        public static final String CAT_HOME_ID = "cat05";
+        public static final String CAT_HOLIDAY_ID = "cat06";
+        public static final String CAT_SALARY_ID = "cat07";
+        public static final String CAT_PRESENT_ID = "cat08";
+        public static final String CAT_BET_ID = "cat09";
+        public static final String CAT_HEALTH_ID = "cat10";
     }
 }

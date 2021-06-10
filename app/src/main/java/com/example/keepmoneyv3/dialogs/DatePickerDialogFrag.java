@@ -13,15 +13,22 @@ import com.example.keepmoneyv3.utility.Keys;
 
 import java.util.Calendar;
 
-
+/**
+ * This class is used to create a date picker inside a dialog
+ *
+ * @author Giacomo Detomaso
+ * */
 public class DatePickerDialogFrag extends DialogFragment implements DatePickerDialog.OnDateSetListener{
 
-    private String dialogCalled;
+    private final String dialogCalled;
 
     public DatePickerDialogFrag(String dialogCalled){
         this.dialogCalled = dialogCalled;
     }
 
+    /**
+     * This method describes what happens when the dialog is created
+     * */
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -46,12 +53,12 @@ public class DatePickerDialogFrag extends DialogFragment implements DatePickerDi
      * @param day       the day of the date*/
     public void onDateSet(DatePicker view, int year, int month, int day) {
         if (dialogCalled.equals(Keys.DialogTags.DIALOG_INCOME_TAG)) {
-            DialogIncome dialogIncome = (DialogIncome) getFragmentManager().findFragmentByTag(dialogCalled);
+            DialogIncome dialogIncome = (DialogIncome) requireActivity().getSupportFragmentManager().findFragmentByTag(dialogCalled);
             assert dialogIncome != null;
             String data = day + "/" + month + "/" + year;
             dialogIncome.setStrDate(data);
         }else {
-            DialogPurchase dialogPurchase = (DialogPurchase) getFragmentManager().findFragmentByTag(dialogCalled);
+            DialogPurchase dialogPurchase = (DialogPurchase) requireActivity().getSupportFragmentManager().findFragmentByTag(dialogCalled);
             assert dialogPurchase != null;
             String data = day + "/" + month + "/" + year;
             dialogPurchase.setStrDate(data);

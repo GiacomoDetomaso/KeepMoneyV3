@@ -23,7 +23,16 @@ import com.example.keepmoneyv3.utility.WishLists;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * This fragment displays the list of the wishlists  of the user
+ *
+ * @author Giacomo Detomaso
+ * */
 public class WishListsTabFragment extends Fragment {
+
+    /**
+     * This method describes what happens when the fragment is created
+     * */
     @Nullable
     @org.jetbrains.annotations.Nullable
     @Override

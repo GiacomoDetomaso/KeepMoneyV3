@@ -13,10 +13,13 @@ import com.example.keepmoneyv3.ui.movements.WishListsTabFragment;
 import com.example.keepmoneyv3.utility.Keys;
 import com.example.keepmoneyv3.utility.User;
 import com.example.keepmoneyv3.utility.WishLists;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 
+/**
+ * This adapter is used to build the three tab fragments used to visualize the
+ * user movements
+ * */
 public class TabPagerAdapter extends FragmentStatePagerAdapter {
 
     private final int simplePurchasesRows;
@@ -32,6 +35,9 @@ public class TabPagerAdapter extends FragmentStatePagerAdapter {
         this.confirmedWishLists = confirmedWishLists;
     }
 
+    /**
+     * This override method returns the proper tab fragment according to the position
+     * */
     @NonNull
     @Override
     public Fragment getItem(int position) {

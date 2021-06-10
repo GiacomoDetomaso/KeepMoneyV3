@@ -27,7 +27,9 @@ public class RegistrationActivity extends AppCompatActivity {
     // compile the pattern for the regex
     private static final Pattern EMAIL_REGEX_PATTERN = Pattern.compile(Keys.MiscellaneousKeys.EMAIL_REGEX, Pattern.CASE_INSENSITIVE);
 
-
+    /**
+     * This method describes what happens when the Activity is created
+     * */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,9 +40,9 @@ public class RegistrationActivity extends AppCompatActivity {
     }
 
     /**
-     * The method that performs the registration of a new user
+     * This method performs the registration of a new user
      *
-     * @param view      - the actual view
+     * @param view      the actual view
      * */
     public void registrationAction(View view){
         // take all the EditText to retrieve the Registration Data
@@ -83,11 +85,10 @@ public class RegistrationActivity extends AppCompatActivity {
             }
         }
 
-
     }
 
     /**
-     * Used to switch activity
+     * This method allows to switch activity
      *
      * @author Michelangelo De Pascale
      * @param additionalData    - optional bundle to pass as extras */

@@ -9,7 +9,7 @@ import android.widget.Toast;
 /**
  * This is the Database manager. Its methods perform all the queries used int the application
  *
- * @author Giacomo Detomaso
+ * @author Giacomo Detomaso and Michelangelo De Pascale
  *
  * @see DbHelper        used to get the DB
  * @see DbStrings       used to access to all the tables

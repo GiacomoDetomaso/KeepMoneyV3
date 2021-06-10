@@ -38,6 +38,9 @@ public class DialogAddWishListItems extends DialogFragment {
         listItems = new ArrayList<>();
     }
 
+    /**
+     * This method describes what happens when the dialog is created
+     * */
     @SuppressLint("InflateParams")
     @NonNull
     @Override
@@ -60,7 +63,13 @@ public class DialogAddWishListItems extends DialogFragment {
     }
 
     /**
-     * This method adds a new item to the wishlist
+     * This method adds a new item to the wishlist. 
+     * It checks:
+     *  1 - EditText must be filled
+     *  2 - The numeric values must be correct
+     *
+     * If this two conditions are true, the DialogAddWishListItems will be dismissed and
+     * the DialogAddNameToWishList will be called, to finalize the process.
      * */
     private void btnAddNewItemAction() {
         Button button = root.findViewById(R.id.btnAddNewItem);
@@ -84,22 +93,27 @@ public class DialogAddWishListItems extends DialogFragment {
             // check the integer and float fields
             if (isCorrect) {
                 int amount;
-                float costWl;
+                float itemCost;
                 String itemName = txtItem.getText().toString();
                 try {
                     amount = Integer.parseInt(txtAmountWL.getText().toString());
-                    costWl = Float.parseFloat(txtCostWL.getText().toString());
-                    listItems.add(new Item(itemName, amount, Keys.MiscellaneousKeys.NOT_CONFIRMED, costWl, category.getId()));
+                    itemCost = Float.parseFloat(txtCostWL.getText().toString());
 
-                    subTotal = subTotal + (costWl * amount);
+                    if(itemCost > 0 && amount > 0) {
+                        listItems.add(new Item(itemName, amount, Keys.MiscellaneousKeys.NOT_CONFIRMED, itemCost, category.getId()));
 
-                    String message = "- Subtotale: " + subTotal + "€\n"
-                            + "- Numero di elementi: " + listItems.size();
+                        subTotal = subTotal + (itemCost * amount);
 
-                    txtNumberItems.setText(message);
+                        String message = "- Subtotale: " + subTotal + "€\n"
+                                + "- Numero di elementi: " + listItems.size();
 
-                    for (EditText editText : fields) {
-                        editText.setText(""); // set empty text
+                        txtNumberItems.setText(message);
+
+                        for (EditText editText : fields) {
+                            editText.setText(""); // set empty text
+                        }
+                    } else {
+                        Toast.makeText(getContext(), "Costo dell'oggetto inserito nullo", Toast.LENGTH_LONG).show();
                     }
 
                 } catch (Exception e) {
@@ -148,11 +162,8 @@ public class DialogAddWishListItems extends DialogFragment {
             }
 
             DialogAddNewType dialogAddNewType = new DialogAddNewType(allCategories, Keys.DialogTags.DIALOG_ADD_WISH_LIST_ITEMS_TAG);
-            FragmentManager manager = getFragmentManager();
-
-            if (manager != null)
-                dialogAddNewType.show(manager, Keys.DialogTags.DIALOG_ADD_NEW_TYPE_TAG);
-
+            FragmentManager manager = requireActivity().getSupportFragmentManager();
+            dialogAddNewType.show(manager, Keys.DialogTags.DIALOG_ADD_NEW_TYPE_TAG);
         });
     }
 

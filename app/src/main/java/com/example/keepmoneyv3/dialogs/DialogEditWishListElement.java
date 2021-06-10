@@ -20,15 +20,26 @@ import com.example.keepmoneyv3.utility.Keys;
 
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * This class edits a single element of the Wishlist
+ *
+ * @author Giacomo Detomaso and Michelangelo De Pascale
+ * */
 public class DialogEditWishListElement extends DialogFragment {
-    private DefaultListViewItems defaultListViewItems;
+    private final DefaultListViewItems defaultListViewItems;
 
+    /**
+     * @see com.example.keepmoneyv3.activities.NavigationActivity
+     * */
     public DialogEditWishListElement(DefaultListViewItems defaultListViewItems){
         this.defaultListViewItems = defaultListViewItems;
     }
 
     private EditText txtCostWLEdit, txtAmountWLEdit;
 
+    /**
+     * This method describes what happens when the dialog is created
+     * */
     @NonNull
     @NotNull
     @Override
@@ -49,7 +60,7 @@ public class DialogEditWishListElement extends DialogFragment {
     }
 
     /**
-     * Edits the wishlist
+     * Edits price and amount of a WishList's item and save the updated values inside the database
      * */
     private void btnEditWlElementAction(Button button){
         button.setOnClickListener(view -> {

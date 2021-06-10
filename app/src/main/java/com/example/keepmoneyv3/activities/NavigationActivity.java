@@ -30,7 +30,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import org.jetbrains.annotations.NotNull;
@@ -41,9 +40,9 @@ import java.util.Date;
 
 /**
  * This class is the "hub" of the app. It is used to navigate through the various menus tabs
- * and it performs all the database insert queries or update queries related to
+ * and it performs all the database insert queries or update queries related to:
  *
- * 1) Entries
+ * 1) Incomes
  * 2) Items
  * 3) Purchases
  * 4) WishLists
@@ -58,22 +57,19 @@ public class NavigationActivity extends AppCompatActivity implements DialogAddNe
 
     private User user; // the user passed as a bundle from login or registration
 
+    /**
+     * This method describes what happens when the Activity is created
+     * */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigation);
 
         BottomNavigationView navView = findViewById(R.id.bottomNavigation);
-        //navView.inflateMenu(R.menu.bottom_nav_menu);
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
 
-        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.navigation_movements, R.id.navigation_dashboard, R.id.navigation_list)
-                .build();
-
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
 
         Bundle bundle = getIntent().getExtras();
@@ -117,13 +113,13 @@ public class NavigationActivity extends AppCompatActivity implements DialogAddNe
 
     /**
      * Callback method that send to the parent dialog the name of the
-     * selected category, during the entry acquisition
+     * selected category, during the income acquisition
      *
      * @param cat       category
      * @see DialogIncome
      * */
     @Override
-    public void onTypeChosenEntries(Category cat) {
+    public void onTypeChosenIncomes(Category cat) {
         DialogIncome dialogIncome = (DialogIncome) getSupportFragmentManager().findFragmentByTag(Keys.DialogTags.DIALOG_INCOME_TAG);
         if(dialogIncome != null)
             dialogIncome.setCategory(cat);
@@ -158,11 +154,11 @@ public class NavigationActivity extends AppCompatActivity implements DialogAddNe
     }
 
     /**
-     * Callback method that saves the entry inside the database
+     * Callback method that saves the income inside the database
      *
-     * @param val       the value of the entry
-     * @param date      the date of the entry
-     * @param idCat     the id of the entry's category
+     * @param val       the value of the income
+     * @param date      the date of the income
+     * @param idCat     the id of the income's category
      *
      * @see DialogIncome.DialogIncomeListener */
     @Override
@@ -237,8 +233,8 @@ public class NavigationActivity extends AppCompatActivity implements DialogAddNe
     }
 
     /**
-     * This method is used to communicate with DashboardFragment. It send the user
-     * object to the fragment
+     * This method is used to communicate with the application's fragments.
+     * It send to them the user object
      *
      * @see DashboardFragment
      * @return user object
@@ -265,7 +261,7 @@ public class NavigationActivity extends AppCompatActivity implements DialogAddNe
     }
 
     /**
-     * Change Floating Action Buttons visibility, according the the selected fragment
+     * Change Floating Action Buttons visibility, according to the selected fragment
      * */
     @Override
     public User onWishListsFragmentOpened() {
@@ -282,7 +278,7 @@ public class NavigationActivity extends AppCompatActivity implements DialogAddNe
     }
 
     /**
-     * Change Floating Action Buttons visibility, according the the selected fragment
+     * Change Floating Action Buttons visibility, according to the selected fragment
      * */
     @Override
     public void onMovementsFragmentOpened() {
@@ -298,7 +294,7 @@ public class NavigationActivity extends AppCompatActivity implements DialogAddNe
     }
 
     /**
-     * Change Floating Action Buttons visibility, according the the selected fragment
+     * Change Floating Action Buttons visibility, according to the selected fragment
      * */
     @Override
     public void onDashboardFragmentOpened() {
@@ -314,12 +310,13 @@ public class NavigationActivity extends AppCompatActivity implements DialogAddNe
 
 
     /**
-     * This method is used to Confirm the WishList.
-     * It Updates the isConfirmed field of the WishList's table
-     * and of the items related to it. When a WishList is confirmed
-     * confirmed the budget of the user is updated too.
+     * This method is used to confirm the WishList.
+     * It updates the isConfirmed field of the WishList's table
+     * and the one of the items related to it. When a WishList is confirmed
+     * the budget of the user is updated too.
      *
      * @param listId        the id of the list to confirm
+     * @param listTotal     the total of the list
      * */
     @Override
     public void confirmWishList(int listId, float listTotal) {
@@ -341,8 +338,6 @@ public class NavigationActivity extends AppCompatActivity implements DialogAddNe
                 wishListItems.add(new Item(id,name,amount,isConfirmed,price,idCat));//add the item inside the wl
             }
         }
-
-
 
         if(user.getTotal() > listTotal) {
             int purchId = 0;

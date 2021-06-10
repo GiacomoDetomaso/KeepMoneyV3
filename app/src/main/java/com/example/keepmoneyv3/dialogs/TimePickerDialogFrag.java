@@ -14,7 +14,17 @@ import com.example.keepmoneyv3.utility.Keys;
 
 import java.util.Calendar;
 
+/**
+ * This class is used to create a time picker inside a dialog
+ *
+ * @author Giacomo Detomaso
+ * */
 public class TimePickerDialogFrag extends DialogFragment implements TimePickerDialog.OnTimeSetListener {
+
+
+    /**
+     * This method describes what happens when the dialog is created
+     * */
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {

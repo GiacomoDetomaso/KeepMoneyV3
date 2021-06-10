@@ -29,16 +29,25 @@ import java.util.ArrayList;
 /**
  * A class tha represents the dialog where the user will register his entries
  *
- * @author Giacomo Detomaso
+ *
  * @see DialogFragment
  * @see DialogIncomeListener
+ *
+ * @author Michelangelo De Pascale
  * */
 
 public class DialogIncome extends DialogFragment {
+
+    /**
+     * @see NavigationActivity
+     * */
     public interface DialogIncomeListener {
         void DialogIncomeInsert(float val, String date, String idCat);
     }
 
+    /**
+     * This method attach the listener to the NavigationActivity
+     * */
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
@@ -60,6 +69,9 @@ public class DialogIncome extends DialogFragment {
     private String strDate;
     private Category category;
 
+    /**
+     * This method describes what happens when the dialog is created
+     * */
     @SuppressLint("InflateParams")
     @NonNull
     @Override
@@ -77,20 +89,20 @@ public class DialogIncome extends DialogFragment {
 
         txtDataAction(txtDate); // call the dialog to choose the date
         txtTypeAction(txtType); // call the category dialog to set the entry's category
-        dialogEntriesAction(); // perform the insert
+        dialogIncomeAction(); // perform the insert
 
         return builder.create();
     }
 
     /**
-     * This method checks if the input of the entry is correct.
-     * If it is the method calls the interface's method that will save the entry in the database.
-     * The interface method is implemented in the NavigationActivity.
+     * This method checks if the input of the income is correct.
+     * If it is the method calls the interface's method that will save the income in the database.
+     * The interface method is implemented in NavigationActivity.
      *
      * @see DialogIncomeListener
      * @see NavigationActivity
      * */
-    private void dialogEntriesAction(){
+    private void dialogIncomeAction(){
         Button button = root.findViewById(R.id.btnConfirmIncome);
 
         button.setOnClickListener(view -> {
@@ -112,12 +124,12 @@ public class DialogIncome extends DialogFragment {
                     isCorrect = false;
                 }
 
-                if (isCorrect){
+                if (isCorrect && val > 0){
                     String idCat = category.getId();//extract the category id
                     listener.DialogIncomeInsert(val, strDate,idCat);
                     dismiss();//close the dialog
                 }else {
-                    Toast.makeText(getActivity(),"Il campo prezzo non è un numero",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(),"Il campo prezzo non è un numero o non è un numero maggiore di 0",Toast.LENGTH_LONG).show();
                 }
             }else {
                 Toast.makeText(getActivity(),"Campi vuoti impossibile inserire",Toast.LENGTH_LONG).show();
@@ -126,22 +138,21 @@ public class DialogIncome extends DialogFragment {
     }
 
     /**
-     * This method is used to show the DatePicker to select the entry's date
+     * This method is used to show the DatePicker to select the income's date
      *
      * @param txtData       the EditText that trigger the action
      * */
     private void txtDataAction(EditText txtData){
         txtData.setOnClickListener(v -> {
             DialogFragment fragment = new DatePickerDialogFrag(Keys.DialogTags.DIALOG_INCOME_TAG);
-            FragmentManager manager = getFragmentManager();
+            FragmentManager manager = requireActivity().getSupportFragmentManager();
 
-            if(manager != null)
-                fragment.show(manager,Keys.DialogTags.DIALOG_DATE_PICKER_TAG);//show the date picker fragment
+            fragment.show(manager,Keys.DialogTags.DIALOG_DATE_PICKER_TAG);//show the date picker fragment
         });
     }
 
     /**
-     * This method is used to show the dialog to select the category of the entry.
+     * This method is used to show the dialog to select the category of the income.
      *
      * @param txtType       the EditText that trigger the action
      * */
@@ -169,11 +180,10 @@ public class DialogIncome extends DialogFragment {
             categoriesEntries.add(allCategories.get(pos));
 
             DialogAddNewType dialogAddNewType = new DialogAddNewType(categoriesEntries, Keys.DialogTags.DIALOG_INCOME_TAG);
-            FragmentManager manager = getFragmentManager();
+            FragmentManager manager = requireActivity().getSupportFragmentManager();
 
             // show the dialog to select Entry's category
-            if(manager != null)
-                dialogAddNewType.show(manager,Keys.DialogTags.DIALOG_ADD_NEW_TYPE_TAG);
+            dialogAddNewType.show(manager, Keys.DialogTags.DIALOG_ADD_NEW_TYPE_TAG);
 
         });
     }

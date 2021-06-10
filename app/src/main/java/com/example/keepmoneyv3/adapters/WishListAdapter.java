@@ -16,6 +16,12 @@ import com.example.keepmoneyv3.R;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+/**
+ * This class is used to manage the building of the RecyclerView, used to display unconfirmed
+ * WishLists
+ *
+ * @author Michelangelo De Pascale
+ * */
 public class WishListAdapter extends RecyclerView.Adapter<WishListAdapter.WLViewHolder>{
 
     public interface OnItemClickListener {
@@ -32,6 +38,9 @@ public class WishListAdapter extends RecyclerView.Adapter<WishListAdapter.WLView
         items = new ArrayList<>();
     }
 
+    /**
+     * Create the recycler view
+     * */
     @NonNull
     @Override
     public WLViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -40,6 +49,9 @@ public class WishListAdapter extends RecyclerView.Adapter<WishListAdapter.WLView
         return new WLViewHolder(root);
     }
 
+    /**
+     * This override method is used to build the various elements of the recycler
+     * */
     @Override
     public void onBindViewHolder(@NonNull WLViewHolder holder, final int position) {
         if(items.size() > 0) {
@@ -60,6 +72,9 @@ public class WishListAdapter extends RecyclerView.Adapter<WishListAdapter.WLView
         return items.size();
     }
 
+    /**
+     * The view holder
+     * */
      protected static class WLViewHolder extends RecyclerView.ViewHolder{
         TextView txtListName,txtTotList;
         CardView cardView;

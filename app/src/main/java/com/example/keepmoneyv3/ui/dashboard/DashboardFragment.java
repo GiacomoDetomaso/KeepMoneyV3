@@ -21,8 +21,17 @@ import com.example.keepmoneyv3.utility.Keys;
 import com.example.keepmoneyv3.utility.User;
 
 
-
+/**
+ *  This class is used to create and show the fragment that displays the
+ *  application's dashboard
+ *
+ * @author Giacomo Detomaso and Michelangelo De Pascale
+ * */
 public class DashboardFragment extends Fragment {
+
+    /**
+     * @see NavigationActivity
+     * */
     public interface DashboardFragmentListener{
         User GetUserFromSavedBundle();
         void onDashboardFragmentOpened();
@@ -37,6 +46,9 @@ public class DashboardFragment extends Fragment {
 
     private DashboardFragmentListener listener;
 
+    /**
+     * This method attach the listener to the NavigationActivity
+     * */
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
@@ -52,6 +64,9 @@ public class DashboardFragment extends Fragment {
         }
     }
 
+    /**
+     * This method describes what happens when the fragment is created
+     * */
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
@@ -63,7 +78,6 @@ public class DashboardFragment extends Fragment {
          * from the database
          * */
         User user = listener.GetUserFromSavedBundle();
-
         // using the ListAdapter to build the ListView with the recent purchases
         Context context = getContext();
         assert context != null;

@@ -19,6 +19,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Objects;
 
+/**
+ * This class is used to manage the building of the ListView, used to display user's movements
+ *
+ * @author Giacomo Detomaso
+ * */
 public class ArrayListViewAdapter extends ArrayAdapter<DefaultListViewItems> {
 
     private final ArrayList<DefaultListViewItems> objects;
@@ -30,11 +35,23 @@ public class ArrayListViewAdapter extends ArrayAdapter<DefaultListViewItems> {
         objects = new ArrayList<>();
     }
 
+    /**
+     * This override method is used to retrieve the number of items in the adapter
+     * */
     @Override
     public int getCount() {
         return objects.size();
     }
 
+    /**
+     * This override method is used to build the ListView row by row.
+     *
+     * @param position      the position of the item in the ListView
+     * @param convertView   the view
+     * @param parent        the view group
+     *
+     * @return listView     a view which contains the ListView
+     * */
     @SuppressLint("InflateParams")
     @NonNull
     @Override
@@ -60,6 +77,13 @@ public class ArrayListViewAdapter extends ArrayAdapter<DefaultListViewItems> {
         return listView;
     }
 
+    /**
+     * This override method is used to retrieve the item of the ListView specified by
+     * a position
+     *
+     * @param position      the position of the item
+     * @return The item to return
+     * */
     @Nullable
     @Override
     public DefaultListViewItems getItem(int position) {

@@ -27,14 +27,18 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
-
+/**
+ * This fragment displays the list of incomes or purchases of the user
+ *
+ * @author Giacomo Detomaso and Michelangelo De Pascale
+ * */
 public class IncomesAndPurchasesTabFragment extends Fragment {
 
     private int sort;
 
-    public IncomesAndPurchasesTabFragment () {
-    }
-
+    /**
+     * This method describes what happens when the fragment is created
+     * */
     @SuppressLint("SetTextI18n")
     @Nullable
     @Override
@@ -129,7 +133,7 @@ public class IncomesAndPurchasesTabFragment extends Fragment {
     }
 
     /**
-     * This method builds the ListView with the three recent purchases
+     * This method builds the purchases' ListView
      *
      * @param adapter       the adapter of the ListView
      * @param username      the username
@@ -161,6 +165,12 @@ public class IncomesAndPurchasesTabFragment extends Fragment {
         }
     }
 
+    /**
+     * This method builds the incomes' ListView
+     *
+     * @param adapter       the adapter of the ListView
+     * @param username      the username
+     * */
     private void buildIncomesListView(ArrayListViewAdapter adapter, String username){
             int picId, incomeID;
             float value;
@@ -185,6 +195,14 @@ public class IncomesAndPurchasesTabFragment extends Fragment {
             }
     }
 
+    /**
+     * This method deletes the selected purchase from the database, updating the user total
+     * according to the deleted purchase information
+     *
+     * @param listView      the listView
+     * @param listAdapter   the listAdapter
+     * @param user          the user
+     * */
     private void deletePurchase(@NotNull ListView listView, ArrayListViewAdapter listAdapter, User user){
         listView.setOnItemClickListener((parent, view, position, id) -> {
             AlertDialog alertDialog = new AlertDialog.Builder(getContext()).create();
@@ -207,9 +225,13 @@ public class IncomesAndPurchasesTabFragment extends Fragment {
                                 while (cursor.moveToNext()) {
                                     int purchaseId = cursor.getInt(cursor.getColumnIndex("id"));
                                     addBackMoneyToUser(itemId, user);
-                                    dbManager.removePurchase(itemId, purchaseId);
+                                    int affectedRows = dbManager.removePurchase(itemId, purchaseId);
 
-                                    requireActivity().getSupportFragmentManager().popBackStack();
+                                    if(affectedRows > 0) {
+                                        requireActivity().getSupportFragmentManager().popBackStack();
+                                    } else {
+                                        Toast.makeText(getContext(), "Problemi nella rimozione della spesa!", Toast.LENGTH_LONG).show();
+                                    }
                                 }
                             }
                         }
@@ -218,6 +240,14 @@ public class IncomesAndPurchasesTabFragment extends Fragment {
         });
     }
 
+    /**
+     * This method deletes the selected income from the database, updating the user total
+     * according to the deleted income information
+     *
+     * @param listView      the listView
+     * @param listAdapter   the listAdapter
+     * @param user          the user
+     * */
     private void deleteIncome(@NotNull ListView listView, ArrayListViewAdapter listAdapter, User user){
         listView.setOnItemClickListener((parent, view, position, id) -> {
             AlertDialog alertDialog = new AlertDialog.Builder(getContext()).create();
@@ -234,9 +264,13 @@ public class IncomesAndPurchasesTabFragment extends Fragment {
                             int itemId = defaultListViewItem.getId();
                             DbManager dbManager = new DbManager(getContext());
                             if (removeMoneyFromUser(itemId, user) == 1) {
-                                dbManager.removeIncome(itemId);
+                                int affectedRows = dbManager.removeIncome(itemId);
 
-                                requireActivity().getSupportFragmentManager().popBackStack();
+                                if(affectedRows > 0) {
+                                    requireActivity().getSupportFragmentManager().popBackStack();
+                                } else {
+                                    Toast.makeText(getContext(), "Problemi nel rimuovere la spesa!", Toast.LENGTH_LONG).show();
+                                }
 
                             } else {
                                 Toast.makeText(getContext(), "Impossibile rimuovere la spesa, saldo negativo!", Toast.LENGTH_LONG).show();
@@ -247,6 +281,12 @@ public class IncomesAndPurchasesTabFragment extends Fragment {
         });
     }
 
+    /**
+     * This method updates the user budget after an purchase is deleted
+     *
+     * @param itemId        the id of the item
+     * @param user          the user
+     * */
     private void addBackMoneyToUser(int itemId, User user){
         DbManager dbManager2 = new DbManager(getContext());
         Cursor cursor2 = dbManager2.queryGetCostFromItemId(itemId);
@@ -260,10 +300,16 @@ public class IncomesAndPurchasesTabFragment extends Fragment {
         }
     }
 
-    private int removeMoneyFromUser(int itemId, User user){
+    /**
+     * This method updates the user budget after an income is deleted
+     *
+     * @param incomeId      the id of the income
+     * @param user          the user
+     * */
+    private int removeMoneyFromUser(int incomeId, User user){
         int canBeRemoved = 1;
         DbManager dbManager2 = new DbManager(getContext());
-        Cursor cursor2 = dbManager2.queryGetIncomeValueFromItemId(itemId);
+        Cursor cursor2 = dbManager2.queryGetIncomeValueFromItemId(incomeId);
         if (cursor2 == null) {
             Toast.makeText(getContext(),"Si è verificato un errore nell'ottenimento delle informazioni necessarie all'eliminazione dell'oggetto",Toast.LENGTH_LONG).show();
         } else {

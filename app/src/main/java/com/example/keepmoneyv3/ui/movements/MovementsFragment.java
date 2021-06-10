@@ -22,8 +22,16 @@ import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
 
+/**
+ * This class manages the creation of the PageAdapter and its items
+ *
+ * @author Michelangelo De Pascale
+ * */
 public class MovementsFragment extends Fragment {
 
+    /**
+     * @see NavigationActivity
+     * */
     public interface MovementsFragmentListener{
         User GetUserFromSavedBundle();
         void onMovementsFragmentOpened();
@@ -31,6 +39,9 @@ public class MovementsFragment extends Fragment {
 
     private MovementsFragment.MovementsFragmentListener listener;
 
+    /**
+     * This method attach the listener to the NavigationActivity
+     * */
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
@@ -44,6 +55,9 @@ public class MovementsFragment extends Fragment {
         }
     }
 
+    /**
+     * This method describes what happens when the fragment is created
+     * */
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_movements, container, false);
@@ -70,6 +84,11 @@ public class MovementsFragment extends Fragment {
         return root;
     }
 
+    /**
+     * This method gives the number of records inside the incomes table related to a specified user
+     *
+     * @param username      the username of the user
+     * */
     int getIncomesRows(String username){
         DbManager dbManager = new DbManager(getContext());
         Cursor cursor = dbManager.countIncomesRowsByUsername(username);
@@ -84,6 +103,12 @@ public class MovementsFragment extends Fragment {
         return numRows;
     }
 
+    /**
+     * This method gives the number of records inside the purchases table
+     * related to a specified user
+     *
+     * @param username      the username of the user
+     * */
     int getSimplePurchasesRows(String username){
         DbManager dbManager = new DbManager(getContext());
         Cursor cursor = dbManager.countSimplePurchasesRowsByUsername(username);
@@ -99,7 +124,10 @@ public class MovementsFragment extends Fragment {
     }
 
     /**
+     * Get the most important data of a wishlist related to a specified user
      *
+     * @param  wishLists        the wishlist to populate
+     * @param username          the username of the user
      * */
     private void getWishListData(ArrayList<WishLists>wishLists, String username) {
         DbManager manager = new DbManager(getContext());

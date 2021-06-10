@@ -16,9 +16,6 @@ public class User implements Serializable {
         this.email = email;
     }
 
-    public String getEmail() {
-        return email;
-    }
 
     public String getName() {
         return name;
@@ -26,14 +23,6 @@ public class User implements Serializable {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getSurname() {
-        return surname;
-    }
-
-    public void setSurname(String surname) {
-        this.surname = surname;
     }
 
     public void setTotal(float total) {

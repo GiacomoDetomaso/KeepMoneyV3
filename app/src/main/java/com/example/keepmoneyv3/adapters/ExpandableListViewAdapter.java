@@ -16,6 +16,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
 
+/**
+ * This class is used to manage the building of the ExpandableListView,
+ * used to display user's confirmed WishLists and their items
+ *
+ * @author Giacomo Detomaso
+ * */
 public class ExpandableListViewAdapter extends BaseExpandableListAdapter {
     private final Context context;
     private final HashMap<String, ArrayList<DefaultListViewItems>> map;
@@ -27,32 +33,57 @@ public class ExpandableListViewAdapter extends BaseExpandableListAdapter {
         this.titles = titles;
     }
 
+    /**
+     * This override method is used to get the number of the groups
+     * */
     @Override
     public int getGroupCount() {
         return titles.size();
     }
 
+    /**
+     * This override method is used get the number of children of a group
+     *
+     * @param groupPosition     the position of a group
+     * */
     @Override
     public int getChildrenCount(int groupPosition) {
         return Objects.requireNonNull(map.get(titles.get(groupPosition))).size();
     }
 
+    /**
+     * This override method is used to get a specified group
+     *
+     * @param groupPosition     the position of a group
+     * */
     @Override
     public String getGroup(int groupPosition) {
         return titles.get(groupPosition);
     }
 
+    /**
+     * This override method is used to get a child from the specified group
+     *
+     * @param groupPosition     the position of a group
+     * @param childPosition     the position of the child
+     * */
     @Override
     public DefaultListViewItems getChild(int groupPosition, int childPosition) {
         return Objects.requireNonNull(this.map.get(this.titles.get(groupPosition)))
                 .get(childPosition);
     }
 
+    /**
+     * This override method is used to get the id of the group
+     * */
     @Override
     public long getGroupId(int groupPosition) {
         return groupPosition;
     }
 
+    /**
+     * This override method is used to get the id of a child of a group
+     * */
     @Override
     public long getChildId(int groupPosition, int childPosition) {
         return childPosition;
@@ -63,6 +94,13 @@ public class ExpandableListViewAdapter extends BaseExpandableListAdapter {
         return false;
     }
 
+    /**
+     * This override method is used to build the group view of the ExpandableListView row by row
+     *
+     * @param groupPosition     the position of a group
+     * @param view              the view
+     * @param viewGroup         the viewGroup
+     * */
     @SuppressLint("InflateParams")
     @Override
     public View getGroupView(int groupPosition, boolean b, View view, ViewGroup viewGroup) {
@@ -83,6 +121,14 @@ public class ExpandableListViewAdapter extends BaseExpandableListAdapter {
         return listView;
     }
 
+    /**
+     * This override method is used to build the child view of the ExpandableListView row by row
+     *
+     * @param groupPosition     the position of a group
+     * @param childPosition     the position of the child
+     * @param view              the view
+     * @param viewGroup         the viewGroup
+     * */
     @SuppressLint("InflateParams")
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean b, View view, ViewGroup viewGroup) {

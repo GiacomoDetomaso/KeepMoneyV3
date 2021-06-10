@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">KeepMoneyV3</string>
+    <string name="app_name">KeepMoney</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
@@ -33,4 +33,17 @@
     <string name="nome_lista">Nome lista</string>
     <string name="conferma">Conferma</string>
     <string name="descrizione">Descrizione</string>
+
+    <!--Categories names!-->
+    <string name="tech">Tecnologia</string>
+    <string name="food">Cibo</string>
+    <string name="family">Famiglia</string>
+    <string name="fun">Divertimento</string>
+    <string name="home">Casa</string>
+    <string name="holiday">Vacanza</string>
+    <string name="salary">Stipendio</string>
+    <string name="present">Regalo</string>
+    <string name="bet">Scommessa</string>
+    <string name="health">Salute</string>
+
 </resources>

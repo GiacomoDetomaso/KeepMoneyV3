@@ -24,17 +24,28 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
+/**
+ * This class is used to display the recycler view to select a category
+ *
+ * @author Michelangelo De Pascale
+ * */
 public class DialogAddNewType extends DialogFragment {
 
     private DialogAddNewTypeListener listener;
     private final String dialogTag;
 
+    /**
+     * @see NavigationActivity
+     * */
     public interface DialogAddNewTypeListener {
-        void onTypeChosenEntries(Category cat);
+        void onTypeChosenIncomes(Category cat);
         void onTypeChoosePurchases(Category cat);
         void onTypeChooseWishListItem(Category cat);
     }
 
+    /**
+     * This method attach the listener to the NavigationActivity
+     * */
     @Override
     public void onAttach(@NotNull Context context){
         super.onAttach(context);
@@ -55,7 +66,9 @@ public class DialogAddNewType extends DialogFragment {
         this.dialogTag = dialogTag;
     }
 
-
+    /**
+     * This method describes what happens when the dialog is created
+     * */
     @SuppressLint("InflateParams")
     @NonNull
     @Override
@@ -106,7 +119,7 @@ public class DialogAddNewType extends DialogFragment {
             ArrayList<Category> categoryArrayList = adapter.getCategories();
             switch (dialogTag) {
                 case Keys.DialogTags.DIALOG_INCOME_TAG:
-                    listener.onTypeChosenEntries(categoryArrayList.get(position));
+                    listener.onTypeChosenIncomes(categoryArrayList.get(position));
                     dismiss();//close the dialog
                     break;
                 case Keys.DialogTags.DIALOG_PURCHASES_TAG:

@@ -29,14 +29,25 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * This class is used to edit the item of a WishList
+ *
+ * @author Giacomo Detomaso and Michelangelo De Pascale
+ * */
 public class DialogEditWishList extends DialogFragment {
 
+    /**
+     * @see NavigationActivity
+     * */
     public interface DialogEditWishListListener{
         User GetUserFromSavedBundle();
     }
 
     private DialogEditWishListListener listener;
 
+    /**
+     * This method attach the listener to the NavigationActivity
+     * */
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
@@ -50,6 +61,9 @@ public class DialogEditWishList extends DialogFragment {
         }
     }
 
+    /**
+     * This method describes what happens when the dialog is created
+     * */
     @SuppressLint("InflateParams")
     @NonNull
     @Override

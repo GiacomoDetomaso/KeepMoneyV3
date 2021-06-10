@@ -28,6 +28,10 @@ import com.example.keepmoneyv3.utility.User;
 public class MainActivity extends AppCompatActivity {
 
     private DbManager dbManager;
+
+    /**
+     * This method describes what happens when the Activity is created
+     * */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -114,18 +118,24 @@ public class MainActivity extends AppCompatActivity {
             while (cursor.moveToNext()) {
                 numRows = cursor.getInt(cursor.getColumnIndex("numRows"));
                 if (numRows == 0) {
-                    dbManager.insertCategories("cat01", "Elettronica", R.drawable.ic_baseline_computer_24);
-                    dbManager.insertCategories("cat02", "Cibo", R.drawable.ic_baseline_fastfood_24);
-                    dbManager.insertCategories("cat03", "Famiglia", R.drawable.ic_baseline_family_24);
-                    dbManager.insertCategories("cat04", "Divertimento", R.drawable.ic_baseline_emoji_24);
-                    dbManager.insertCategories("cat05", "Casa", R.drawable.ic_baseline_home_24);
-                    dbManager.insertCategories("cat06", "Vacanza", R.drawable.ic_baseline_beach_access_24);
-                    dbManager.insertCategories("cat07", "Stipendio", R.drawable.ic_baseline_attach_money_24);
-                    dbManager.insertCategories("cat08", "Regalo", R.drawable.ic_baseline_card_giftcard_24);
-                    dbManager.insertCategories("cat09", "Scommessa", R.drawable.ic_baseline_thumb_up_24);
+                    dbManager.insertCategories(Keys.PredefinedCategoriesId.CAT_TECH_ID, getString(R.string.tech), R.drawable.ic_baseline_computer_24);
+                    dbManager.insertCategories(Keys.PredefinedCategoriesId.CAT_FOOD_ID, getString(R.string.food), R.drawable.ic_baseline_fastfood_24);
+                    dbManager.insertCategories(Keys.PredefinedCategoriesId.CAT_FAMILY_ID, getString(R.string.family), R.drawable.ic_baseline_family_24);
+                    dbManager.insertCategories(Keys.PredefinedCategoriesId.CAT_FUN_ID, getString(R.string.fun), R.drawable.ic_baseline_emoji_24);
+                    dbManager.insertCategories(Keys.PredefinedCategoriesId.CAT_HOME_ID, getString(R.string.home), R.drawable.ic_baseline_home_24);
+                    dbManager.insertCategories(Keys.PredefinedCategoriesId.CAT_HOLIDAY_ID, getString(R.string.holiday), R.drawable.ic_baseline_beach_access_24);
+                    dbManager.insertCategories(Keys.PredefinedCategoriesId.CAT_SALARY_ID, getString(R.string.salary), R.drawable.ic_baseline_attach_money_24);
+                    dbManager.insertCategories(Keys.PredefinedCategoriesId.CAT_PRESENT_ID, getString(R.string.present), R.drawable.ic_baseline_card_giftcard_24);
+                    dbManager.insertCategories(Keys.PredefinedCategoriesId.CAT_BET_ID, getString(R.string.bet), R.drawable.ic_baseline_casino_24);
+                    dbManager.insertCategories(Keys.PredefinedCategoriesId.CAT_HEALTH_ID, getString(R.string.health), R.drawable.ic_baseline_healing_24);
                 }
             }
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+    }
 }

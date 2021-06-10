@@ -29,8 +29,16 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
+/**
+ * This class is used to display the form to insert a new purchase
+ *
+ * @author Giacomo Detomaso
+ * */
 public class DialogPurchase extends DialogFragment {
 
+    /**
+     * @see NavigationActivity
+     * */
     public interface DialogPurchaseListener{
         void DialogPurchaseInsert(Item item, String data, String ora);
     }
@@ -46,6 +54,9 @@ public class DialogPurchase extends DialogFragment {
         this.total = total;
     }
 
+    /**
+     * This method attach the listener to the NavigationActivity
+     * */
     @Override
     public void onAttach(@NonNull Context context){
         super.onAttach(context);
@@ -61,6 +72,9 @@ public class DialogPurchase extends DialogFragment {
         }
     }
 
+    /**
+     * This method describes what happens when the dialog is created
+     * */
     @SuppressLint("InflateParams")
     @NonNull
     @Override
@@ -81,8 +95,8 @@ public class DialogPurchase extends DialogFragment {
         txtAmount = root.findViewById(R.id.txtAmount);//quantity of item
         addBtn = root.findViewById(R.id.btnAddPurch);//button used to insert a new purchase
 
-        txtDataAction(txtDate);
-        txtOraAction(txtTime);
+        txtDateAction(txtDate);
+        txtTimeAction(txtTime);
         txtTypeAction(txtType);
         dialogPurchaseAction();
 
@@ -90,7 +104,8 @@ public class DialogPurchase extends DialogFragment {
     }
 
     /**
-     * Adds a new purchase
+     * This method, after checking if all the information typed are correct, calls the
+     * listener method to save the purchase inside the database
      * */
     private void dialogPurchaseAction(){
         addBtn.setOnClickListener(view -> {
@@ -115,14 +130,16 @@ public class DialogPurchase extends DialogFragment {
                     isCorrect = false;
                 }
 
-                if (isCorrect && val < total){
+                if (isCorrect && val < total && val > 0){
                     String idCat = category.getId();//extract the category id
                     String strItemName = txtItem.getText().toString();//item name
                     Item item = new Item(strItemName, amount, Keys.MiscellaneousKeys.CONFIRMED, val, idCat);
                     listener.DialogPurchaseInsert(item, strDate, strTime);
                     dismiss();//close the dialog
                 }else {
-                    Toast.makeText(getActivity(),"Il campo prezzo non è un numero o è maggiore rispetto alla disponibilità economica",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(),"Il campo prezzo non è un accettabile poichè:" +
+                            "\n- potrebbe non essere un numero\n- potrebbe essere maggiore rispetto alla disponibilità\n" +
+                            "- potrebbe essere nullo",Toast.LENGTH_LONG).show();
                 }
             }else {
                 Toast.makeText(getActivity(),"Campi vuoti impossibile inserire",Toast.LENGTH_LONG).show();
@@ -131,33 +148,31 @@ public class DialogPurchase extends DialogFragment {
     }
 
     /**
-     * Set the date of the purchase
+     * Displays the DatePickerDialogFrag
      * */
-    private void txtDataAction(@NotNull EditText txtData){
-        txtData.setOnClickListener(v -> {
+    private void txtDateAction(@NotNull EditText txtDate){
+        txtDate.setOnClickListener(v -> {
             DialogFragment fragment = new DatePickerDialogFrag(Keys.DialogTags.DIALOG_PURCHASES_TAG);
-            FragmentManager manager = getFragmentManager();
+            FragmentManager manager = requireActivity().getSupportFragmentManager();
 
-            assert manager != null;
             fragment.show(manager,Keys.DialogTags.DIALOG_DATE_PICKER_TAG);//show the date picker fragment
         });
     }
 
     /**
-     * Set the time of the purchase
+     * Displays the TimePickerDialogFrag
      * */
-    private void txtOraAction(@NotNull EditText txtTime){
+    private void txtTimeAction(@NotNull EditText txtTime){
         txtTime.setOnClickListener(v -> {
             DialogFragment fragment = new TimePickerDialogFrag();
-            FragmentManager manager = getFragmentManager();
+            FragmentManager manager = requireActivity().getSupportFragmentManager();
 
-            assert manager != null;
             fragment.show(manager,Keys.DialogTags.DIALOG_TIME_PICKER_TAG);//show the time picker fragment
         });
     }
 
     /**
-     * Set the category of the item
+     * Displays the DialogAddNewType
      * */
     private void txtTypeAction(@NotNull EditText txtType){
         txtType.setOnClickListener(v -> {
@@ -169,18 +184,23 @@ public class DialogPurchase extends DialogFragment {
                 String id = cursor.getString(cursor.getColumnIndex(DbStrings.TableCategoriesFields.CATEGORIES_ID));
                 String desc = cursor.getString(cursor.getColumnIndex(DbStrings.TableCategoriesFields.CATEGORIES_DESC));
                 int picid = cursor.getInt(cursor.getColumnIndex(DbStrings.TableCategoriesFields.CATEGORIES_PIC_ID));
-                allCategories.add(new Category(id, desc, picid));
+
+                if(!id.equals("cat07")) {
+                    allCategories.add(new Category(id, desc, picid));
+                }
             }
 
             DialogAddNewType dialogAddNewType = new DialogAddNewType(allCategories, Keys.DialogTags.DIALOG_PURCHASES_TAG);
-            FragmentManager manager = getFragmentManager();
+            FragmentManager manager = requireActivity().getSupportFragmentManager();
 
-            if(manager != null)
-                dialogAddNewType.show(manager,Keys.DialogTags.DIALOG_ADD_NEW_TYPE_TAG);
+            dialogAddNewType.show(manager,Keys.DialogTags.DIALOG_ADD_NEW_TYPE_TAG);
 
         });
     }
 
+    /**
+     * Set the date in the EditText
+     * */
     void setStrDate(@NotNull String strDate){
         this.strDate = strDate;
         String [] dataSQL = strDate.split("/");
@@ -188,11 +208,17 @@ public class DialogPurchase extends DialogFragment {
         txtDate.setText(strDate);
     }
 
+    /**
+     * Set the time in the EditText
+     * */
     void setStrTime(String strTime){
         this.strTime = strTime;
         txtTime.setText(strTime);
     }
 
+    /**
+     * Set the category in the EditText
+     * */
     public void setCategory(@NotNull Category cat){
         this.category = cat;
         txtType.setText(cat.getName());

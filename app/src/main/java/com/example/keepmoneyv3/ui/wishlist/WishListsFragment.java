@@ -28,8 +28,16 @@ import com.example.keepmoneyv3.utility.WishLists;
 import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 
+/**
+ * This class is used to add and confirm a wishlist
+ *
+ * @author Giacomo Detomaso
+ * */
 public class WishListsFragment extends Fragment {
 
+    /**
+     * @see NavigationActivity
+     * */
     public interface WishListsFragmentListener {
          User onWishListsFragmentOpened();
          void confirmWishList(int listId, float listTotal);
@@ -37,6 +45,9 @@ public class WishListsFragment extends Fragment {
 
     private WishListsFragmentListener listener;
 
+    /**
+     * This method attach the listener to the NavigationActivity
+     * */
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
@@ -52,6 +63,9 @@ public class WishListsFragment extends Fragment {
         }
     }
 
+    /**
+     * This method describes what happens when the fragment is created
+     * */
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         User user = listener.onWishListsFragmentOpened(); // notify the NavigationActivity
@@ -92,6 +106,13 @@ public class WishListsFragment extends Fragment {
     }
 
 
+    /**
+     * This method builds the AlertDialog used to modify or confirm the list
+     *
+     * @param name      the name of the wishlist
+     * @param total     the total of the wishlist
+     * @param listId    the id of the wishlist
+     * */
     @NotNull
     private AlertDialog.Builder buildWishListOptionsDialog(String name, int listId, float total){
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
@@ -116,6 +137,9 @@ public class WishListsFragment extends Fragment {
         return builder;
     }
 
+    /**
+     * Shows the AlertDialog described in the method buildWishListOptionsDialog
+     * */
     private void gridViewItemAction(@NotNull WishListAdapter wishListAdapter, @NotNull User user){
         ArrayList<WishLists>wishLists = new ArrayList<>();
 
