@@ -16,12 +16,12 @@ import androidx.fragment.app.DialogFragment;
 import com.example.keepmoneyv3.R;
 import com.example.keepmoneyv3.database.*;
 import com.example.keepmoneyv3.utility.DefaultListViewItems;
-import com.example.keepmoneyv3.utility.Keys;
+import com.example.keepmoneyv3.utility.ApplicationTags;
 
 import org.jetbrains.annotations.NotNull;
 
 /**
- * This class edits a single element of the Wishlist
+ * This class edits a single element of a Wishlist.
  *
  * @author Giacomo Detomaso and Michelangelo De Pascale
  * */
@@ -38,7 +38,7 @@ public class DialogEditWishListElement extends DialogFragment {
     private EditText txtCostWLEdit, txtAmountWLEdit;
 
     /**
-     * This method describes what happens when the dialog is created
+     * This method creates the dialog used to edit some information of an item.
      * */
     @NonNull
     @NotNull
@@ -49,7 +49,7 @@ public class DialogEditWishListElement extends DialogFragment {
         LayoutInflater inflater = requireActivity().getLayoutInflater();//get the layout inflater
         View root = inflater.inflate(R.layout.fragment_wish_list_edit, null);
         builder.setView(root);
-        builder.setTitle(Keys.DialogTitles.DIALOG_ADD_WISH_LIST_TITLE);
+        builder.setTitle(ApplicationTags.DialogTitles.DIALOG_ADD_WISH_LIST_TITLE);
 
         txtCostWLEdit = root.findViewById(R.id.txtCostWLEdit);
         txtAmountWLEdit = root.findViewById(R.id.txtAmountWLEdit);
@@ -60,7 +60,8 @@ public class DialogEditWishListElement extends DialogFragment {
     }
 
     /**
-     * Edits price and amount of a WishList's item and save the updated values inside the database
+     * This method edits price and amount of a WishList's item and save the updated
+     * values inside the database.
      * */
     private void btnEditWlElementAction(Button button){
         button.setOnClickListener(view -> {
@@ -76,7 +77,7 @@ public class DialogEditWishListElement extends DialogFragment {
                     dbManager.updateWishListItemInfo(itemPrice, amount, defaultListViewItems.getId());
 
                     DialogFragment dialogFragment = new DialogEditWishList();
-                    dialogFragment.show(getParentFragmentManager(), Keys.DialogTags.DIALOG_EDIT_WISH_LIST_TAG);
+                    dialogFragment.show(getParentFragmentManager(), ApplicationTags.DialogTags.DIALOG_EDIT_WISH_LIST_TAG);
                     dismiss();
                 } catch (Exception e){
                     Toast.makeText(getContext(), "Dati non numerici. Riprovare", Toast.LENGTH_SHORT).show();

@@ -20,7 +20,8 @@ import java.util.Collections;
 import java.util.Objects;
 
 /**
- * This class is used to manage the building of the ListView, used to display user's movements
+ * This class is used to manage the building of a ListView that is used to show on the screen the movements
+ * made by the logged user.
  *
  * @author Giacomo Detomaso
  * */
@@ -36,7 +37,8 @@ public class ArrayListViewAdapter extends ArrayAdapter<DefaultListViewItems> {
     }
 
     /**
-     * This override method is used to retrieve the number of items in the adapter
+     * This method, that overrides the standard one, is used to retrieve the number of items that are
+     * present in the ArrayList of this adapter.
      * */
     @Override
     public int getCount() {
@@ -44,7 +46,8 @@ public class ArrayListViewAdapter extends ArrayAdapter<DefaultListViewItems> {
     }
 
     /**
-     * This override method is used to build the ListView row by row.
+     * This method, that overrides the standard one, is used to build the ListView row by row.
+     * It gets the view as a parameter, it adds all the elements that needs to be displayed and then it return it back.
      *
      * @param position      the position of the item in the ListView
      * @param convertView   the view
@@ -59,18 +62,17 @@ public class ArrayListViewAdapter extends ArrayAdapter<DefaultListViewItems> {
         View listView;
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            listView = Objects.requireNonNull(inflater).inflate(R.layout.default_list_view_item, null);
+            listView = Objects.requireNonNull(inflater).inflate(R.layout.default_list_view_item, null); // Using the inflater we get the layout and structure of the listview
 
             ImageView imageView = listView.findViewById(R.id.firstImageview2); // image of the object
-            TextView txtObj = listView.findViewById(R.id.textView); // object
+            TextView txtObj = listView.findViewById(R.id.textView); // name of the object
             TextView txtPrice = listView.findViewById(R.id.txtPrice); // price of the object
 
-            // set the proper values to the elements
-            imageView.setImageResource(objects.get(position).getImage());
+            imageView.setImageResource(objects.get(position).getImage()); // set the proper values to the elements
             txtObj.setText(Objects.requireNonNull(objects.get(position).getItemName()));
             String price = "" + objects.get(position).getPrice() + " €";
             txtPrice.setText(price);
-        }else {
+        } else {
             listView = convertView;
         }
 
@@ -78,11 +80,11 @@ public class ArrayListViewAdapter extends ArrayAdapter<DefaultListViewItems> {
     }
 
     /**
-     * This override method is used to retrieve the item of the ListView specified by
-     * a position
+     * This method, that overrides the standard one, is used to retrieve a specific item of the ListView specified by
+     * an integer value, the position of the element.
      *
-     * @param position      the position of the item
-     * @return The item to return
+     * @param position       position of the item
+     * @return               the item at that specific position
      * */
     @Nullable
     @Override
@@ -91,7 +93,7 @@ public class ArrayListViewAdapter extends ArrayAdapter<DefaultListViewItems> {
     }
 
     /**
-     * This method is used to add a single DefaultListViewItems object in the ArrayList
+     * This method is used to add a single DefaultListViewItems object into the ArrayList.
      *
      * @param itemName      the name of the item
      * @param image         the image of the category of the item
@@ -104,7 +106,7 @@ public class ArrayListViewAdapter extends ArrayAdapter<DefaultListViewItems> {
 
     /**
      * This method is used to add all the DefaultListViewItems objects in the ArrayList,
-     * with the option to sort them
+     * with the option to sort them.
      *
      * @param defaultListViewItems      the ArrayList
      * @param sort                      indicates if the ArrayList has to be sorted
@@ -125,19 +127,52 @@ public class ArrayListViewAdapter extends ArrayAdapter<DefaultListViewItems> {
         }
     }
 
+
     /**
-     * Method to create a partition of the given array (ASC)
+     * Recursive method to perform the quicksort (ASC order)
      *
      * @param arr       the array to sort
      * @param low       the lower bound of the array
      * @param high      the upper bound of the array
      * */
-    static int partition(ArrayList<DefaultListViewItems> arr, int low, int high) {
+    static void quickSort(ArrayList<DefaultListViewItems> arr, int low, int high) {
+        if (low < high) {
+            int pi = swap(arr, low, high);
+
+            quickSort(arr, low, pi - 1);
+            quickSort(arr, pi + 1, high);
+        }
+    }
+
+
+    /**
+     * Recursive method to perform the quicksort (DESC order)
+     *
+     * @param arr       the array to sort
+     * @param low       the lower bound of the array
+     * @param high      the upper bound of the array
+     * */
+    static void reverseQuickSort(ArrayList<DefaultListViewItems> arr, int low, int high) {
+        if (low < high) {
+
+            int pi = reverseSwap(arr, low, high);
+
+            reverseQuickSort(arr, low, pi - 1);
+            reverseQuickSort(arr, pi + 1, high);
+        }
+    }
+
+
+    /**
+     * Method to swap the position of two elements inside the ArrayList that is passed (ASC order)
+     *
+     * @param arr       the array to sort
+     * @param low       the lower bound of the array
+     * @param high      the upper bound of the array
+     * */
+    static int swap(ArrayList<DefaultListViewItems> arr, int low, int high) {
         float pivot = arr.get(high).getPrice();
 
-        // Index of smaller element and
-        // indicates the right position
-        // of pivot found so far
         int i = (low - 1);
 
         for(int j = low; j <= high - 1; j++) {
@@ -150,59 +185,18 @@ public class ArrayListViewAdapter extends ArrayAdapter<DefaultListViewItems> {
         return (i + 1);
     }
 
+
     /**
-     * Recursive method to perform the quicksort (ASC)
+     * Method to swap the position of two elements inside the ArrayList that is passed (DESC order)
      *
      * @param arr       the array to sort
      * @param low       the lower bound of the array
      * @param high      the upper bound of the array
      * */
-    static void quickSort(ArrayList<DefaultListViewItems> arr, int low, int high) {
-        if (low < high) {
-            // pi is partitioning index, arr[p]
-            // is now at right place
-            int pi = partition(arr, low, high);
 
-            // Separately sort elements before
-            // partition and after partition
-            quickSort(arr, low, pi - 1);
-            quickSort(arr, pi + 1, high);
-        }
-    }
-
-    /**
-     * Recursive method to perform the quicksort (DESC)
-     *
-     * @param arr       the array to sort
-     * @param low       the lower bound of the array
-     * @param high      the upper bound of the array
-     * */
-    static void reverseQuickSort(ArrayList<DefaultListViewItems> arr, int low, int high) {
-        if (low < high) {
-            // pi is partitioning index, arr[p]
-            // is now at right place
-            int pi = reversePartition(arr, low, high);
-
-            // Separately sort elements before
-            // partition and after partition
-            reverseQuickSort(arr, low, pi - 1);
-            reverseQuickSort(arr, pi + 1, high);
-        }
-    }
-
-    /**
-     * Method to create a partition of the given array (DESC)
-     *
-     * @param arr       the array to sort
-     * @param low       the lower bound of the array
-     * @param high      the upper bound of the array
-     * */
-    static int reversePartition(ArrayList<DefaultListViewItems> arr, int low, int high) {
+    static int reverseSwap(ArrayList<DefaultListViewItems> arr, int low, int high) {
         float pivot = arr.get(high).getPrice();
 
-        // Index of smaller element and
-        // indicates the right position
-        // of pivot found so far
         int i = (low - 1);
 
         for(int j = low; j <= high - 1; j++) {

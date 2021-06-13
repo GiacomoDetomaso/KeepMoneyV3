@@ -21,7 +21,7 @@ import com.example.keepmoneyv3.ui.movements.MovementsFragment;
 import com.example.keepmoneyv3.ui.wishlist.WishListsFragment;
 import com.example.keepmoneyv3.utility.Category;
 import com.example.keepmoneyv3.utility.Item;
-import com.example.keepmoneyv3.utility.Keys;
+import com.example.keepmoneyv3.utility.ApplicationTags;
 import com.example.keepmoneyv3.utility.User;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -40,7 +40,7 @@ import java.util.Date;
 
 /**
  * This class is the "hub" of the app. It is used to navigate through the various menus tabs
- * and it performs all the database insert queries or update queries related to:
+ * and it performs all the database insert or update queries related to:
  *
  * 1) Incomes
  * 2) Items
@@ -48,18 +48,21 @@ import java.util.Date;
  * 4) WishLists
  *
  * @author Giacomo Detomaso and Michelangelo De Pascale
- **/
+ */
 
 public class NavigationActivity extends AppCompatActivity implements DialogAddNewType.DialogAddNewTypeListener,
         DialogIncome.DialogIncomeListener, DialogPurchase.DialogPurchaseListener, DashboardFragment.DashboardFragmentListener,
         WishListsFragment.WishListsFragmentListener, DialogAddNameToWishList.DialogAddNameToWishListListener,
         MovementsFragment.MovementsFragmentListener, DialogEditWishList.DialogEditWishListListener {
 
-    private User user; // the user passed as a bundle from login or registration
+    private User user; // the variable used to store the user passed inside the bundle by the login or the registration
+
 
     /**
-     * This method describes what happens when the Activity is created
-     * */
+     * This method, that overrides the standard one, describes what happens when the Activity is created.
+     * It is used to get a User object, which contains all the personal data of the logged user.
+     *
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,94 +76,105 @@ public class NavigationActivity extends AppCompatActivity implements DialogAddNe
         NavigationUI.setupWithNavController(navView, navController);
 
         Bundle bundle = getIntent().getExtras();
-        user = (User) bundle.getSerializable(Keys.SerializableKeys.USER_KEY);
+        user = (User) bundle.getSerializable(ApplicationTags.SerializableTags.USER_KEY);
 
     }
 
     /**
      * This method is triggered when the btnAddNewMoney is tapped.
+     * Allows to create a custom dialog to insert an income.
      *
      * @param view      the view of the dialog
      * */
     public void addMoneyEvent(View view) {
         DialogFragment dialogFragment = new DialogIncome();
-        dialogFragment.show(getSupportFragmentManager(), Keys.DialogTags.DIALOG_INCOME_TAG);
+        dialogFragment.show(getSupportFragmentManager(), ApplicationTags.DialogTags.DIALOG_INCOME_TAG);
     }
 
     /**
      * This method is triggered when the fabAddNewPurchase is tapped.
+     * Allows to create a custom dialog to insert a purchase.
      *
      * @param view      the view of the dialog
      * */
     public void addPurchaseEvent(View view){
         DialogFragment dialogFragment = new DialogPurchase(user.getTotal());
-        dialogFragment.show(getSupportFragmentManager(), Keys.DialogTags.DIALOG_PURCHASES_TAG);
+        dialogFragment.show(getSupportFragmentManager(), ApplicationTags.DialogTags.DIALOG_PURCHASES_TAG);
     }
 
     /**
      * This method is triggered when the fabAddNewWishList is tapped.
+     * Allows to create a custom dialog to insert a wishlist.
      *
      * @param view      the view of the dialog
      * */
     public void fabAddWishListAction(View view){
         DialogFragment dialogFragment = new DialogAddWishListItems();
-        dialogFragment.show(getSupportFragmentManager(), Keys.DialogTags.DIALOG_ADD_WISH_LIST_ITEMS_TAG);
+        dialogFragment.show(getSupportFragmentManager(), ApplicationTags.DialogTags.DIALOG_ADD_WISH_LIST_ITEMS_TAG);
     }
 
+    /**
+     * This method is triggered when the fabStats is tapped.
+     * It shows a message to warn of a not-yet implemented feature.
+     *
+     * @param view      the view
+     * */
     public void fabStatAction(View view){
         Toast.makeText(getApplicationContext(), "La funzione di statistiche sui movimenti verrà implementata presto", Toast.LENGTH_SHORT).show();
     }
 
     /**
      * Callback method that send to the parent dialog the name of the
-     * selected category, during the income acquisition
+     * selected category, during the income acquisition.
      *
-     * @param cat       category
+     * @param cat        the selected category
+     *
      * @see DialogIncome
      * */
     @Override
     public void onTypeChosenIncomes(Category cat) {
-        DialogIncome dialogIncome = (DialogIncome) getSupportFragmentManager().findFragmentByTag(Keys.DialogTags.DIALOG_INCOME_TAG);
+        DialogIncome dialogIncome = (DialogIncome) getSupportFragmentManager().findFragmentByTag(ApplicationTags.DialogTags.DIALOG_INCOME_TAG);
         if(dialogIncome != null)
             dialogIncome.setCategory(cat);
     }
 
     /**
      * Callback method that send to the parent dialog the name of the
-     * selected category, during the purchase acquisition
+     * selected category, during the purchase acquisition.
      *
-     * @param cat       category
+     * @param cat       the selected category
      *
      * */
     @Override
     public void onTypeChoosePurchases(Category cat) {
-        DialogPurchase dialogPurchase = (DialogPurchase) getSupportFragmentManager().findFragmentByTag(Keys.DialogTags.DIALOG_PURCHASES_TAG);
+        DialogPurchase dialogPurchase = (DialogPurchase) getSupportFragmentManager().findFragmentByTag(ApplicationTags.DialogTags.DIALOG_PURCHASES_TAG);
         if(dialogPurchase != null)
             dialogPurchase.setCategory(cat);
     }
 
     /**
      * Callback method that send to the parent dialog the name of the
-     * selected category, during the addition of a new item in the wishlist
+     * selected category, during the addition of a new item in the wishlist.
      *
-     * @param cat       category
+     * @param cat       the selected category
      *
      * */
     @Override
     public void onTypeChooseWishListItem(Category cat) {
-        DialogAddWishListItems dialogAddWishListItems = (DialogAddWishListItems) getSupportFragmentManager().findFragmentByTag(Keys.DialogTags.DIALOG_ADD_WISH_LIST_ITEMS_TAG);
+        DialogAddWishListItems dialogAddWishListItems = (DialogAddWishListItems) getSupportFragmentManager().findFragmentByTag(ApplicationTags.DialogTags.DIALOG_ADD_WISH_LIST_ITEMS_TAG);
         if(dialogAddWishListItems != null)
             dialogAddWishListItems.setCategory(cat);
     }
 
     /**
-     * Callback method that saves the income inside the database
+     * Callback method that saves the income the user is inserting right now inside the database.
      *
      * @param val       the value of the income
      * @param date      the date of the income
      * @param idCat     the id of the income's category
      *
-     * @see DialogIncome.DialogIncomeListener */
+     * @see DialogIncome.DialogIncomeListener
+     * */
     @Override
     public void DialogIncomeInsert(float val, String date, String idCat) {
         DbManager dbManager = new DbManager(getApplicationContext());
@@ -175,7 +189,7 @@ public class NavigationActivity extends AppCompatActivity implements DialogAddNe
     }
 
     /**
-     * Callback method that saved the purchase inside the database
+     * Callback method that saves the purchase the user is making right now inside the database.
      *
      * @param item      the item bought
      * @param date      the date of the purchase
@@ -189,12 +203,12 @@ public class NavigationActivity extends AppCompatActivity implements DialogAddNe
         long testValue = dbManager.insertItems(item.getPrice(), item.getAmount(), item.getName(), item.getValid(), item.getCatID());
         int listId = 0;
 
-        if(testValue > 0){
+        if(testValue > 0){ // only proceed if the insert of the item in the database is successful
             item.setId((int) testValue);
             testValue = dbManager.insertPurchases(date, time, user.getUsername(), item.getId(), listId);
 
-            if (testValue > 0){
-                Toast.makeText(getApplicationContext(), "Spesa registrata correttamente", Toast.LENGTH_LONG).show();
+            if (testValue > 0){ // only proceed if the insert of the purchases in the database is successful
+                Toast.makeText(getApplicationContext(), "Spesa registrata correttamente", Toast.LENGTH_SHORT).show();
                 // update total value
                 float purchasePrice = item.getPrice() * item.getAmount();
                 user.setTotal(user.getTotal() - purchasePrice);
@@ -205,7 +219,7 @@ public class NavigationActivity extends AppCompatActivity implements DialogAddNe
     }
 
     /**
-     * Callback method to insert the WishList in the database
+     * Callback method to insert a WishList in the database.
      *
      * @param items             the items of the wishlist
      * @param listName          name of the list
@@ -214,7 +228,7 @@ public class NavigationActivity extends AppCompatActivity implements DialogAddNe
     @Override
     public void WishListInsert(@NotNull ArrayList<Item> items, String listName, String listDescription) {
         DbManager dbManager = new DbManager(getApplicationContext());
-        int listId = (int) dbManager.insertWishLists(listName, listDescription, Keys.MiscellaneousKeys.NOT_CONFIRMED);
+        int listId = (int) dbManager.insertWishLists(listName, listDescription, ApplicationTags.MiscellaneousTags.NOT_CONFIRMED);
 
         if(listId > 0) {
             for (int i = 0; i < items.size(); i++) {
@@ -224,7 +238,7 @@ public class NavigationActivity extends AppCompatActivity implements DialogAddNe
 
                 // insert purchases
                 if (itemId > 0) {
-                    dbManager.insertPurchaseSimple(user.getUsername(), itemId, listId);
+                    dbManager.insertWLElementPurchase(user.getUsername(), itemId, listId);
                 }
             }
         }
@@ -233,8 +247,8 @@ public class NavigationActivity extends AppCompatActivity implements DialogAddNe
     }
 
     /**
-     * This method is used to communicate with the application's fragments.
-     * It send to them the user object
+     * This method is used to send some vital information to the other application's fragments, when required.
+     * It send to them the user object.
      *
      * @see DashboardFragment
      * @return user object
@@ -245,14 +259,14 @@ public class NavigationActivity extends AppCompatActivity implements DialogAddNe
     }
 
     /**
-     * This method is used to refresh the activity once a new movement has been registered
+     * This method is used to refresh the activity once a new movement has been registered, to update all the values
      * */
     private void refreshActivity() {
         finish(); // end the current activity
         overridePendingTransition(0, 0);
 
         Bundle bundleRefreshActivity = new Bundle();
-        bundleRefreshActivity.putSerializable(Keys.SerializableKeys.USER_KEY, user);
+        bundleRefreshActivity.putSerializable(ApplicationTags.SerializableTags.USER_KEY, user);
 
         Intent intent = getIntent().putExtras(bundleRefreshActivity);
         startActivity(intent);// restart the activity
@@ -261,7 +275,7 @@ public class NavigationActivity extends AppCompatActivity implements DialogAddNe
     }
 
     /**
-     * Change Floating Action Buttons visibility, according to the selected fragment
+     * Method used to change floating action buttons visibility, according to the selected fragment (in this case Wishlist)
      * */
     @Override
     public User onWishListsFragmentOpened() {
@@ -278,7 +292,7 @@ public class NavigationActivity extends AppCompatActivity implements DialogAddNe
     }
 
     /**
-     * Change Floating Action Buttons visibility, according to the selected fragment
+     * Method used to change floating action buttons visibility, according to the selected fragment (in this case Movements)
      * */
     @Override
     public void onMovementsFragmentOpened() {
@@ -294,7 +308,7 @@ public class NavigationActivity extends AppCompatActivity implements DialogAddNe
     }
 
     /**
-     * Change Floating Action Buttons visibility, according to the selected fragment
+     * Method used to change floating action buttons visibility, according to the selected fragment (in this case Dashboard)
      * */
     @Override
     public void onDashboardFragmentOpened() {
@@ -310,8 +324,8 @@ public class NavigationActivity extends AppCompatActivity implements DialogAddNe
 
 
     /**
-     * This method is used to confirm the WishList.
-     * It updates the isConfirmed field of the WishList's table
+     * This method is used to confirm a WishList.
+     * It updates the "isConfirmed" field of the WishList's table row
      * and the one of the items related to it. When a WishList is confirmed
      * the budget of the user is updated too.
      *
@@ -342,7 +356,7 @@ public class NavigationActivity extends AppCompatActivity implements DialogAddNe
         if(user.getTotal() > listTotal) {
             int purchId = 0;
             // update wishlists
-            dbManager.updateAtWishListConfirmation(Keys.MiscellaneousKeys.CONFIRMED, listId);
+            dbManager.updateAtWishListConfirmation(ApplicationTags.MiscellaneousTags.CONFIRMED, listId);
 
             String format = "dd/MM/yyyy HH:mm:ss";
             @SuppressLint("SimpleDateFormat") SimpleDateFormat formatter = new SimpleDateFormat(format);
@@ -350,7 +364,7 @@ public class NavigationActivity extends AppCompatActivity implements DialogAddNe
             String dateWishList = formatter.format(date).split(" ")[0];
             String timeWishList = formatter.format(date).split(" ")[1];
 
-            // update item and purchases
+            // updating the validity of the items in the wishlist and entering the date on which it was actually bought
             for (Item item : wishListItems) {
                 cursor = dbManager.queryGetPurchaseIdFromItemId(item.getId());
 
@@ -361,17 +375,17 @@ public class NavigationActivity extends AppCompatActivity implements DialogAddNe
                     dbManager.updatePurchasesDateAndTime(dateWishList, timeWishList, purchId);
                 }
 
-                dbManager.updateItemsValidity(Keys.MiscellaneousKeys.CONFIRMED, item.getId());
+                dbManager.updateItemsValidity(ApplicationTags.MiscellaneousTags.CONFIRMED, item.getId());
             }
 
-            // update user total
+            // update user total, subtracting the wishlist total
             user.setTotal(user.getTotal() - listTotal);
             dbManager.updateUserTotal(user.getTotal(), user.getUsername());
 
-            Toast.makeText(getApplicationContext(), "Lista acquistata correttamente", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "Lista acquistata correttamente", Toast.LENGTH_SHORT).show();
             refreshActivity();
         } else {
-            Toast.makeText(getApplicationContext(), "Impossibile completare l'acquisto della lista perchè il budget è insufficente", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "Impossibile completare l'acquisto della lista perchè il budget è insufficente!", Toast.LENGTH_LONG).show();
         }
     }
 

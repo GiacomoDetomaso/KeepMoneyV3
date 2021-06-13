@@ -50,16 +50,6 @@ title __ACTIVITIES's Class Diagram__\n
   }
 
 
-  com.example.keepmoneyv3.activities.MainActivity o-- com.example.keepmoneyv3.database.DbManager : dbManager
-  com.example.keepmoneyv3.activities.NavigationActivity .up.|> com.example.keepmoneyv3.dialogs.DialogAddNewType.DialogAddNewTypeListener
-  com.example.keepmoneyv3.activities.NavigationActivity .up.|> com.example.keepmoneyv3.dialogs.DialogIncome.DialogIncomeListener
-  com.example.keepmoneyv3.activities.NavigationActivity .up.|> com.example.keepmoneyv3.dialogs.DialogPurchase.DialogPurchaseListener
-  com.example.keepmoneyv3.activities.NavigationActivity .up.|> com.example.keepmoneyv3.ui.dashboard.DashboardFragment.DashboardFragmentListener
-  com.example.keepmoneyv3.activities.NavigationActivity .up.|> com.example.keepmoneyv3.ui.wishlist.WishListsFragment.WishListsFragmentListener
-  com.example.keepmoneyv3.activities.NavigationActivity o-- com.example.keepmoneyv3.utility.User : user
-  com.example.keepmoneyv3.activities.RegistrationActivity o-- com.example.keepmoneyv3.database.DbManager : mDbManager
-
-
 right footer
 
 

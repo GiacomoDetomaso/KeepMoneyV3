@@ -1,6 +1,6 @@
 @startuml
 
-title __HOME's Class Diagram__\n
+title __MOVEMENTS' Class Diagram__\n
 
   namespace com.example.keepmoneyv3 {
     namespace ui.home {
@@ -13,7 +13,7 @@ title __HOME's Class Diagram__\n
 
   namespace com.example.keepmoneyv3 {
     namespace ui.home {
-      class com.example.keepmoneyv3.ui.home.HomeViewModel {
+      class com.example.keepmoneyv3.ui.movements.HomeViewModel {
           - mText : MutableLiveData<String>
           + HomeViewModel()
           + getText()

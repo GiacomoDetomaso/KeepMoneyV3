@@ -17,7 +17,7 @@ import com.example.keepmoneyv3.R;
 import com.example.keepmoneyv3.activities.NavigationActivity;
 import com.example.keepmoneyv3.adapters.GridViewCategoryAdapter;
 import com.example.keepmoneyv3.utility.Category;
-import com.example.keepmoneyv3.utility.Keys;
+import com.example.keepmoneyv3.utility.ApplicationTags;
 
 
 import org.jetbrains.annotations.NotNull;
@@ -25,7 +25,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 
 /**
- * This class is used to display the recycler view to select a category
+ * This class is used to display the recycler view to select a category.
  *
  * @author Michelangelo De Pascale
  * */
@@ -44,7 +44,7 @@ public class DialogAddNewType extends DialogFragment {
     }
 
     /**
-     * This method attach the listener to the NavigationActivity
+     * This method attach the listener to the NavigationActivity.
      * */
     @Override
     public void onAttach(@NotNull Context context){
@@ -67,7 +67,7 @@ public class DialogAddNewType extends DialogFragment {
     }
 
     /**
-     * This method describes what happens when the dialog is created
+     * This method is used to build the GridView layout.
      * */
     @SuppressLint("InflateParams")
     @NonNull
@@ -80,7 +80,7 @@ public class DialogAddNewType extends DialogFragment {
 
         GridView gridView = root.findViewById(R.id.gridViewCategories);//find the grid view
         builder.setView(root);
-        builder.setTitle(Keys.DialogTitles.DIALOG_ADD_NEW_TYPE_TITLE);
+        builder.setTitle(ApplicationTags.DialogTitles.DIALOG_ADD_NEW_TYPE_TITLE);
 
         GridViewCategoryAdapter gridViewCategoryAdapter = new GridViewCategoryAdapter(getContext());//instantiate the image adapter
 
@@ -92,7 +92,7 @@ public class DialogAddNewType extends DialogFragment {
     }
 
     /**
-     * This method is used to build the grid of the gridview
+     * This method is used to build the grid of the GridView.
      *
      * @param gridViewCategoryAdapter       the adapter of the gridview
      *
@@ -107,7 +107,7 @@ public class DialogAddNewType extends DialogFragment {
     /**
      * This method is called when an item of the gridview is tapped.
      * It is used to call the interface's method, in order to set the corresponding
-     * category title on the EditText.
+     * selected category title on the EditText.
      *
      * @param gridView      the gridview
      * @param adapter       the adapter of the gridview
@@ -118,15 +118,15 @@ public class DialogAddNewType extends DialogFragment {
         gridView.setOnItemClickListener((parent, view, position, id) -> {
             ArrayList<Category> categoryArrayList = adapter.getCategories();
             switch (dialogTag) {
-                case Keys.DialogTags.DIALOG_INCOME_TAG:
+                case ApplicationTags.DialogTags.DIALOG_INCOME_TAG:
                     listener.onTypeChosenIncomes(categoryArrayList.get(position));
                     dismiss();//close the dialog
                     break;
-                case Keys.DialogTags.DIALOG_PURCHASES_TAG:
+                case ApplicationTags.DialogTags.DIALOG_PURCHASES_TAG:
                     listener.onTypeChoosePurchases(categoryArrayList.get(position));
                     dismiss();//close the dialog
                     break;
-                case Keys.DialogTags.DIALOG_ADD_WISH_LIST_ITEMS_TAG:
+                case ApplicationTags.DialogTags.DIALOG_ADD_WISH_LIST_ITEMS_TAG:
                     listener.onTypeChooseWishListItem(categoryArrayList.get(position));
                     dismiss();
             }

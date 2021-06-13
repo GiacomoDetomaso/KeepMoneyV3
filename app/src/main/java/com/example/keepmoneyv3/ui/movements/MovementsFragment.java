@@ -15,7 +15,7 @@ import com.example.keepmoneyv3.R;
 import com.example.keepmoneyv3.activities.NavigationActivity;
 import com.example.keepmoneyv3.adapters.TabPagerAdapter;
 import com.example.keepmoneyv3.database.*;
-import com.example.keepmoneyv3.utility.Keys;
+import com.example.keepmoneyv3.utility.ApplicationTags;
 import com.example.keepmoneyv3.utility.User;
 import com.example.keepmoneyv3.utility.WishLists;
 import com.google.android.material.tabs.TabLayout;
@@ -23,7 +23,7 @@ import com.google.android.material.tabs.TabLayout;
 import java.util.ArrayList;
 
 /**
- * This class manages the creation of the PageAdapter and its items
+ * This class manages the creation of the PageAdapter and its items.
  *
  * @author Michelangelo De Pascale
  * */
@@ -132,7 +132,7 @@ public class MovementsFragment extends Fragment {
     private void getWishListData(ArrayList<WishLists>wishLists, String username) {
         DbManager manager = new DbManager(getContext());
 
-        Cursor cursor = manager.getWishListDataQuery(username, Keys.MiscellaneousKeys.CONFIRMED);
+        Cursor cursor = manager.getWishListDataQuery(username, ApplicationTags.MiscellaneousTags.CONFIRMED);
         if (cursor != null) {
             while (cursor.moveToNext()) {
                 int wlId = cursor.getInt(cursor.getColumnIndex(DbStrings.TableWishListsFields.WL_ID));

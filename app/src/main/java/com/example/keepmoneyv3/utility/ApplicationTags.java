@@ -1,7 +1,17 @@
 package com.example.keepmoneyv3.utility;
 
-public class Keys {
-    public static class SerializableKeys{
+/**
+ * This class contains some static classes inside which there
+ * are strings used to parameterize the application in many of its methods.
+ *
+ * @author Giacomo Detomaso
+ * */
+public class ApplicationTags {
+
+    /**
+     * This class contains tags used in Bundle transactions.
+     */
+    public static class SerializableTags {
         public static final String USER_KEY = "user";
         public static final String INCOMES_ROWS_KEY = "incomes";
         public static final String PURCHASES_ROWS_KEY = "purchases";
@@ -10,6 +20,9 @@ public class Keys {
         public static final String POSITION_KEY = "position";
     }
 
+    /**
+     * This class contains tags used in dialogs to set their title.
+     */
     public static class DialogTitles{
         public static final String DIALOG_ENTRIES_TITLE = "Entrate";
         public static final String DIALOG_ADD_NEW_TYPE_TITLE = "Categorie";
@@ -18,6 +31,10 @@ public class Keys {
         public static final String DIALOG_EDIT_WISH_LIST_TITLE = "Modifica Lista";
     }
 
+    /**
+     * This class contains tags used at the creation of a dialog.
+     * They are useful to retrieve a dialog at runtime.
+     */
     public static class DialogTags{
         public static final String DIALOG_INCOME_TAG = "DialogIncome";
         public static final String DIALOG_ADD_NEW_TYPE_TAG = "DialogAddNewType";
@@ -30,12 +47,18 @@ public class Keys {
         public static final String DIALOG_EDIT_WISH_LIST_ELEMENT_TAG = "DialogEditWishListElement";
     }
 
-    public static class MiscellaneousKeys{
+    /**
+     * This class contains some generic tags.
+     */
+    public static class MiscellaneousTags{
         public static final String EMAIL_REGEX = "^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$";
         public static final int NOT_CONFIRMED = 0;
         public static final int CONFIRMED = 1;
     }
 
+    /**
+     * This class contains the IDs of the categories.
+     */
     public static class PredefinedCategoriesId{
         public static final String CAT_TECH_ID = "cat01";
         public static final String CAT_FOOD_ID = "cat02";

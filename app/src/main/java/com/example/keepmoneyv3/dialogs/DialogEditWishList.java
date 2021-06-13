@@ -20,7 +20,7 @@ import com.example.keepmoneyv3.activities.NavigationActivity;
 import com.example.keepmoneyv3.adapters.ExpandableListViewAdapter;
 import com.example.keepmoneyv3.database.*;
 import com.example.keepmoneyv3.utility.DefaultListViewItems;
-import com.example.keepmoneyv3.utility.Keys;
+import com.example.keepmoneyv3.utility.ApplicationTags;
 import com.example.keepmoneyv3.utility.User;
 import com.example.keepmoneyv3.utility.WishLists;
 
@@ -30,7 +30,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
- * This class is used to edit the item of a WishList
+ * This class is used to edit the item of a WishList.
  *
  * @author Giacomo Detomaso and Michelangelo De Pascale
  * */
@@ -46,7 +46,7 @@ public class DialogEditWishList extends DialogFragment {
     private DialogEditWishListListener listener;
 
     /**
-     * This method attach the listener to the NavigationActivity
+     * This method attach the listener to the NavigationActivity.
      * */
     @Override
     public void onAttach(@NonNull Context context) {
@@ -62,7 +62,8 @@ public class DialogEditWishList extends DialogFragment {
     }
 
     /**
-     * This method describes what happens when the dialog is created
+     * This method is used to create the dialog that will display the ExpandableListView
+     * that contains all the items of a wishlist.
      * */
     @SuppressLint("InflateParams")
     @NonNull
@@ -73,7 +74,7 @@ public class DialogEditWishList extends DialogFragment {
         LayoutInflater inflater = requireActivity().getLayoutInflater();//get the layout inflater
         View root = inflater.inflate(R.layout.fragment_movements_wish_lists_expandable_list_view, null);
         builder.setView(root);
-        builder.setTitle(Keys.DialogTitles.DIALOG_EDIT_WISH_LIST_TITLE);
+        builder.setTitle(ApplicationTags.DialogTitles.DIALOG_EDIT_WISH_LIST_TITLE);
 
         User user = listener.GetUserFromSavedBundle();
         ArrayList<WishLists>wishLists = new ArrayList<>();
@@ -93,7 +94,7 @@ public class DialogEditWishList extends DialogFragment {
             expandableListView.setOnChildClickListener((expandableListView1, view, groupPosition, childPosition, l) -> {
                 DefaultListViewItems defaultListViewItems = adapter.getChild(groupPosition, childPosition);
                 DialogEditWishListElement dialogEditWishListElement = new DialogEditWishListElement(defaultListViewItems);
-                dialogEditWishListElement.show(getParentFragmentManager(), Keys.DialogTags.DIALOG_EDIT_WISH_LIST_ELEMENT_TAG);
+                dialogEditWishListElement.show(getParentFragmentManager(), ApplicationTags.DialogTags.DIALOG_EDIT_WISH_LIST_ELEMENT_TAG);
                 dismiss();
                 return true;
             });
@@ -106,12 +107,12 @@ public class DialogEditWishList extends DialogFragment {
     }
 
     /**
-     * Get the most important data of the WishList
+     * This method is used to get the most important data of all the WishLists that are not confirmed.
      * */
     private void getWishListData(ArrayList<WishLists>wishLists, String username) {
         DbManager manager = new DbManager(getContext());
 
-        Cursor cursor = manager.getWishListDataQuery(username, Keys.MiscellaneousKeys.NOT_CONFIRMED);
+        Cursor cursor = manager.getWishListDataQuery(username, ApplicationTags.MiscellaneousTags.NOT_CONFIRMED);
         if (cursor != null) {
             while (cursor.moveToNext()) {
                 int wlId = cursor.getInt(cursor.getColumnIndex(DbStrings.TableWishListsFields.WL_ID));
@@ -124,7 +125,7 @@ public class DialogEditWishList extends DialogFragment {
     }
 
     /**
-     * Builds the HashMap to send to the ExpandableWishListAdapter
+     * This method builds the HashMap that needs to be send to the ExpandableWishListAdapter.
      *
      * @param confirmedWl       the wishlist to populate
      * @param map               the map to populate
@@ -155,7 +156,7 @@ public class DialogEditWishList extends DialogFragment {
     }
 
     /**
-     * Get the titles of the ExpandableWishListAdapter
+     * This method is used to get the titles of the ExpandableWishListAdapter.
      *
      * @param wishLists         the wishlists used to retrieve its list names
      * @param titles            the arraylist populated with the names of all wishlists

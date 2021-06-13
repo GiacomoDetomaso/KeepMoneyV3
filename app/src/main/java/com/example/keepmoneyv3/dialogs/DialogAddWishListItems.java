@@ -21,11 +21,17 @@ import com.example.keepmoneyv3.R;
 import com.example.keepmoneyv3.database.*;
 import com.example.keepmoneyv3.utility.Category;
 import com.example.keepmoneyv3.utility.Item;
-import com.example.keepmoneyv3.utility.Keys;
+import com.example.keepmoneyv3.utility.ApplicationTags;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+
+/**
+ * This class is used during the wishlist creation to add all its items.
+ *
+ * @author Giacomo Detomaso
+ */
 
 public class DialogAddWishListItems extends DialogFragment {
     private View root;
@@ -39,7 +45,7 @@ public class DialogAddWishListItems extends DialogFragment {
     }
 
     /**
-     * This method describes what happens when the dialog is created
+     * This method is used to build the layout of the dialog used to finalize the wishlist.
      * */
     @SuppressLint("InflateParams")
     @NonNull
@@ -50,7 +56,7 @@ public class DialogAddWishListItems extends DialogFragment {
         LayoutInflater inflater = requireActivity().getLayoutInflater();//get the layout inflater
         root = inflater.inflate(R.layout.fragment_wish_lists_dialog_add_items, null);
         builder.setView(root);
-        builder.setTitle(Keys.DialogTitles.DIALOG_ADD_WISH_LIST_TITLE);
+        builder.setTitle(ApplicationTags.DialogTitles.DIALOG_ADD_WISH_LIST_TITLE);
 
         txtCategoryItemList = root.findViewById(R.id.txtCategoryItemList);
         subTotal = 0;
@@ -63,8 +69,8 @@ public class DialogAddWishListItems extends DialogFragment {
     }
 
     /**
-     * This method adds a new item to the wishlist. 
-     * It checks:
+     * This method adds a new item to a wishlist.
+     * Requirements:
      *  1 - EditText must be filled
      *  2 - The numeric values must be correct
      *
@@ -100,7 +106,7 @@ public class DialogAddWishListItems extends DialogFragment {
                     itemCost = Float.parseFloat(txtCostWL.getText().toString());
 
                     if(itemCost > 0 && amount > 0) {
-                        listItems.add(new Item(itemName, amount, Keys.MiscellaneousKeys.NOT_CONFIRMED, itemCost, category.getId()));
+                        listItems.add(new Item(itemName, amount, ApplicationTags.MiscellaneousTags.NOT_CONFIRMED, itemCost, category.getId()));
 
                         subTotal = subTotal + (itemCost * amount);
 
@@ -127,7 +133,7 @@ public class DialogAddWishListItems extends DialogFragment {
     }
 
     /**
-     * Used to switch to the next Dialog
+     * Method used to switch to the next Dialog.
      *
      * @see DialogAddNameToWishList
      */
@@ -136,7 +142,7 @@ public class DialogAddWishListItems extends DialogFragment {
         button.setOnClickListener(view -> {
             if (listItems.size() > 0) {
                 DialogFragment dialogFragment = new DialogAddNameToWishList(listItems);
-                dialogFragment.show(getParentFragmentManager(), Keys.DialogTags.DIALOG_ADD_NAME_TO_WISH_LIST_TAG);
+                dialogFragment.show(getParentFragmentManager(), ApplicationTags.DialogTags.DIALOG_ADD_NAME_TO_WISH_LIST_TAG);
                 dismiss();
             } else {
                 Toast.makeText(getContext(), "Nessun oggetto inserito", Toast.LENGTH_SHORT).show();
@@ -146,7 +152,7 @@ public class DialogAddWishListItems extends DialogFragment {
 
 
     /**
-     * Set the category of the item
+     * Method used to set the category of the item.
      * */
     private void txtCategoryAction(@NotNull EditText txtType) {
         txtType.setOnClickListener(v -> {
@@ -157,18 +163,18 @@ public class DialogAddWishListItems extends DialogFragment {
             while (cursor.moveToNext()) {
                 String id = cursor.getString(cursor.getColumnIndex(DbStrings.TableCategoriesFields.CATEGORIES_ID));
                 String desc = cursor.getString(cursor.getColumnIndex(DbStrings.TableCategoriesFields.CATEGORIES_DESC));
-                int picid = cursor.getInt(cursor.getColumnIndex(DbStrings.TableCategoriesFields.CATEGORIES_PIC_ID));
-                allCategories.add(new Category(id, desc, picid));
+                int picId = cursor.getInt(cursor.getColumnIndex(DbStrings.TableCategoriesFields.CATEGORIES_PIC_ID));
+                allCategories.add(new Category(id, desc, picId));
             }
 
-            DialogAddNewType dialogAddNewType = new DialogAddNewType(allCategories, Keys.DialogTags.DIALOG_ADD_WISH_LIST_ITEMS_TAG);
+            DialogAddNewType dialogAddNewType = new DialogAddNewType(allCategories, ApplicationTags.DialogTags.DIALOG_ADD_WISH_LIST_ITEMS_TAG);
             FragmentManager manager = requireActivity().getSupportFragmentManager();
-            dialogAddNewType.show(manager, Keys.DialogTags.DIALOG_ADD_NEW_TYPE_TAG);
+            dialogAddNewType.show(manager, ApplicationTags.DialogTags.DIALOG_ADD_NEW_TYPE_TAG);
         });
     }
 
     /**
-     * Writes the category in its EditText
+     * Writes the category in its EditText.
      * */
     public void setCategory(@NotNull Category cat){
         this.category = cat;

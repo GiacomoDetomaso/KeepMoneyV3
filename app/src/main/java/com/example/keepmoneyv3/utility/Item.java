@@ -51,10 +51,6 @@ public class Item implements Serializable {
         return catID;
     }
 
-    public void setCatID(String catID) {
-        this.catID = catID;
-    }
-
     public void setValid(int valid) {
         this.valid = valid;
     }

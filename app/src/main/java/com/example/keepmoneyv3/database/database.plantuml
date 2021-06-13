@@ -47,13 +47,6 @@ title __DATABASE's Class Diagram__\n
   }
   
 
-  namespace com.example.keepmoneyv3 {
-    namespace database {
-      class com.example.keepmoneyv3.database.DbStrings {
-      }
-    }
-  }
-  
 
   namespace com.example.keepmoneyv3 {
     namespace database {
@@ -149,16 +142,6 @@ title __DATABASE's Class Diagram__\n
       }
     }
   }
-  
-
-  com.example.keepmoneyv3.database.DbHelper -up-|> android.database.sqlite.SQLiteOpenHelper
-  com.example.keepmoneyv3.database.DbManager o-- com.example.keepmoneyv3.database.DbHelper : dbHelper
-  com.example.keepmoneyv3.database.DbStrings +-down- com.example.keepmoneyv3.database.DbStrings.TableCategoriesFields
-  com.example.keepmoneyv3.database.DbStrings +-down- com.example.keepmoneyv3.database.DbStrings.TableIncomesFields
-  com.example.keepmoneyv3.database.DbStrings +-down- com.example.keepmoneyv3.database.DbStrings.TableItemsFields
-  com.example.keepmoneyv3.database.DbStrings +-down- com.example.keepmoneyv3.database.DbStrings.TablePurchasesFields
-  com.example.keepmoneyv3.database.DbStrings +-down- com.example.keepmoneyv3.database.DbStrings.TableUsersField
-  com.example.keepmoneyv3.database.DbStrings +-down- com.example.keepmoneyv3.database.DbStrings.TableWishListsFields
 
 
 right footer

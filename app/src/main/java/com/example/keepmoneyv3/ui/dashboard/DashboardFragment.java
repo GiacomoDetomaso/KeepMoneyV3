@@ -17,13 +17,17 @@ import com.example.keepmoneyv3.R;
 import com.example.keepmoneyv3.activities.NavigationActivity;
 import com.example.keepmoneyv3.adapters.ArrayListViewAdapter;
 import com.example.keepmoneyv3.database.*;
-import com.example.keepmoneyv3.utility.Keys;
+import com.example.keepmoneyv3.utility.ApplicationTags;
 import com.example.keepmoneyv3.utility.User;
+
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.util.Locale;
 
 
 /**
  *  This class is used to create and show the fragment that displays the
- *  application's dashboard
+ *  dashboard of the app.
  *
  * @author Giacomo Detomaso and Michelangelo De Pascale
  * */
@@ -38,7 +42,7 @@ public class DashboardFragment extends Fragment {
     }
 
     /**
-     * An enum used to choose which sum calculate
+     * An enum used to choose which sum calculate.
      * **/
     private enum ChooseEP{
         INCOMES, PURCHASES
@@ -47,7 +51,7 @@ public class DashboardFragment extends Fragment {
     private DashboardFragmentListener listener;
 
     /**
-     * This method attach the listener to the NavigationActivity
+     * This method attach the listener to the NavigationActivity.
      * */
     @Override
     public void onAttach(@NonNull Context context) {
@@ -91,15 +95,15 @@ public class DashboardFragment extends Fragment {
         TextView txtToUscBox = root.findViewById(R.id.txtBalancePurchases);
         TextView txtBudgetBox = root.findViewById(R.id.txtBudget);
 
-        float entries,purchases;
-        entries = sumEntriesOrPurchases(user.getUsername(),ChooseEP.INCOMES);
-        purchases = sumEntriesOrPurchases(user.getUsername(),ChooseEP.PURCHASES);
+        float incomes,purchases;
+        incomes = sumIncomesOrPurchases(user.getUsername(),ChooseEP.INCOMES);
+        purchases = sumIncomesOrPurchases(user.getUsername(),ChooseEP.PURCHASES);
 
-        String strEntries = entries + " €";
-        String strPurchases = purchases + " €";
-        String strTotal = user.getTotal() + " €";
+        String strIncomes = decimalFormat(incomes);
+        String strPurchases = decimalFormat(purchases);
+        String strTotal = decimalFormat(user.getTotal());
 
-        txtToEntriesBox.setText(strEntries);
+        txtToEntriesBox.setText(strIncomes);
         txtToUscBox.setText(strPurchases);
         txtBudgetBox.setText(strTotal);
 
@@ -107,15 +111,15 @@ public class DashboardFragment extends Fragment {
     }
 
     /**
-     * This method is used to get the sum of the entries or the purchases
-     * for a certain user
+     * This method is used to get the sum of the incomes or the purchases
+     * for a certain user.
      *
      * @param username      the username
      * @param choice        used to select the sum of the entries or the sum of the purchases
      *
-     * @return value        a flot number which represents the sum
+     * @return value        a float number which represents the sum
      * */
-    private float sumEntriesOrPurchases(String username, ChooseEP choice){
+    private float sumIncomesOrPurchases(String username, ChooseEP choice){
         DbManager dbManager = new DbManager(getContext());
         Cursor cursor;
         float value = 0;
@@ -123,16 +127,18 @@ public class DashboardFragment extends Fragment {
             case INCOMES:
                 cursor = dbManager.sumIncomesQuery(username);
                 if (cursor!=null){
+                    final String SUM_INC = "sumInc";
                     while(cursor.moveToNext()) {
-                        value = cursor.getFloat(cursor.getColumnIndex("sumInc"));
+                        value = cursor.getFloat(cursor.getColumnIndex(SUM_INC));
                     }
                 }
                 break;
             case PURCHASES:
-                cursor = dbManager.sumPurchasesQuery(username, Keys.MiscellaneousKeys.CONFIRMED);
+                cursor = dbManager.sumPurchasesQuery(username, ApplicationTags.MiscellaneousTags.CONFIRMED);
                 if (cursor!=null){
+                    final String SUM_PURCH = "sumPurch";
                     while(cursor.moveToNext()) {
-                        value = cursor.getFloat(cursor.getColumnIndex("sumPurch"));
+                        value = cursor.getFloat(cursor.getColumnIndex(SUM_PURCH));
                     }
                 }
                 break;
@@ -144,7 +150,7 @@ public class DashboardFragment extends Fragment {
 
 
     /**
-     * This method builds the ListView with the three recent purchases
+     * This method builds the ListView with the three most recent purchases.
      *
      * @param adapter       the adapter of the ListView
      * @param username      the username
@@ -158,7 +164,7 @@ public class DashboardFragment extends Fragment {
         String itemName;
 
         DbManager dbManager = new DbManager(getContext());
-        Cursor cursor = dbManager.getPurchasesItemsQuery(RECENT_ITEMS_LIMIT, Keys.MiscellaneousKeys.NOT_CONFIRMED, username);
+        Cursor cursor = dbManager.getPurchasesItemsQuery(RECENT_ITEMS_LIMIT, ApplicationTags.MiscellaneousTags.NOT_CONFIRMED, username);
 
         if (cursor != null) {
 
@@ -174,5 +180,17 @@ public class DashboardFragment extends Fragment {
         } else {
             Toast.makeText(getContext(), "Errore nel reperire le informazioni", Toast.LENGTH_LONG).show();
         }
+    }
+
+    /**
+     * This method is used to correctly format a numeric value.
+     *
+     * @param value  the value that needs to be formatted
+     * @return       a string representation of the value
+     */
+    private String decimalFormat(float value){
+        DecimalFormat decFormat = new DecimalFormat("0", DecimalFormatSymbols.getInstance(Locale.ENGLISH));
+        decFormat.setMaximumFractionDigits(2);
+        return decFormat.format(value) + " €";
     }
 }

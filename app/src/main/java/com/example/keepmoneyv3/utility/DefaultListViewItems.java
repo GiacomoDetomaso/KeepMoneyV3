@@ -3,7 +3,9 @@ package com.example.keepmoneyv3.utility;
 import java.io.Serializable;
 
 /**
- * This class represents the purchases' information that will be displayed in the ListView
+ * This class represents the purchases' information that will be displayed in the ListView.
+ *
+ * @author Michelangelo De Pascale
  * */
 public  class DefaultListViewItems implements Serializable {
     private final int id;

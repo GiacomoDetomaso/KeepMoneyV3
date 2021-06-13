@@ -158,26 +158,23 @@ title __DIALOGS's Class Diagram__\n
   }
   
 
-  com.example.keepmoneyv3.dialogs.DatePickerDialogFrag .up.|> android.app.DatePickerDialog.OnDateSetListener
-  com.example.keepmoneyv3.dialogs.DatePickerDialogFrag -up-|> androidx.fragment.app.DialogFragment
-  com.example.keepmoneyv3.dialogs.DialogAddNameToWishList -up-|> androidx.fragment.app.DialogFragment
+
   com.example.keepmoneyv3.dialogs.DialogAddNameToWishList o-- com.example.keepmoneyv3.dialogs.DialogAddNameToWishList.DialogAddNameToWishListListener : listener
   com.example.keepmoneyv3.dialogs.DialogAddNameToWishList +-down- com.example.keepmoneyv3.dialogs.DialogAddNameToWishList.DialogAddNameToWishListListener
-  com.example.keepmoneyv3.dialogs.DialogAddNewType -up-|> androidx.fragment.app.DialogFragment
+
   com.example.keepmoneyv3.dialogs.DialogAddNewType o-- com.example.keepmoneyv3.dialogs.DialogAddNewType.DialogAddNewTypeListener : listener
   com.example.keepmoneyv3.dialogs.DialogAddNewType +-down- com.example.keepmoneyv3.dialogs.DialogAddNewType.DialogAddNewTypeListener
-  com.example.keepmoneyv3.dialogs.DialogAddWishListItems -up-|> androidx.fragment.app.DialogFragment
+
   com.example.keepmoneyv3.dialogs.DialogAddWishListItems o-- com.example.keepmoneyv3.utility.Category : category
-  com.example.keepmoneyv3.dialogs.DialogIncome -up-|> androidx.fragment.app.DialogFragment
+
   com.example.keepmoneyv3.dialogs.DialogIncome o-- com.example.keepmoneyv3.utility.Category : category
   com.example.keepmoneyv3.dialogs.DialogIncome o-- com.example.keepmoneyv3.dialogs.DialogIncome.DialogIncomeListener : listener
   com.example.keepmoneyv3.dialogs.DialogIncome +-down- com.example.keepmoneyv3.dialogs.DialogIncome.DialogIncomeListener
-  com.example.keepmoneyv3.dialogs.DialogPurchase -up-|> androidx.fragment.app.DialogFragment
+
   com.example.keepmoneyv3.dialogs.DialogPurchase o-- com.example.keepmoneyv3.utility.Category : category
   com.example.keepmoneyv3.dialogs.DialogPurchase o-- com.example.keepmoneyv3.dialogs.DialogPurchase.DialogPurchaseListener : listener
   com.example.keepmoneyv3.dialogs.DialogPurchase +-down- com.example.keepmoneyv3.dialogs.DialogPurchase.DialogPurchaseListener
-  com.example.keepmoneyv3.dialogs.TimePickerDialogFrag .up.|> android.app.TimePickerDialog.OnTimeSetListener
-  com.example.keepmoneyv3.dialogs.TimePickerDialogFrag -up-|> androidx.fragment.app.DialogFragment
+
 
 
 right footer

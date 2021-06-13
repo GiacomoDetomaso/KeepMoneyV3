@@ -18,7 +18,7 @@ import java.util.Objects;
 
 /**
  * This class is used to manage the building of the ExpandableListView,
- * used to display user's confirmed WishLists and their items
+ * used to display confirmed WishLists (and their items) of the logged user.
  *
  * @author Giacomo Detomaso
  * */
@@ -34,25 +34,25 @@ public class ExpandableListViewAdapter extends BaseExpandableListAdapter {
     }
 
     /**
-     * This override method is used to get the number of the groups
+     * This method, that overrides the standard one, is used to get the number of the groups.
      * */
     @Override
     public int getGroupCount() {
-        return titles.size();
+        return titles.size(); // each title in the ArrayList "titles" technically corresponds to the presence of a wishlist in the database
     }
 
     /**
-     * This override method is used get the number of children of a group
+     * This method, that overrides the standard one, is used get the number of children of a group.
      *
      * @param groupPosition     the position of a group
      * */
     @Override
     public int getChildrenCount(int groupPosition) {
-        return Objects.requireNonNull(map.get(titles.get(groupPosition))).size();
+        return Objects.requireNonNull(map.get(titles.get(groupPosition))).size(); // the number of children in a title corresponds to how many items there are in the corresponding wishlist
     }
 
     /**
-     * This override method is used to get a specified group
+     * This method, that overrides the standard one, is used to get a specified group in its entirety, from a specified group position.
      *
      * @param groupPosition     the position of a group
      * */
@@ -62,7 +62,7 @@ public class ExpandableListViewAdapter extends BaseExpandableListAdapter {
     }
 
     /**
-     * This override method is used to get a child from the specified group
+     * This method, that overrides the standard one, is used to get a child from a specified group position.
      *
      * @param groupPosition     the position of a group
      * @param childPosition     the position of the child
@@ -74,7 +74,7 @@ public class ExpandableListViewAdapter extends BaseExpandableListAdapter {
     }
 
     /**
-     * This override method is used to get the id of the group
+     * This method, that overrides the standard one, is used to get the id of a group from its position in the list.
      * */
     @Override
     public long getGroupId(int groupPosition) {
@@ -82,7 +82,7 @@ public class ExpandableListViewAdapter extends BaseExpandableListAdapter {
     }
 
     /**
-     * This override method is used to get the id of a child of a group
+     * This method, that overrides the standard one, is used to get the position in the list of a child of a group.
      * */
     @Override
     public long getChildId(int groupPosition, int childPosition) {
@@ -95,7 +95,8 @@ public class ExpandableListViewAdapter extends BaseExpandableListAdapter {
     }
 
     /**
-     * This override method is used to build the group view of the ExpandableListView row by row
+     * This method, that overrides the standard one, is used to build the group view of the ExpandableListView row by row.
+     * It gets the view as a parameter, it adds all the elements that needs to be displayed and then it return it back.
      *
      * @param groupPosition     the position of a group
      * @param view              the view
@@ -122,7 +123,7 @@ public class ExpandableListViewAdapter extends BaseExpandableListAdapter {
     }
 
     /**
-     * This override method is used to build the child view of the ExpandableListView row by row
+     * This method, that overrides the standard one, is used to build the child view of the ExpandableListView row by row.
      *
      * @param groupPosition     the position of a group
      * @param childPosition     the position of the child

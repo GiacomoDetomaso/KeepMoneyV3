@@ -10,7 +10,7 @@ import androidx.fragment.app.FragmentStatePagerAdapter;
 
 import com.example.keepmoneyv3.ui.movements.IncomesAndPurchasesTabFragment;
 import com.example.keepmoneyv3.ui.movements.WishListsTabFragment;
-import com.example.keepmoneyv3.utility.Keys;
+import com.example.keepmoneyv3.utility.ApplicationTags;
 import com.example.keepmoneyv3.utility.User;
 import com.example.keepmoneyv3.utility.WishLists;
 
@@ -18,7 +18,7 @@ import java.util.ArrayList;
 
 /**
  * This adapter is used to build the three tab fragments used to visualize the
- * user movements
+ * user movements.
  * */
 public class TabPagerAdapter extends FragmentStatePagerAdapter {
 
@@ -36,50 +36,65 @@ public class TabPagerAdapter extends FragmentStatePagerAdapter {
     }
 
     /**
-     * This override method returns the proper tab fragment according to the position
+     * This method, that overrides the standard one, returns the proper tab fragment according to the position passed to it.
      * */
     @NonNull
     @Override
     public Fragment getItem(int position) {
+
         final int PURCHASE_LIST_PAGE = 0;
         final int ENTRIES_LIST_PAGE = 1;
         final int WL_LIST_PAGE = 2;
 
+        // declaring a new standard fragment
         Fragment tabFragment = new Fragment();
         Bundle args = new Bundle();
 
         // send the correct data to the CollectionTabFragment according to the selected tab
         switch (position){
             case PURCHASE_LIST_PAGE:
-                tabFragment = new IncomesAndPurchasesTabFragment();
-                args.putInt(Keys.SerializableKeys.PURCHASES_ROWS_KEY,simplePurchasesRows);;
-                args.putInt(Keys.SerializableKeys.POSITION_KEY,PURCHASE_LIST_PAGE);
-                args.putSerializable(Keys.SerializableKeys.USERNAME_KEY, user);
+                tabFragment = new IncomesAndPurchasesTabFragment(); // tabFragment is now created as an IncomeAndPurchasesTabFragment
+
+                // inserting in args (a Bundle) all the information that we have to pass to the TabFragment, to then allow processing using the user's information
+                args.putInt(ApplicationTags.SerializableTags.PURCHASES_ROWS_KEY,simplePurchasesRows);
+                args.putInt(ApplicationTags.SerializableTags.POSITION_KEY,PURCHASE_LIST_PAGE);
+                args.putSerializable(ApplicationTags.SerializableTags.USERNAME_KEY, user);
+
+                // passing these information to the fragment
                 tabFragment.setArguments(args);
                 break;
             case ENTRIES_LIST_PAGE:
                 tabFragment = new IncomesAndPurchasesTabFragment();
-                args.putSerializable(Keys.SerializableKeys.INCOMES_ROWS_KEY,incomesRows);
-                args.putInt(Keys.SerializableKeys.POSITION_KEY,ENTRIES_LIST_PAGE);
-                args.putSerializable(Keys.SerializableKeys.USERNAME_KEY, user);
+
+                args.putSerializable(ApplicationTags.SerializableTags.INCOMES_ROWS_KEY,incomesRows);
+                args.putInt(ApplicationTags.SerializableTags.POSITION_KEY,ENTRIES_LIST_PAGE);
+                args.putSerializable(ApplicationTags.SerializableTags.USERNAME_KEY, user);
+
                 tabFragment.setArguments(args);
                 break;
             case WL_LIST_PAGE:
                 tabFragment = new WishListsTabFragment();
+
                 tabFragment.setArguments(args);
-                args.putSerializable(Keys.SerializableKeys.WISH_LIST_KEYS, confirmedWishLists);
-                args.putInt(Keys.SerializableKeys.POSITION_KEY,WL_LIST_PAGE);
-                args.putSerializable(Keys.SerializableKeys.USERNAME_KEY, user);
+                args.putSerializable(ApplicationTags.SerializableTags.WISH_LIST_KEYS, confirmedWishLists);
+                args.putInt(ApplicationTags.SerializableTags.POSITION_KEY,WL_LIST_PAGE);
+                args.putSerializable(ApplicationTags.SerializableTags.USERNAME_KEY, user);
         }
 
         return tabFragment;
     }
 
+    /**
+     * This method, that overrides the standard one, returns the amount of the TabFragments expected. (Expected 3: Entrate, Uscite, Wishlist)
+     * */
     @Override
     public int getCount() {
         return 3;
     }
 
+    /**
+     * This method, that overrides the standard one, returns the name of a TabFragment, according to the position integer that is passed to this function.
+     * */
     @Nullable
     @Override
     public CharSequence getPageTitle(int position) {

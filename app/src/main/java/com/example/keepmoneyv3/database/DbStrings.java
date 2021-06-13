@@ -2,19 +2,22 @@ package com.example.keepmoneyv3.database;
 
 /**
  * This class is used to wraps some static classes,
- * which are used to refer to database's table's names and fields
+ * which are used to refer to database's table's names and fields.
  *
  * @author Giacomo Detomaso
  * */
 
 public class DbStrings {
 
+    /**
+     * This class represents the "Users" table.
+     */
     public static class TableUsersField {
         public static final String TABLE_NAME = "users";
         public static final String USERS_ID = "username";
         public static final String USERS_PWD = "password";
         public static final String USERS_NAME = "name";
-        public static final String USERS_SURNAME = "surname";
+        public static final String USERS_FAMILY_NAME = "familyName";
         public static final String USERS_EMAIL = "email";
         public static final String USERS_TOT = "total";
 
@@ -24,7 +27,7 @@ public class DbStrings {
                         USERS_PWD + " VARCHAR(100) NOT NULL,\n" +
                         USERS_EMAIL + " VARCHAR(255) DEFAULT NULL, \n" +
                         USERS_NAME + " VARCHAR(100) NOT NULL,\n" +
-                        USERS_SURNAME + " VARCHAR(100) NOT NULL,\n" +
+                        USERS_FAMILY_NAME + " VARCHAR(100) NOT NULL,\n" +
                         USERS_TOT + " DECIMAL NOT NULL); ";
 
         static String getCreateTable(){
@@ -32,6 +35,9 @@ public class DbStrings {
         }
     }
 
+    /**
+     * This class represents the "Categories" table.
+     */
     public static class TableCategoriesFields{
         public static final String TABLE_NAME = "categories";
         public static final String CATEGORIES_ID = "id";
@@ -50,6 +56,9 @@ public class DbStrings {
 
     }
 
+    /**
+     * This class represents the "Items" table.
+     */
     public static class TableItemsFields{
         public static final String TABLE_NAME = "items";
         public static final String ITEMS_ID = "id";
@@ -75,6 +84,9 @@ public class DbStrings {
         }
     }
 
+    /**
+     * This class represents the "Incomes" table.
+     */
     public static class TableIncomesFields {
         public static final String TABLE_NAME = "incomes";
         public static final String INCOMES_ID = "id";
@@ -103,7 +115,9 @@ public class DbStrings {
         }
     }
 
-
+    /**
+     * This class represents the "WishLists" table.
+     */
     public static class TableWishListsFields{
         public static final String TABLE_NAME = "wishLists";
         public static final String WL_ID = "id";
@@ -123,6 +137,9 @@ public class DbStrings {
         }
     }
 
+    /**
+     * This class represents the "Purchases" table.
+     */
     public static class TablePurchasesFields{
         public static final String TABLE_NAME = "purchases";
         public static final String PURCH_ID = "id";

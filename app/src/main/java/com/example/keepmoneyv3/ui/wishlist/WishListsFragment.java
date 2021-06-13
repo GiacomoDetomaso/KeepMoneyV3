@@ -21,7 +21,7 @@ import com.example.keepmoneyv3.adapters.WishListAdapter;
 import com.example.keepmoneyv3.database.DbManager;
 import com.example.keepmoneyv3.database.DbStrings;
 import com.example.keepmoneyv3.dialogs.DialogEditWishList;
-import com.example.keepmoneyv3.utility.Keys;
+import com.example.keepmoneyv3.utility.ApplicationTags;
 import com.example.keepmoneyv3.utility.User;
 import com.example.keepmoneyv3.utility.WishLists;
 
@@ -91,7 +91,7 @@ public class WishListsFragment extends Fragment {
     private void buildGridView(WishListAdapter adapter, @NotNull User user) {
         DbManager manager = new DbManager(getContext());
 
-            Cursor cursor = manager.getWishListDataQuery(user.getUsername(), Keys.MiscellaneousKeys.NOT_CONFIRMED);
+            Cursor cursor = manager.getWishListDataQuery(user.getUsername(), ApplicationTags.MiscellaneousTags.NOT_CONFIRMED);
             if (cursor != null) {
                 while (cursor.moveToNext()) {
                         float sum = cursor.getFloat(cursor.getColumnIndex("tot"));
@@ -130,7 +130,7 @@ public class WishListsFragment extends Fragment {
         //Button Three : Neutral
         builder.setNeutralButton("Modifica", (dialog, which) -> {
             DialogFragment dialogFragment = new DialogEditWishList();
-            dialogFragment.show(getParentFragmentManager(), Keys.DialogTags.DIALOG_EDIT_WISH_LIST_TAG);
+            dialogFragment.show(getParentFragmentManager(), ApplicationTags.DialogTags.DIALOG_EDIT_WISH_LIST_TAG);
             dialog.cancel();
         });
 
@@ -144,7 +144,7 @@ public class WishListsFragment extends Fragment {
         ArrayList<WishLists>wishLists = new ArrayList<>();
 
         DbManager dbManager = new DbManager(getContext());
-        Cursor cursor = dbManager.getWishListDataQuery(user.getUsername(), Keys.MiscellaneousKeys.NOT_CONFIRMED);
+        Cursor cursor = dbManager.getWishListDataQuery(user.getUsername(), ApplicationTags.MiscellaneousTags.NOT_CONFIRMED);
         ArrayList<Float> totals = new ArrayList<>();
 
         // get all the non confirmed wishlists of the current user

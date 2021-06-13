@@ -10,12 +10,12 @@ import android.widget.TimePicker;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 
-import com.example.keepmoneyv3.utility.Keys;
+import com.example.keepmoneyv3.utility.ApplicationTags;
 
 import java.util.Calendar;
 
 /**
- * This class is used to create a time picker inside a dialog
+ * This class is used to create a time picker inside a dialog.
  *
  * @author Giacomo Detomaso
  * */
@@ -23,7 +23,7 @@ public class TimePickerDialogFrag extends DialogFragment implements TimePickerDi
 
 
     /**
-     * This method describes what happens when the dialog is created
+     * This method returns a TimePickerDialog with the current date.
      * */
     @NonNull
     @Override
@@ -40,12 +40,28 @@ public class TimePickerDialogFrag extends DialogFragment implements TimePickerDi
         return new TimePickerDialog(getActivity(),this,hour,minutes,DateFormat.is24HourFormat(getActivity()));
     }
 
+    /**
+     * This method is called when the time is picked from the Picker. It is used to
+     * set the time on the EditText.
+     * @param view      the view of the TimePicker
+     * @param hourOfDay the hour picked from the TimePicker
+     * @param minute    minutes picked from the TimePicker
+     *
+     */
     @Override
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-        DialogPurchase dialogPurchase = (DialogPurchase) getFragmentManager().findFragmentByTag(Keys.DialogTags.DIALOG_PURCHASES_TAG);
+        DialogPurchase dialogPurchase = (DialogPurchase) requireActivity().getSupportFragmentManager().findFragmentByTag(ApplicationTags.DialogTags.DIALOG_PURCHASES_TAG);
         if(dialogPurchase != null) {
-            String ora = hourOfDay + ":" + minute;
-            dialogPurchase.setStrTime(ora);
+            String time;
+            if (hourOfDay < 10)
+                time = "0" + hourOfDay;
+            else
+                time = "" + hourOfDay;
+            if (minute < 10)
+                time = time + ":" + "0" + minute;
+            else
+                time = time + ":" + minute;
+            dialogPurchase.setStrTime(time);
         }
     }
 }

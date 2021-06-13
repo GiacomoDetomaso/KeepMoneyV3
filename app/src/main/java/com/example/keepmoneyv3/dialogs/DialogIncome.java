@@ -21,13 +21,13 @@ import com.example.keepmoneyv3.R;
 import com.example.keepmoneyv3.activities.NavigationActivity;
 import com.example.keepmoneyv3.database.*;
 import com.example.keepmoneyv3.utility.Category;
-import com.example.keepmoneyv3.utility.Keys;
+import com.example.keepmoneyv3.utility.ApplicationTags;
 
 
 import java.util.ArrayList;
 
 /**
- * A class tha represents the dialog where the user will register his entries
+ * A class tha represents the dialog where the user will register his entries.
  *
  *
  * @see DialogFragment
@@ -46,7 +46,7 @@ public class DialogIncome extends DialogFragment {
     }
 
     /**
-     * This method attach the listener to the NavigationActivity
+     * This method attach the listener to the NavigationActivity.
      * */
     @Override
     public void onAttach(@NonNull Context context) {
@@ -70,7 +70,7 @@ public class DialogIncome extends DialogFragment {
     private Category category;
 
     /**
-     * This method describes what happens when the dialog is created
+     * This method creates the dialog to add a new income and specifies the action of its components.
      * */
     @SuppressLint("InflateParams")
     @NonNull
@@ -81,13 +81,13 @@ public class DialogIncome extends DialogFragment {
         LayoutInflater inflater = requireActivity().getLayoutInflater();//get the layout inflater
         root = inflater.inflate(R.layout.fragment_dashboard_dialog_entries, null);
         builder.setView(root);
-        builder.setTitle(Keys.DialogTitles.DIALOG_ENTRIES_TITLE);
+        builder.setTitle(ApplicationTags.DialogTitles.DIALOG_ENTRIES_TITLE);
 
         txtIncome = root.findViewById(R.id.txtIncomeValue);//the entries
         txtDate = root.findViewById(R.id.txtDateIncome);//the date of the entries
         txtType = root.findViewById(R.id.txtCategoryIncome);//the category of the entries
 
-        txtDataAction(txtDate); // call the dialog to choose the date
+        txtDateAction(txtDate); // call the dialog to choose the date
         txtTypeAction(txtType); // call the category dialog to set the entry's category
         dialogIncomeAction(); // perform the insert
 
@@ -138,23 +138,23 @@ public class DialogIncome extends DialogFragment {
     }
 
     /**
-     * This method is used to show the DatePicker to select the income's date
+     * This method is used to show the DatePicker to select the income's date.
      *
-     * @param txtData       the EditText that trigger the action
+     * @param txtDate       the EditText that triggers the action
      * */
-    private void txtDataAction(EditText txtData){
-        txtData.setOnClickListener(v -> {
-            DialogFragment fragment = new DatePickerDialogFrag(Keys.DialogTags.DIALOG_INCOME_TAG);
+    private void txtDateAction(EditText txtDate){
+        txtDate.setOnClickListener(v -> {
+            DialogFragment fragment = new DatePickerDialogFrag(ApplicationTags.DialogTags.DIALOG_INCOME_TAG);
             FragmentManager manager = requireActivity().getSupportFragmentManager();
 
-            fragment.show(manager,Keys.DialogTags.DIALOG_DATE_PICKER_TAG);//show the date picker fragment
+            fragment.show(manager, ApplicationTags.DialogTags.DIALOG_DATE_PICKER_TAG);//show the date picker fragment
         });
     }
 
     /**
      * This method is used to show the dialog to select the category of the income.
      *
-     * @param txtType       the EditText that trigger the action
+     * @param txtType       the EditText that triggers the action
      * */
     private void txtTypeAction(EditText txtType){
 
@@ -179,11 +179,11 @@ public class DialogIncome extends DialogFragment {
             pos = searchCategoryName(allCategories, "Scommessa");
             categoriesEntries.add(allCategories.get(pos));
 
-            DialogAddNewType dialogAddNewType = new DialogAddNewType(categoriesEntries, Keys.DialogTags.DIALOG_INCOME_TAG);
+            DialogAddNewType dialogAddNewType = new DialogAddNewType(categoriesEntries, ApplicationTags.DialogTags.DIALOG_INCOME_TAG);
             FragmentManager manager = requireActivity().getSupportFragmentManager();
 
             // show the dialog to select Entry's category
-            dialogAddNewType.show(manager, Keys.DialogTags.DIALOG_ADD_NEW_TYPE_TAG);
+            dialogAddNewType.show(manager, ApplicationTags.DialogTags.DIALOG_ADD_NEW_TYPE_TAG);
 
         });
     }
@@ -208,9 +208,9 @@ public class DialogIncome extends DialogFragment {
     }
 
     /**
-     * This method is used to set the date string inside the EditText
+     * This method is used to set the date string inside the EditText.
      *
-     * @param strDate       - the date string
+     * @param strDate       the date string
      * */
     void setStrDate(String strDate){
         txtDate = root.findViewById(R.id.txtDateIncome);
@@ -222,9 +222,9 @@ public class DialogIncome extends DialogFragment {
     }
 
     /**
-     * This method is used to set the category name inside the EditText
+     * This method is used to set the category name inside the EditText.
      *
-     * @param cat       - the category
+     * @param cat       the category
      * */
     public void setCategory(Category cat){
         this.category = cat;

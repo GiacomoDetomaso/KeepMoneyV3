@@ -18,7 +18,7 @@ import java.util.Objects;
 
 /**
  * This class is used to manage the building of the GridView, used to display item's and income's
- * categories
+ * categories.
  *
  * @author Giacomo Detomaso
  * */
@@ -33,7 +33,8 @@ public class GridViewCategoryAdapter extends BaseAdapter {
     }
 
     /**
-     * This override method is used to retrieve the number of items in the adapter
+     * This method, that overrides the standard one, is used to retrieve the number of items that are
+     * present in the ArrayList of this adapter.
      * */
     @Override
     public int getCount() {
@@ -41,7 +42,7 @@ public class GridViewCategoryAdapter extends BaseAdapter {
     }
 
     /**
-     * This override method is used to retrieve the category at the specified position
+     * This method, that overrides the standard one, is used to retrieve the category at the specified position in the arraylist.
      *
      * @param position      the position of the category
      * */
@@ -50,17 +51,25 @@ public class GridViewCategoryAdapter extends BaseAdapter {
         return categories.get(position);
     }
 
+
     @Override
     public long getItemId(int position) {
         return position;
     }
 
+    /*@Override
+    public String getItemId(int item) {
+        return categories.get(item).getId();
+    }
+    */
+
     /**
-     * This override method is used to build the ListView row by row.
+     * This method, that overrides the standard one, is used to build the ListView row by row.
+     * It gets the view as a parameter, it adds all the elements that needs to be displayed and then it return it back.
      *
-     * @param index         the position of the item in the ListView
-     * @param view   the view
-     * @param viewGroup        the view group
+     * @param index             the position of the item in the ListView
+     * @param view              the view
+     * @param viewGroup         the view group
      *
      * @return listView     a view which contains the ListView
      * */
@@ -86,7 +95,8 @@ public class GridViewCategoryAdapter extends BaseAdapter {
     }
 
     /**
-     * This method is used to build the items' ArrayList
+     * This method is used to build the arraylist present in the adapter, adding the categories one by one, passing the information
+     * of a single category.
      *
      * @param catId              the catId
      * @param description       the description of the category

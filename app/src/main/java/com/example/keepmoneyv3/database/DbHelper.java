@@ -4,6 +4,11 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+/**
+ * Class used to create the tables of the database, that will be used to store all the users data.
+ *
+ */
+
 public class DbHelper extends SQLiteOpenHelper {
     private final static int VERSION = 1;
     private final static String DB_NAME = "KeepMoneyDb";

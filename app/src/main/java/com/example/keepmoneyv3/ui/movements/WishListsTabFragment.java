@@ -16,7 +16,7 @@ import com.example.keepmoneyv3.R;
 import com.example.keepmoneyv3.adapters.ExpandableListViewAdapter;
 import com.example.keepmoneyv3.database.*;
 import com.example.keepmoneyv3.utility.DefaultListViewItems;
-import com.example.keepmoneyv3.utility.Keys;
+import com.example.keepmoneyv3.utility.ApplicationTags;
 import com.example.keepmoneyv3.utility.WishLists;
 
 
@@ -24,7 +24,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
- * This fragment displays the list of the wishlists  of the user
+ * This fragment displays the list of the wishlists of the user.
  *
  * @author Giacomo Detomaso
  * */
@@ -42,7 +42,7 @@ public class WishListsTabFragment extends Fragment {
         Bundle bundle = getArguments();
 
         if(bundle != null){
-            ArrayList<WishLists>confirmedWl = (ArrayList<WishLists>) bundle.getSerializable(Keys.SerializableKeys.WISH_LIST_KEYS);
+            ArrayList<WishLists>confirmedWl = (ArrayList<WishLists>) bundle.getSerializable(ApplicationTags.SerializableTags.WISH_LIST_KEYS);
             ArrayList<String> wlTitles = new ArrayList<>();
             HashMap<String, ArrayList<DefaultListViewItems>> mapList = new HashMap<>();
 
@@ -63,7 +63,7 @@ public class WishListsTabFragment extends Fragment {
     }
 
     /**
-     * Builds the HashMap to send to the ExpandableWishListAdapter
+     * Builds the HashMap to send to the ExpandableWishListAdapter.
      *
      * @param confirmedWl       the wishlist to populate
      * @param map               the map to populate
@@ -94,7 +94,7 @@ public class WishListsTabFragment extends Fragment {
     }
 
     /**
-     * Get the titles of the ExpandableWishListAdapter
+     * Get the titles of the ExpandableWishListAdapter.
      *
      * @param wishLists         the wishlists used to retrieve its list names
      * @param titles            the arraylist populated with the names of all wishlists

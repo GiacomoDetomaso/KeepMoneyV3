@@ -20,7 +20,7 @@ import com.example.keepmoneyv3.R;
 import com.example.keepmoneyv3.adapters.ArrayListViewAdapter;
 import com.example.keepmoneyv3.database.*;
 import com.example.keepmoneyv3.utility.DefaultListViewItems;
-import com.example.keepmoneyv3.utility.Keys;
+import com.example.keepmoneyv3.utility.ApplicationTags;
 import com.example.keepmoneyv3.utility.User;
 
 import org.jetbrains.annotations.NotNull;
@@ -28,7 +28,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 
 /**
- * This fragment displays the list of incomes or purchases of the user
+ * This fragment displays the list of incomes or purchases of the user.
  *
  * @author Giacomo Detomaso and Michelangelo De Pascale
  * */
@@ -48,14 +48,14 @@ public class IncomesAndPurchasesTabFragment extends Fragment {
         // get the arguments sent by the adapter
         Bundle bundle = getArguments();
         assert bundle != null;
-        final int position = bundle.getInt(Keys.SerializableKeys.POSITION_KEY);
+        final int position = bundle.getInt(ApplicationTags.SerializableTags.POSITION_KEY);
 
         ListView listView = root.findViewById(R.id.listViewTab);
         Context context = getContext();
         assert context != null;
         ArrayListViewAdapter listAdapter = new ArrayListViewAdapter(getContext());
 
-        User user = (User) bundle.getSerializable(Keys.SerializableKeys.USERNAME_KEY);
+        User user = (User) bundle.getSerializable(ApplicationTags.SerializableTags.USERNAME_KEY);
         String username = user.getUsername();
 
         //this fragment is a page into the view pager inside the LogActivity
@@ -66,7 +66,7 @@ public class IncomesAndPurchasesTabFragment extends Fragment {
             case PURCHASE_LIST_PAGE:
                 Button bP = root.findViewById(R.id.button2);
 
-                int sizeP = bundle.getInt(Keys.SerializableKeys.PURCHASES_ROWS_KEY);
+                int sizeP = bundle.getInt(ApplicationTags.SerializableTags.PURCHASES_ROWS_KEY);
 
                 if(sizeP > 0){
                     buildPurchaseListView(listAdapter, username);
@@ -97,7 +97,7 @@ public class IncomesAndPurchasesTabFragment extends Fragment {
 
             case INCOMES_LIST_PAGE:
                 Button bI = root.findViewById(R.id.button2);
-                int sizeE = bundle.getInt(Keys.SerializableKeys.INCOMES_ROWS_KEY);
+                int sizeE = bundle.getInt(ApplicationTags.SerializableTags.INCOMES_ROWS_KEY);
 
                 if(sizeE > 0){
                     buildIncomesListView(listAdapter, username);
@@ -133,7 +133,7 @@ public class IncomesAndPurchasesTabFragment extends Fragment {
     }
 
     /**
-     * This method builds the purchases' ListView
+     * This method builds the purchases' ListView.
      *
      * @param adapter       the adapter of the ListView
      * @param username      the username
@@ -147,7 +147,7 @@ public class IncomesAndPurchasesTabFragment extends Fragment {
         String itemName;
 
         DbManager dbManager = new DbManager(getContext());
-        Cursor cursor = dbManager.getPurchasesItemsQuery(ITEMS_LIMIT, Keys.MiscellaneousKeys.NOT_CONFIRMED, username);
+        Cursor cursor = dbManager.getPurchasesItemsQuery(ITEMS_LIMIT, ApplicationTags.MiscellaneousTags.NOT_CONFIRMED, username);
 
         if (cursor != null) {
             ArrayList<DefaultListViewItems> listToOrder = new ArrayList<>();
@@ -166,7 +166,7 @@ public class IncomesAndPurchasesTabFragment extends Fragment {
     }
 
     /**
-     * This method builds the incomes' ListView
+     * This method builds the incomes' ListView.
      *
      * @param adapter       the adapter of the ListView
      * @param username      the username
@@ -177,7 +177,7 @@ public class IncomesAndPurchasesTabFragment extends Fragment {
             String date;
 
             DbManager dbManager = new DbManager(getContext());
-            Cursor cursor = dbManager.getEntriesDataQueryByUsername(username);
+            Cursor cursor = dbManager.getPurchasesDataQueryByUsername(username);
 
             if (cursor == null) {
                 Toast.makeText(getContext(),"Errore nel reperire le informazioni",Toast.LENGTH_LONG).show();
@@ -197,7 +197,7 @@ public class IncomesAndPurchasesTabFragment extends Fragment {
 
     /**
      * This method deletes the selected purchase from the database, updating the user total
-     * according to the deleted purchase information
+     * according to the deleted purchase information.
      *
      * @param listView      the listView
      * @param listAdapter   the listAdapter
@@ -225,7 +225,7 @@ public class IncomesAndPurchasesTabFragment extends Fragment {
                                 while (cursor.moveToNext()) {
                                     int purchaseId = cursor.getInt(cursor.getColumnIndex("id"));
                                     addBackMoneyToUser(itemId, user);
-                                    int affectedRows = dbManager.removePurchase(itemId, purchaseId);
+                                    long affectedRows = dbManager.removePurchase(itemId, purchaseId);
 
                                     if(affectedRows > 0) {
                                         requireActivity().getSupportFragmentManager().popBackStack();
@@ -242,7 +242,7 @@ public class IncomesAndPurchasesTabFragment extends Fragment {
 
     /**
      * This method deletes the selected income from the database, updating the user total
-     * according to the deleted income information
+     * according to the deleted income information.
      *
      * @param listView      the listView
      * @param listAdapter   the listAdapter
@@ -264,7 +264,7 @@ public class IncomesAndPurchasesTabFragment extends Fragment {
                             int itemId = defaultListViewItem.getId();
                             DbManager dbManager = new DbManager(getContext());
                             if (removeMoneyFromUser(itemId, user) == 1) {
-                                int affectedRows = dbManager.removeIncome(itemId);
+                                long affectedRows = dbManager.removeIncome(itemId);
 
                                 if(affectedRows > 0) {
                                     requireActivity().getSupportFragmentManager().popBackStack();
@@ -282,7 +282,7 @@ public class IncomesAndPurchasesTabFragment extends Fragment {
     }
 
     /**
-     * This method updates the user budget after an purchase is deleted
+     * This method updates the user budget after a purchase is deleted.
      *
      * @param itemId        the id of the item
      * @param user          the user
@@ -301,7 +301,7 @@ public class IncomesAndPurchasesTabFragment extends Fragment {
     }
 
     /**
-     * This method updates the user budget after an income is deleted
+     * This method updates the user budget after an income is deleted.
      *
      * @param incomeId      the id of the income
      * @param user          the user

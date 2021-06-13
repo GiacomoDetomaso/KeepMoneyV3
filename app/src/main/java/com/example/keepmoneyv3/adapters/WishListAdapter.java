@@ -17,15 +17,14 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
- * This class is used to manage the building of the RecyclerView, used to display unconfirmed
- * WishLists
+ * This class is used to manage all aspects of an unconfirmed wishlist: creation, viewing (using a Recycler View) and storing it in the database.
  *
  * @author Michelangelo De Pascale
  * */
 public class WishListAdapter extends RecyclerView.Adapter<WishListAdapter.WLViewHolder>{
 
     public interface OnItemClickListener {
-        void onItemClick(View view, int position);//a listener used for every items in the recycler clicked
+        void onItemClick(View view, int position); // a listener used to perform a specific action when an object of the RecyclerView is clicked
     }
 
     private final Context context;
@@ -39,7 +38,7 @@ public class WishListAdapter extends RecyclerView.Adapter<WishListAdapter.WLView
     }
 
     /**
-     * Create the recycler view
+     * This method, that overrides the standard one, is used to create the recycler view holder.
      * */
     @NonNull
     @Override
@@ -50,7 +49,7 @@ public class WishListAdapter extends RecyclerView.Adapter<WishListAdapter.WLView
     }
 
     /**
-     * This override method is used to build the various elements of the recycler
+     * This method, that overrides the standard one, is used to build the various elements of the recycler.
      * */
     @Override
     public void onBindViewHolder(@NonNull WLViewHolder holder, final int position) {
@@ -60,7 +59,7 @@ public class WishListAdapter extends RecyclerView.Adapter<WishListAdapter.WLView
             holder.txtTotList.setText(totText);
 
             root.setOnClickListener(view -> {
-                listener.onItemClick(root, position); // specify what happens when a list is clicked
+                listener.onItemClick(root, position); // add a listener on click, to execute some instructions when a list is clicked
             });
         } else {
             Toast.makeText(context, "Non sono ancora presenti liste", Toast.LENGTH_LONG).show();
@@ -72,22 +71,9 @@ public class WishListAdapter extends RecyclerView.Adapter<WishListAdapter.WLView
         return items.size();
     }
 
-    /**
-     * The view holder
-     * */
-     protected static class WLViewHolder extends RecyclerView.ViewHolder{
-        TextView txtListName,txtTotList;
-        CardView cardView;
-        WLViewHolder(View itemView){
-            super(itemView);
-            txtListName = itemView.findViewById(R.id.txtListName);
-            txtTotList = itemView.findViewById(R.id.txtTotalWl);
-            cardView = itemView.findViewById(R.id.cardViewItem);
-        }
-    }
 
     /**
-     * This method is used to add new ListPurchases objects in the ArrayList
+     * This method is used to add a single ListPurchases object in the arraylist of the adapter.
      *
      * @param listName      the name of the item
      * @param price         the price of the purchase
@@ -102,7 +88,7 @@ public class WishListAdapter extends RecyclerView.Adapter<WishListAdapter.WLView
     }
 
     /**
-     * This class represents the purchases' information that will be displayed in the ListView
+     * This class is used to format the purchases' information as an Object that will be displayed in the ListView.
      * */
     private static class ListViewData implements Serializable {
         private final String listName;
@@ -120,6 +106,21 @@ public class WishListAdapter extends RecyclerView.Adapter<WishListAdapter.WLView
 
         public float getPrice() {
             return price;
+        }
+    }
+
+
+    /**
+     * The view holder class.
+     * */
+    protected static class WLViewHolder extends RecyclerView.ViewHolder{
+        TextView txtListName,txtTotList;
+        CardView cardView;
+        WLViewHolder(View itemView){
+            super(itemView);
+            txtListName = itemView.findViewById(R.id.txtListName);
+            txtTotList = itemView.findViewById(R.id.txtTotalWl);
+            cardView = itemView.findViewById(R.id.cardViewItem);
         }
     }
 

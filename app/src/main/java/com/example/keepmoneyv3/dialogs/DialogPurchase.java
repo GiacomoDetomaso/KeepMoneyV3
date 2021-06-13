@@ -23,14 +23,14 @@ import com.example.keepmoneyv3.activities.NavigationActivity;
 import com.example.keepmoneyv3.database.*;
 import com.example.keepmoneyv3.utility.Category;
 import com.example.keepmoneyv3.utility.Item;
-import com.example.keepmoneyv3.utility.Keys;
+import com.example.keepmoneyv3.utility.ApplicationTags;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
 /**
- * This class is used to display the form to insert a new purchase
+ * This class is used to display the form to insert a new purchase.
  *
  * @author Giacomo Detomaso
  * */
@@ -73,7 +73,7 @@ public class DialogPurchase extends DialogFragment {
     }
 
     /**
-     * This method describes what happens when the dialog is created
+     * This method creates the dialog to add a new purchase and specifies the action of its components.
      * */
     @SuppressLint("InflateParams")
     @NonNull
@@ -84,7 +84,7 @@ public class DialogPurchase extends DialogFragment {
         LayoutInflater inflater = requireActivity().getLayoutInflater();//get the layout inflater
         View root = inflater.inflate(R.layout.fragment_dashboard_dialog_purchases, null);
         builder.setView(root);
-        builder.setTitle(Keys.DialogTitles.DIALOG_PURCHASES_TITLE);
+        builder.setTitle(ApplicationTags.DialogTitles.DIALOG_PURCHASES_TITLE);
 
         // retrieve the EditText from the layout file
         txtTime = root.findViewById(R.id.txtTime);
@@ -105,7 +105,7 @@ public class DialogPurchase extends DialogFragment {
 
     /**
      * This method, after checking if all the information typed are correct, calls the
-     * listener method to save the purchase inside the database
+     * listener method to save the purchase inside the database.
      * */
     private void dialogPurchaseAction(){
         addBtn.setOnClickListener(view -> {
@@ -133,7 +133,7 @@ public class DialogPurchase extends DialogFragment {
                 if (isCorrect && val < total && val > 0){
                     String idCat = category.getId();//extract the category id
                     String strItemName = txtItem.getText().toString();//item name
-                    Item item = new Item(strItemName, amount, Keys.MiscellaneousKeys.CONFIRMED, val, idCat);
+                    Item item = new Item(strItemName, amount, ApplicationTags.MiscellaneousTags.CONFIRMED, val, idCat);
                     listener.DialogPurchaseInsert(item, strDate, strTime);
                     dismiss();//close the dialog
                 }else {
@@ -142,37 +142,43 @@ public class DialogPurchase extends DialogFragment {
                             "- potrebbe essere nullo",Toast.LENGTH_LONG).show();
                 }
             }else {
-                Toast.makeText(getActivity(),"Campi vuoti impossibile inserire",Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(),"Campi vuoti, impossibile inserire",Toast.LENGTH_LONG).show();
             }
         });
     }
 
     /**
-     * Displays the DatePickerDialogFrag
+     * This method is used to show the DatePicker to select the date of the purchase.
+     *
+     * @param txtDate       the EditText that triggers the action
      * */
     private void txtDateAction(@NotNull EditText txtDate){
         txtDate.setOnClickListener(v -> {
-            DialogFragment fragment = new DatePickerDialogFrag(Keys.DialogTags.DIALOG_PURCHASES_TAG);
+            DialogFragment fragment = new DatePickerDialogFrag(ApplicationTags.DialogTags.DIALOG_PURCHASES_TAG);
             FragmentManager manager = requireActivity().getSupportFragmentManager();
 
-            fragment.show(manager,Keys.DialogTags.DIALOG_DATE_PICKER_TAG);//show the date picker fragment
+            fragment.show(manager, ApplicationTags.DialogTags.DIALOG_DATE_PICKER_TAG);//show the date picker fragment
         });
     }
 
     /**
-     * Displays the TimePickerDialogFrag
+     * This method is used to show the dialog to select the time of the purchase.
+     *
+     * @param txtTime       the EditText that triggers the action
      * */
     private void txtTimeAction(@NotNull EditText txtTime){
         txtTime.setOnClickListener(v -> {
             DialogFragment fragment = new TimePickerDialogFrag();
             FragmentManager manager = requireActivity().getSupportFragmentManager();
 
-            fragment.show(manager,Keys.DialogTags.DIALOG_TIME_PICKER_TAG);//show the time picker fragment
+            fragment.show(manager, ApplicationTags.DialogTags.DIALOG_TIME_PICKER_TAG);//show the time picker fragment
         });
     }
 
     /**
-     * Displays the DialogAddNewType
+     * This method is used to show the dialog to select the category of the purchase.
+     *
+     * @param txtType       the EditText that triggers the action
      * */
     private void txtTypeAction(@NotNull EditText txtType){
         txtType.setOnClickListener(v -> {
@@ -190,16 +196,18 @@ public class DialogPurchase extends DialogFragment {
                 }
             }
 
-            DialogAddNewType dialogAddNewType = new DialogAddNewType(allCategories, Keys.DialogTags.DIALOG_PURCHASES_TAG);
+            DialogAddNewType dialogAddNewType = new DialogAddNewType(allCategories, ApplicationTags.DialogTags.DIALOG_PURCHASES_TAG);
             FragmentManager manager = requireActivity().getSupportFragmentManager();
 
-            dialogAddNewType.show(manager,Keys.DialogTags.DIALOG_ADD_NEW_TYPE_TAG);
+            dialogAddNewType.show(manager, ApplicationTags.DialogTags.DIALOG_ADD_NEW_TYPE_TAG);
 
         });
     }
 
     /**
-     * Set the date in the EditText
+     * This method is used to set the date string inside the EditText.
+     *
+     * @param strDate       the date string
      * */
     void setStrDate(@NotNull String strDate){
         this.strDate = strDate;
@@ -209,7 +217,9 @@ public class DialogPurchase extends DialogFragment {
     }
 
     /**
-     * Set the time in the EditText
+     * This method is used to set the time string inside the EditText.
+     *
+     * @param strTime       the time string
      * */
     void setStrTime(String strTime){
         this.strTime = strTime;
@@ -217,7 +227,9 @@ public class DialogPurchase extends DialogFragment {
     }
 
     /**
-     * Set the category in the EditText
+     * This method is used to set the category name inside the EditText.
+     *
+     * @param cat       the category
      * */
     public void setCategory(@NotNull Category cat){
         this.category = cat;

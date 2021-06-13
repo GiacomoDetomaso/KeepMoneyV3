@@ -15,8 +15,7 @@ public class User implements Serializable {
         this.total = total;
         this.email = email;
     }
-
-
+    
     public String getName() {
         return name;
     }

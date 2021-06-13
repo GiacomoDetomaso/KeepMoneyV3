@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,12 +17,12 @@ import androidx.fragment.app.DialogFragment;
 import com.example.keepmoneyv3.R;
 import com.example.keepmoneyv3.activities.NavigationActivity;
 import com.example.keepmoneyv3.utility.Item;
-import com.example.keepmoneyv3.utility.Keys;
+import com.example.keepmoneyv3.utility.ApplicationTags;
 
 import java.util.ArrayList;
 
 /**
- * This class is used to display the form to set the name and the description of the WishList
+ * This class is used to display the form to set the name and the description of a WishList.
  *
  * @author Giacomo Detomaso
  * */
@@ -44,7 +43,7 @@ public class DialogAddNameToWishList extends DialogFragment {
     }
 
     /**
-     * This method attach the listener to the NavigationActivity
+     * This method attach the listener to the NavigationActivity.
      * */
     @Override
     public void onAttach(@NonNull Context context) {
@@ -62,7 +61,7 @@ public class DialogAddNameToWishList extends DialogFragment {
     }
 
     /**
-     * This method describes what happens when the dialog is created
+     * This method create a dialog to set the name and the description of a wishlist.
      * */
     @SuppressLint("InflateParams")
     @NonNull
@@ -73,9 +72,7 @@ public class DialogAddNameToWishList extends DialogFragment {
         LayoutInflater inflater = requireActivity().getLayoutInflater();//get the layout inflater
         root = inflater.inflate(R.layout.fragment_wish_lists_dialog_add_name, null);
         builder.setView(root);
-        builder.setTitle(Keys.DialogTitles.DIALOG_ADD_WISH_LIST_TITLE);
-
-        Toast.makeText(getContext(), listItems.get(0).getCatID(), Toast.LENGTH_SHORT).show();
+        builder.setTitle(ApplicationTags.DialogTitles.DIALOG_ADD_WISH_LIST_TITLE);
 
         btnAddListAction();
 
@@ -84,7 +81,7 @@ public class DialogAddNameToWishList extends DialogFragment {
 
     /**
      * Set the name to the wishlist as a result of an event triggered by the
-     * onClickListener of btnAddList
+     * onClickListener of btnAddList.
      * */
     private void btnAddListAction(){
         Button btnAddList = root.findViewById(R.id.btnAddList);
@@ -95,7 +92,6 @@ public class DialogAddNameToWishList extends DialogFragment {
 
             String strListName = txtListName.getText().toString();
             String strDesc = txtDesc.getText().toString();
-
 
             if(!strListName.isEmpty() && !strDesc.isEmpty()){
                 listener.WishListInsert(listItems, strListName, strDesc);

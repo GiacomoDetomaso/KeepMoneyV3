@@ -19,19 +19,7 @@ public class WishLists implements Serializable {
         return name;
     }
 
-    public int getIsValid() {
-        return isValid;
-    }
-
-    public void setIsValid(int isValid) {
-        this.isValid = isValid;
-    }
-
     public int getId() {
         return id;
-    }
-
-    public String getDescription() {
-        return description;
     }
 }
