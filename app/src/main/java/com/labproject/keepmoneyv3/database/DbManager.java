@@ -193,6 +193,33 @@ public class DbManager {
         }
     }
 
+    /**
+     * This method is used to insert an income inside the database.
+     *
+     *
+     * @param val       the value of the income
+     * @param date      the date of the income
+     * @param idCat     the category of the income
+     * @param idUser    the id of the user
+     *
+     * @return testValue if the income is inserted correctly, this value is greater than 0 */
+    public long insertIncome(float val, String date, String idCat, String idUser){
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(DbStrings.TableIncomesFields.INCOMES_VAL,val);
+        contentValues.put(DbStrings.TableIncomesFields.INCOMES_DATE,date);
+        contentValues.put(DbStrings.TableIncomesFields.INCOMES_ID_CAT,idCat);
+        contentValues.put(DbStrings.TableIncomesFields.INCOMES_ID_USER,idUser);
+
+        long testValue = 0;
+
+        try {
+            testValue = db.insert(DbStrings.TableIncomesFields.TABLE_NAME,null,contentValues);
+        }catch (Exception e){
+            Toast.makeText(context,e.getMessage(),Toast.LENGTH_LONG).show();
+        }
+        return testValue;
+    }
 
     /**
      * This method is used to remove an income from the database.
@@ -333,33 +360,6 @@ public class DbManager {
         }
     }
 
-    /**
-     * This method is used to insert an income inside the database.
-     *
-     *
-     * @param val       the value of the income
-     * @param date      the date of the income
-     * @param idCat     the category of the income
-     * @param idUser    the id of the user
-     *
-     * @return testValue if the income is inserted correctly, this value is greater than 0 */
-    public long insertIncome(float val, String date, String idCat, String idUser){
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(DbStrings.TableIncomesFields.INCOMES_VAL,val);
-        contentValues.put(DbStrings.TableIncomesFields.INCOMES_DATE,date);
-        contentValues.put(DbStrings.TableIncomesFields.INCOMES_ID_CAT,idCat);
-        contentValues.put(DbStrings.TableIncomesFields.INCOMES_ID_USER,idUser);
-
-        long testValue = 0;
-
-        try {
-            testValue = db.insert(DbStrings.TableIncomesFields.TABLE_NAME,null,contentValues);
-        }catch (Exception e){
-            Toast.makeText(context,e.getMessage(),Toast.LENGTH_LONG).show();
-        }
-        return testValue;
-    }
 
     /**
      * This method is used to get the value of the income related to an item.
