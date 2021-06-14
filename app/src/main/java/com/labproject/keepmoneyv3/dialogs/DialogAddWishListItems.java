@@ -63,7 +63,7 @@ public class DialogAddWishListItems extends DialogFragment {
         txtCategoryItemList = root.findViewById(R.id.txtCategoryItemList);
         subTotal = 0;
 
-        txtCategoryAction(txtCategoryItemList);
+        txtTypeAction(txtCategoryItemList);
         btnAddNewItemAction();
         btnNextAction();
         btnReadReceiptAction();
@@ -163,29 +163,38 @@ public class DialogAddWishListItems extends DialogFragment {
 
 
     /**
-     * Method used to set the category of the item.
+     * This method is used to show the dialog to select the category of the purchase.
+     *
+     * @param txtType       the EditText that triggers the action
      * */
-    private void txtCategoryAction(@NotNull EditText txtType) {
+    private void txtTypeAction(@NotNull EditText txtType) {
         txtType.setOnClickListener(v -> {
             DbManager dbManager = new DbManager(getContext());
             Cursor cursor = dbManager.queryGetAllRows(DbStrings.TableCategoriesFields.TABLE_NAME);
             ArrayList<Category> allCategories = new ArrayList<>();
 
-            while (cursor.moveToNext()) {
+            while (cursor.moveToNext()){
                 String id = cursor.getString(cursor.getColumnIndex(DbStrings.TableCategoriesFields.CATEGORIES_ID));
                 String desc = cursor.getString(cursor.getColumnIndex(DbStrings.TableCategoriesFields.CATEGORIES_DESC));
-                int picId = cursor.getInt(cursor.getColumnIndex(DbStrings.TableCategoriesFields.CATEGORIES_PIC_ID));
-                allCategories.add(new Category(id, desc, picId));
+                int picid = cursor.getInt(cursor.getColumnIndex(DbStrings.TableCategoriesFields.CATEGORIES_PIC_ID));
+
+                if(!id.equals("cat07")) {
+                    allCategories.add(new Category(id, desc, picid));
+                }
             }
 
-            DialogAddNewType dialogAddNewType = new DialogAddNewType(allCategories, ApplicationTags.DialogTags.DIALOG_ADD_WISH_LIST_ITEMS_TAG);
+            DialogAddNewType dialogAddNewType = new DialogAddNewType(allCategories, ApplicationTags.DialogTags.DIALOG_PURCHASES_TAG);
             FragmentManager manager = requireActivity().getSupportFragmentManager();
+
             dialogAddNewType.show(manager, ApplicationTags.DialogTags.DIALOG_ADD_NEW_TYPE_TAG);
+
         });
     }
 
     /**
-     * Writes the category in its EditText.
+     * This method is used to set the category name inside the EditText.
+     *
+     * @param cat       the category
      * */
     public void setCategory(@NotNull Category cat){
         this.category = cat;
