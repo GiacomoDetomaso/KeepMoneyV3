@@ -1,25 +1,5 @@
 # KeepMoney: nomi componenti grafiche
 
-### RegistrationActivity
-
-| **Nome**       | Tipo     | **Descrizione**                                                                                              |
-|:--------------:| -------- | ------------------------------------------------------------------------------------------------------------ |
-| txtNameReg     | EditText | Il nome dell'utente                                                                                          |
-| txtSurnameReg  | EditText | Il cognome dell'utente                                                                                       |
-| txtUsernameReg | EditText | Lo username dell'utente                                                                                      |
-| txtPasswordReg | EditText | La password scelta dall'utente                                                                               |
-| txtEmail       | EditText | La mail scelta dall'utente                                                                                   |
-| btnReg         | Button   | Bottone che esegue la registrazione: al click si recuperano i dati dalle EditText e si salva il tutto nel DB |
-
-### MainActivity
-
-| **Nome**       | Tipo     | **Descrizione**                                                                      |
-|:--------------:| -------- | ------------------------------------------------------------------------------------ |
-| txtUsernameLog | EditText | Usato per inserire lo username                                                       |
-| txtPasswordLog | EditText | Usato per inserire la password                                                       |
-| btnLog         | Button   | Serve per controllare il login: se il login ha successo lancia la NavigationActivity |
-| btnReg         | Button   | Usato per attivare la schermata di registrazione                                     |
-
 ## Regole per i nomi degli oggetti
 
 Per quanto riguarda i nomi all'interno del file XML, devono seguire questo format: (prefisso)(nome)(opzionale: suffisso)
