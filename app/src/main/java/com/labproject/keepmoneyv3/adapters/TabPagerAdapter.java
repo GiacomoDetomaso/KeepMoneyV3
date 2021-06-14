@@ -37,6 +37,8 @@ public class TabPagerAdapter extends FragmentStatePagerAdapter {
 
     /**
      * This method, that overrides the standard one, returns the proper tab fragment according to the position passed to it.
+     *
+     * @return the proper tab fragment according to the position passed to it
      * */
     @NonNull
     @Override

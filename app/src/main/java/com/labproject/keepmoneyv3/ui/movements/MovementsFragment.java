@@ -57,6 +57,8 @@ public class MovementsFragment extends Fragment {
 
     /**
      * This method describes what happens when the fragment is created
+     *
+     * @return the View
      * */
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -88,6 +90,8 @@ public class MovementsFragment extends Fragment {
      * This method gives the number of records inside the incomes table related to a specified user
      *
      * @param username      the username of the user
+     *
+     * @return the number of rows of the income
      * */
     int getIncomesRows(String username){
         DbManager dbManager = new DbManager(getContext());
@@ -108,6 +112,8 @@ public class MovementsFragment extends Fragment {
      * related to a specified user
      *
      * @param username      the username of the user
+     *
+     * @return the number of rows of the income
      * */
     int getSimplePurchasesRows(String username){
         DbManager dbManager = new DbManager(getContext());

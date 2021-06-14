@@ -62,6 +62,8 @@ public class DialogAddNameToWishList extends DialogFragment {
 
     /**
      * This method create a dialog to set the name and the description of a wishlist.
+     *
+     * @return the dialog
      * */
     @SuppressLint("InflateParams")
     @NonNull

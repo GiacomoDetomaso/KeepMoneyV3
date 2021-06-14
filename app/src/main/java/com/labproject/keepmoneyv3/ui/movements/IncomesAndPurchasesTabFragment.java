@@ -38,6 +38,8 @@ public class IncomesAndPurchasesTabFragment extends Fragment {
 
     /**
      * This method describes what happens when the fragment is created
+     *
+     * @return  the View
      * */
     @SuppressLint("SetTextI18n")
     @Nullable
@@ -138,7 +140,7 @@ public class IncomesAndPurchasesTabFragment extends Fragment {
      * @param adapter       the adapter of the ListView
      * @param username      the username
      * */
-    void buildPurchaseListView(ArrayListViewAdapter adapter, String username) {
+    private void buildPurchaseListView(ArrayListViewAdapter adapter, String username) {
         final int ITEMS_LIMIT = 0; // no limit
 
         int picId, itemId;
@@ -305,6 +307,8 @@ public class IncomesAndPurchasesTabFragment extends Fragment {
      *
      * @param incomeId      the id of the income
      * @param user          the user
+     *
+     * @return an integer number that indicates if the money can be removed from the user
      * */
     private int removeMoneyFromUser(int incomeId, User user){
         int canBeRemoved = 1;

@@ -35,6 +35,8 @@ public class ExpandableListViewAdapter extends BaseExpandableListAdapter {
 
     /**
      * This method, that overrides the standard one, is used to get the number of the groups.
+     *
+     * @return      the number of elements in the group
      * */
     @Override
     public int getGroupCount() {
@@ -45,6 +47,8 @@ public class ExpandableListViewAdapter extends BaseExpandableListAdapter {
      * This method, that overrides the standard one, is used get the number of children of a group.
      *
      * @param groupPosition     the position of a group
+     *
+     * @return the number of elements of a group's childrrn
      * */
     @Override
     public int getChildrenCount(int groupPosition) {
@@ -55,6 +59,8 @@ public class ExpandableListViewAdapter extends BaseExpandableListAdapter {
      * This method, that overrides the standard one, is used to get a specified group in its entirety, from a specified group position.
      *
      * @param groupPosition     the position of a group
+     *
+     * @return a specific group title
      * */
     @Override
     public String getGroup(int groupPosition) {
@@ -66,6 +72,8 @@ public class ExpandableListViewAdapter extends BaseExpandableListAdapter {
      *
      * @param groupPosition     the position of a group
      * @param childPosition     the position of the child
+     *
+     * @return a specific children of a group
      * */
     @Override
     public DefaultListViewItems getChild(int groupPosition, int childPosition) {
@@ -101,6 +109,8 @@ public class ExpandableListViewAdapter extends BaseExpandableListAdapter {
      * @param groupPosition     the position of a group
      * @param view              the view
      * @param viewGroup         the viewGroup
+     *
+     * @return      the view of the group
      * */
     @SuppressLint("InflateParams")
     @Override
@@ -129,6 +139,8 @@ public class ExpandableListViewAdapter extends BaseExpandableListAdapter {
      * @param childPosition     the position of the child
      * @param view              the view
      * @param viewGroup         the viewGroup
+     *
+     * @return the view of the children
      * */
     @SuppressLint("InflateParams")
     @Override

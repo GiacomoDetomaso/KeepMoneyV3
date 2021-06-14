@@ -39,6 +39,8 @@ public class ArrayListViewAdapter extends ArrayAdapter<DefaultListViewItems> {
     /**
      * This method, that overrides the standard one, is used to retrieve the number of items that are
      * present in the ArrayList of this adapter.
+     *
+     * @return an integer representing the number of elements in the Listview
      * */
     @Override
     public int getCount() {
@@ -169,6 +171,8 @@ public class ArrayListViewAdapter extends ArrayAdapter<DefaultListViewItems> {
      * @param arr       the array to sort
      * @param low       the lower bound of the array
      * @param high      the upper bound of the array
+     *
+     * @return          returns the pivot
      * */
     static int swap(ArrayList<DefaultListViewItems> arr, int low, int high) {
         float pivot = arr.get(high).getPrice();
@@ -192,8 +196,9 @@ public class ArrayListViewAdapter extends ArrayAdapter<DefaultListViewItems> {
      * @param arr       the array to sort
      * @param low       the lower bound of the array
      * @param high      the upper bound of the array
+     *
+     * @return          returns the pivot
      * */
-
     static int reverseSwap(ArrayList<DefaultListViewItems> arr, int low, int high) {
         float pivot = arr.get(high).getPrice();
 

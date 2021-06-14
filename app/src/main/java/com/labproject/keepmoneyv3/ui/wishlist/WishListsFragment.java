@@ -65,6 +65,8 @@ public class WishListsFragment extends Fragment {
 
     /**
      * This method describes what happens when the fragment is created
+     *
+     * @return the number of rows of the income
      * */
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -112,6 +114,8 @@ public class WishListsFragment extends Fragment {
      * @param name      the name of the wishlist
      * @param total     the total of the wishlist
      * @param listId    the id of the wishlist
+     *
+     * @return the builder of the Alert dialog
      * */
     @NotNull
     private AlertDialog.Builder buildWishListOptionsDialog(String name, int listId, float total){

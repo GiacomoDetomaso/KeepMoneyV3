@@ -71,6 +71,8 @@ public class DialogIncome extends DialogFragment {
 
     /**
      * This method creates the dialog to add a new income and specifies the action of its components.
+     *
+     * @return the dialog
      * */
     @SuppressLint("InflateParams")
     @NonNull

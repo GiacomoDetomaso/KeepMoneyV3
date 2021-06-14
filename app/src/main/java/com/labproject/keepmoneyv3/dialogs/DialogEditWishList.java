@@ -64,6 +64,8 @@ public class DialogEditWishList extends DialogFragment {
     /**
      * This method is used to create the dialog that will display the ExpandableListView
      * that contains all the items of a wishlist.
+     *
+     * @return the dialog
      * */
     @SuppressLint("InflateParams")
     @NonNull

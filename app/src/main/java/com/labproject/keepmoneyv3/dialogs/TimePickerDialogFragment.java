@@ -23,6 +23,8 @@ public class TimePickerDialogFragment extends DialogFragment implements android.
 
     /**
      * This method returns a TimePickerDialog with the current date.
+     *
+     * @return the dialog
      * */
     @NonNull
     @Override

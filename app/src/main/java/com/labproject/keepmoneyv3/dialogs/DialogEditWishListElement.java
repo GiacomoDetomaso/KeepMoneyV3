@@ -39,6 +39,8 @@ public class DialogEditWishListElement extends DialogFragment {
 
     /**
      * This method creates the dialog used to edit some information of an item.
+     *
+     * @return the dialog
      * */
     @NonNull
     @NotNull

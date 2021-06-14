@@ -27,6 +27,8 @@ public class DatePickerDialogFragment extends DialogFragment implements android.
 
     /**
      * This method returns a DatePickerDialog with the current date.
+     *
+     * @return the dialog
      * */
     @NonNull
     @Override

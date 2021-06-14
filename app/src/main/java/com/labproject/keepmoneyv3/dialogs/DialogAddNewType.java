@@ -68,6 +68,8 @@ public class DialogAddNewType extends DialogFragment {
 
     /**
      * This method is used to build the GridView layout.
+     *
+     * @return the dialog
      * */
     @SuppressLint("InflateParams")
     @NonNull

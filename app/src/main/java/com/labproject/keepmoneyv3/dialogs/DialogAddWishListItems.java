@@ -46,6 +46,8 @@ public class DialogAddWishListItems extends DialogFragment {
 
     /**
      * This method is used to build the layout of the dialog used to finalize the wishlist.
+     *
+     * @return the dialog
      * */
     @SuppressLint("InflateParams")
     @NonNull

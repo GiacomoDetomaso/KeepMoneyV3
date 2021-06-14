@@ -108,6 +108,8 @@ public class RegistrationActivity extends AppCompatActivity {
      * This method is used to encode a string, using the MD5 algorithm
      *
      * @param encodingString      the string to encode
+     *
+     * @return the encoded string
      * */
     private String encodePassword(String encodingString) throws NoSuchAlgorithmException {
         // MessageDigest instance for MD5

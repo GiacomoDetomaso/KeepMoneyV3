@@ -36,6 +36,7 @@ public class DbManager {
      * @param surname    the surname of the user
      * @param email      email of the user
      * @param total      total amount of money of the user
+     *
      * @return testValue if the user is inserted correctly, this value is greater than 0 */
     public long insertUser(String username, String password, String name, String surname, String email, float total) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
@@ -88,6 +89,7 @@ public class DbManager {
      * @param name       the name of the item
      * @param valid      indicates if the item has been bought (valid = 1) or it's planned to (valid = 0)
      * @param idCat      identifies the category of the item
+     *
      * @return testValue if the item is inserted correctly, this value is greater than 0 */
     public long insertItems(float price, int amount, String name, int valid, String idCat){
         SQLiteDatabase db = dbHelper.getWritableDatabase();
@@ -109,125 +111,14 @@ public class DbManager {
     }
 
     /**
-     * This method is used to insert an income inside the database.
-     *
-     *
-     * @param val       the value of the income
-     * @param date      the date of the income
-     * @param idCat     the category of the income
-     * @param idUser    the id of the user
-     * @return testValue if the income is inserted correctly, this value is greater than 0 */
-    public long insertIncome(float val, String date, String idCat, String idUser){
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(DbStrings.TableIncomesFields.INCOMES_VAL,val);
-        contentValues.put(DbStrings.TableIncomesFields.INCOMES_DATE,date);
-        contentValues.put(DbStrings.TableIncomesFields.INCOMES_ID_CAT,idCat);
-        contentValues.put(DbStrings.TableIncomesFields.INCOMES_ID_USER,idUser);
-
-        long testValue = 0;
-
-        try {
-            testValue = db.insert(DbStrings.TableIncomesFields.TABLE_NAME,null,contentValues);
-        }catch (Exception e){
-            Toast.makeText(context,e.getMessage(),Toast.LENGTH_LONG).show();
-        }
-        return testValue;
-    }
-
-    /**
-     * This method is used to remove a purchase from the database.
-     *
-     *
-     * @param itemId         the id of the item
-     * @param purchaseId     the id of the purchase
-     * @return affectedRows  if the purchase is removed correctly, this value is greater than 0 */
-    public long removePurchase(int itemId, int purchaseId){
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
-
-        int affectedRows = 0;
-        affectedRows += db.delete("purchases", "id =?",new String[]{Integer.toString(purchaseId)});
-        affectedRows += db.delete("items","id=?", new String[]{Integer.toString(itemId)});
-
-        return affectedRows;
-    }
-
-    /**
-     * This method is used to remove an income from the database.
-     *
-     *
-     * @param incomeId      the id of the income
-     * @return affectedRows if the purchase is removed correctly, this value is greater than 0 */
-    public long removeIncome(int incomeId){
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
-
-        int affectedRows = 0;
-        affectedRows += db.delete("incomes","id =?", new String[]{Integer.toString(incomeId)});
-
-        return affectedRows;
-    }
-
-    /**
-     * This method is used to get the value of the income related to an item.
-     *
-     *
-     * @param itemId     the id of the item
-     * */
-    public Cursor queryGetIncomeValueFromItemId(int itemId){
-        String query = "SELECT value FROM incomes WHERE id = '" + itemId + "';";
-        Cursor cursor = null;
-        try{
-            SQLiteDatabase db = dbHelper.getReadableDatabase();
-            cursor = db.rawQuery(query,null);
-        }catch (Exception e){
-            Toast.makeText(context,e.getMessage(),Toast.LENGTH_LONG).show();
-        }
-        return cursor;
-    }
-
-    /**
-     * This method is used to get the related purchaseId of an item.
-     *
-     *
-     * @param itemId     the id of the item
-     * */
-    public Cursor queryGetPurchaseIdFromItemId(int itemId){
-        String query = "SELECT purchases.id FROM purchases JOIN items ON purchases.itemId = items.id WHERE itemId = '" + itemId + "';";
-        Cursor cursor = null;
-        try{
-            SQLiteDatabase db = dbHelper.getReadableDatabase();
-            cursor = db.rawQuery(query,null);
-        }catch (Exception e){
-            Toast.makeText(context,e.getMessage(),Toast.LENGTH_LONG).show();
-        }
-        return cursor;
-    }
-
-    /**
-     * This method is used to get the cost (price * amount) of a specific item, identified by an itemId.
-     *
-     *
-     * @param itemId     the id of the item
-     * */
-    public Cursor queryGetCostFromItemId(int itemId){
-        String query = "SELECT price * amount AS cost FROM items WHERE id = '" + itemId + "';";
-        Cursor cursor = null;
-        try{
-            SQLiteDatabase db = dbHelper.getReadableDatabase();
-            cursor = db.rawQuery(query,null);
-        }catch (Exception e){
-            Toast.makeText(context,e.getMessage(),Toast.LENGTH_LONG).show();
-        }
-        return cursor;
-    }
-
-    /**
      * This method is used to insert a wishlist inside the database.
      *
      *
      * @param name      the name of the list
      * @param desc      a description of the list
      * @param valid     indicates if the item has been bought (valid = 1) or it's planned to (valid = 0)
+     *
+     * @return testValue if the income is inserted correctly, this value is greater than 0
      * */
     public long insertWishLists(String name, String desc, int valid) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
@@ -255,6 +146,8 @@ public class DbManager {
      * @param idUser    the id of the user
      * @param idItem    the id of the item
      * @param idWl      the id of the wishlist
+     *
+     * @return testValue if the income is inserted correctly, this value is greater than 0
      * */
     public long insertPurchases(String dateP, String timeP, String idUser, int idItem, int idWl){
         SQLiteDatabase db = dbHelper.getWritableDatabase();
@@ -298,6 +191,42 @@ public class DbManager {
         }catch (Exception e){
             Toast.makeText(context,e.getMessage(),Toast.LENGTH_LONG).show();
         }
+    }
+
+
+    /**
+     * This method is used to remove an income from the database.
+     *
+     *
+     * @param incomeId      the id of the income
+     *
+     * @return affectedRows if the purchase is removed correctly, this value is greater than 0 */
+    public long removeIncome(int incomeId){
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+        int affectedRows = 0;
+        affectedRows += db.delete("incomes","id =?", new String[]{Integer.toString(incomeId)});
+
+        return affectedRows;
+    }
+
+
+    /**
+     * This method is used to remove a purchase from the database.
+     *
+     *
+     * @param itemId         the id of the item
+     * @param purchaseId     the id of the purchase
+     *
+     * @return affectedRows  if the purchase is removed correctly, this value is greater than 0 */
+    public long removePurchase(int itemId, int purchaseId){
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+        int affectedRows = 0;
+        affectedRows += db.delete("purchases", "id =?",new String[]{Integer.toString(purchaseId)});
+        affectedRows += db.delete("items","id=?", new String[]{Integer.toString(itemId)});
+
+        return affectedRows;
     }
 
     /**
@@ -404,6 +333,93 @@ public class DbManager {
         }
     }
 
+    /**
+     * This method is used to insert an income inside the database.
+     *
+     *
+     * @param val       the value of the income
+     * @param date      the date of the income
+     * @param idCat     the category of the income
+     * @param idUser    the id of the user
+     *
+     * @return testValue if the income is inserted correctly, this value is greater than 0 */
+    public long insertIncome(float val, String date, String idCat, String idUser){
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(DbStrings.TableIncomesFields.INCOMES_VAL,val);
+        contentValues.put(DbStrings.TableIncomesFields.INCOMES_DATE,date);
+        contentValues.put(DbStrings.TableIncomesFields.INCOMES_ID_CAT,idCat);
+        contentValues.put(DbStrings.TableIncomesFields.INCOMES_ID_USER,idUser);
+
+        long testValue = 0;
+
+        try {
+            testValue = db.insert(DbStrings.TableIncomesFields.TABLE_NAME,null,contentValues);
+        }catch (Exception e){
+            Toast.makeText(context,e.getMessage(),Toast.LENGTH_LONG).show();
+        }
+        return testValue;
+    }
+
+    /**
+     * This method is used to get the value of the income related to an item.
+     *
+     *
+     * @param itemId     the id of the item
+     * @return a cursor with the data obtained from the query launched by the method
+     * */
+    public Cursor queryGetIncomeValueFromItemId(int itemId){
+        String query = "SELECT value FROM incomes WHERE id = '" + itemId + "';";
+        Cursor cursor = null;
+        try{
+            SQLiteDatabase db = dbHelper.getReadableDatabase();
+            cursor = db.rawQuery(query,null);
+        }catch (Exception e){
+            Toast.makeText(context,e.getMessage(),Toast.LENGTH_LONG).show();
+        }
+        return cursor;
+    }
+
+    /**
+     * This method is used to get the related purchaseId of an item.
+     *
+     *
+     * @param itemId     the id of the item
+     *
+     * @return a cursor with the data obtained from the query launched by the method
+     * */
+    public Cursor queryGetPurchaseIdFromItemId(int itemId){
+        String query = "SELECT purchases.id FROM purchases JOIN items ON purchases.itemId = items.id WHERE itemId = '" + itemId + "';";
+        Cursor cursor = null;
+        try{
+            SQLiteDatabase db = dbHelper.getReadableDatabase();
+            cursor = db.rawQuery(query,null);
+        }catch (Exception e){
+            Toast.makeText(context,e.getMessage(),Toast.LENGTH_LONG).show();
+        }
+        return cursor;
+    }
+
+    /**
+     * This method is used to get the cost (price * amount) of a specific item, identified by an itemId.
+     *
+     *
+     * @param itemId     the id of the item
+     *
+     * @return a cursor with the data obtained from the query launched by the method
+     * */
+    public Cursor queryGetCostFromItemId(int itemId){
+        String query = "SELECT price * amount AS cost FROM items WHERE id = '" + itemId + "';";
+        Cursor cursor = null;
+        try{
+            SQLiteDatabase db = dbHelper.getReadableDatabase();
+            cursor = db.rawQuery(query,null);
+        }catch (Exception e){
+            Toast.makeText(context,e.getMessage(),Toast.LENGTH_LONG).show();
+        }
+        return cursor;
+    }
+
 
     /**
      * This method performs a query to check if the two strings passed to it have matching in the database, leading to the login of the user
@@ -412,6 +428,7 @@ public class DbManager {
      * @param username  identifies an user uniquely
      * @param password  the password of the user account
      *
+     * @return a cursor with the data obtained from the query launched by the method
      * */
     public Cursor queryCheckUserLogin(String username, String password){
         String query = "SELECT users.* FROM users " +
@@ -432,6 +449,8 @@ public class DbManager {
      * This method performs a query to get all the rows from a specified table.
      *
      * @param table         the name of the table to access
+     *
+     * @return a cursor with the data obtained from the query launched by the method
      **/
     public Cursor queryGetAllRows(String table){
         Cursor cursor = null;
@@ -448,6 +467,8 @@ public class DbManager {
      * This method is used to count the number of rows of a table without any specific constraint.
      *
      * @param table         the name of the table to access
+     *
+     * @return a cursor with the data obtained from the query launched by the method
      * */
     public Cursor countQuery(String table){
         String query = "SELECT COUNT(*) AS numRows FROM " + table;
@@ -467,6 +488,8 @@ public class DbManager {
      * This method is used to count the number of rows in the "Incomes" table that belong to a specified user.
      *
      * @param username      the username
+     *
+     * @return a cursor with the data obtained from the query launched by the method
      * */
     public Cursor countIncomesRowsByUsername(String username){
         String query = "SELECT COUNT(*) AS numRows " +
@@ -486,6 +509,8 @@ public class DbManager {
      * This method is used to count the number of rows in the "Purchases" table that belong to a specified user and are not part of a wishlist.
      *
      * @param username      the username
+     *
+     * @return a cursor with the data obtained from the query launched by the method
      * */
     public Cursor countSimplePurchasesRowsByUsername(String username){
         String query = "SELECT COUNT(*) AS numRows " +
@@ -505,6 +530,8 @@ public class DbManager {
      * This method is used to get the sum of all the incomes that belong to a specified user.
      *
      * @param username      the username
+     *
+     * @return a cursor with the data obtained from the query launched by the method
      * */
     public Cursor sumIncomesQuery(String username){
         String query = "SELECT SUM(incomes.value) AS sumInc FROM incomes JOIN users " +
@@ -524,6 +551,8 @@ public class DbManager {
      * This method is used to get the sum of all the purchases that belong to a specified user and are part of a wishlist.
      *
      * @param username      the username
+     *
+     * @return a cursor with the data obtained from the query launched by the method
      * */
     public Cursor sumPurchasesQuery(String username, int isConfirmed){
         String query = "SELECT SUM(items.price*amount) AS sumPurch FROM items JOIN " +
@@ -547,6 +576,8 @@ public class DbManager {
      * @param limit     the number of items
      * @param listId    specify if the item is part of a wishlist
      * @param username  the username
+     *
+     * @return a cursor with the data obtained from the query launched by the method
      * */
     public Cursor getPurchasesItemsQuery(int limit, int listId, String username){
         String query;
@@ -585,6 +616,7 @@ public class DbManager {
      *
      * @param username     the username
      *
+     * @return a cursor with the data obtained from the query launched by the method
      * */
     public Cursor getPurchasesDataQueryByUsername(String username){
         String query = "SELECT incomes.id, incomes.value,incomes.dateIncome,categories.picId " +
@@ -607,7 +639,7 @@ public class DbManager {
      *
      * @param username      the username
      * @param isConfirmed   indicates if the user has confirmed the list or not
-     *
+     * @return a cursor with the data obtained from the query launched by the method
      * */
     public Cursor getWishListDataQuery(String username, int isConfirmed){
         String query = "SELECT SUM(items.price * items.amount) AS tot, wishLists.* " +
@@ -632,7 +664,7 @@ public class DbManager {
      * This method is used to get all the items that belong to a specified wishlist.
      *
      * @param wlID      the id of the WishList
-     *
+     * @return a cursor with the data obtained from the query launched by the method
      * */
     public Cursor getWishListsItems(int wlID){
         String query = "SELECT items.*, categories.picId " +

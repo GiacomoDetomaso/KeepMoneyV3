@@ -70,6 +70,8 @@ public class DashboardFragment extends Fragment {
 
     /**
      * This method describes what happens when the fragment is created
+     *
+     * @return the View
      * */
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {

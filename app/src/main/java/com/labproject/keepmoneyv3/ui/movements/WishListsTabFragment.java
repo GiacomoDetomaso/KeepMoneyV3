@@ -32,6 +32,8 @@ public class WishListsTabFragment extends Fragment {
 
     /**
      * This method describes what happens when the fragment is created
+     *
+     * @return the View
      * */
     @Nullable
     @org.jetbrains.annotations.Nullable

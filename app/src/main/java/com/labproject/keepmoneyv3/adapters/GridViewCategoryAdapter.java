@@ -45,6 +45,8 @@ public class GridViewCategoryAdapter extends BaseAdapter {
      * This method, that overrides the standard one, is used to retrieve the category at the specified position in the arraylist.
      *
      * @param position      the position of the category
+     *
+     * @return the object in that specific position
      * */
     @Override
     public Object getItem(int position) {
@@ -56,12 +58,6 @@ public class GridViewCategoryAdapter extends BaseAdapter {
     public long getItemId(int position) {
         return position;
     }
-
-    /*@Override
-    public String getItemId(int item) {
-        return categories.get(item).getId();
-    }
-    */
 
     /**
      * This method, that overrides the standard one, is used to build the ListView row by row.
