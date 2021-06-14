@@ -1,0 +1,222 @@
+@startuml
+
+title __DIALOGS's Class Diagram__\n
+
+  namespace com.labproject.keepmoneyv3 {
+    namespace dialogs {
+      class com.labproject.keepmoneyv3.dialogs.DatePickerDialogFragment {
+          - dialogCalled : String
+          + DatePickerDialogFragment()
+          + onCreateDialog()
+          + onDateSet()
+      }
+    }
+  }
+  
+
+  namespace com.labproject.keepmoneyv3 {
+    namespace dialogs {
+      class com.labproject.keepmoneyv3.dialogs.DialogAddNameToWishList {
+          - listItems : ArrayList<Item>
+          - root : View
+          + onAttach()
+          + onCreateDialog()
+          ~ DialogAddNameToWishList()
+          - btnAddListAction()
+      }
+    }
+  }
+
+
+  namespace com.labproject.keepmoneyv3 {
+    namespace dialogs {
+      interface com.labproject.keepmoneyv3.dialogs.DialogAddNameToWishList.DialogAddNameToWishListListener {
+          {abstract} + WishListInsert()
+      }
+    }
+  }
+  
+
+  namespace com.labproject.keepmoneyv3 {
+    namespace dialogs {
+      class com.labproject.keepmoneyv3.dialogs.DialogAddNewType {
+          - categories : ArrayList<Category>
+          - dialogTag : String
+          + DialogAddNewType()
+          + onAttach()
+          + onCreateDialog()
+          - buildGrid()
+          - gridViewAction()
+      }
+    }
+  }
+
+
+  namespace com.labproject.keepmoneyv3 {
+    namespace dialogs {
+      interface com.labproject.keepmoneyv3.dialogs.DialogAddNewType.DialogAddNewTypeListener {
+          {abstract} + onTypeChoosePurchases()
+          {abstract} + onTypeChooseWishListItem()
+          {abstract} + onTypeChosenIncomes()
+      }
+    }
+  }
+  
+
+  namespace com.labproject.keepmoneyv3 {
+    namespace dialogs {
+      class com.labproject.keepmoneyv3.dialogs.DialogAddWishListItems {
+          - listItems : ArrayList<Item>
+          - root : View
+          - subTotal : float
+          - txtCategoryItemList : EditText
+          + DialogAddWishListItems()
+          + onCreateDialog()
+          + setCategory()
+          - btnAddNewItemAction()
+          - btnNextAction()
+          - txtCategoryAction()
+      }
+    }
+  }
+  
+
+  namespace com.labproject.keepmoneyv3 {
+    namespace dialogs {
+      class com.labproject.keepmoneyv3.dialogs.DialogEditWishList {
+          + onAttach()
+          + onCreateDialog()
+          - buildDefaultWishListItemsMap()
+          - getWLTitles()
+          - getWishListData()
+      }
+    }
+  }
+
+
+  namespace com.labproject.keepmoneyv3 {
+    namespace dialogs {
+      interface com.labproject.keepmoneyv3.dialogs.DialogEditWishList.DialogEditWishListListener {
+          {abstract} + GetUserFromSavedBundle()
+      }
+    }
+  }
+
+
+  namespace com.labproject.keepmoneyv3 {
+    namespace dialogs {
+      class com.labproject.keepmoneyv3.dialogs.DialogEditWishListElement {
+          - txtAmountWLEdit : EditText
+          - txtCostWLEdit : EditText
+          + DialogEditWishListElement()
+          + onCreateDialog()
+          - btnEditWlElementAction()
+      }
+    }
+  }
+  
+
+  namespace com.labproject.keepmoneyv3 {
+    namespace dialogs {
+      class com.labproject.keepmoneyv3.dialogs.DialogIncome {
+          - root : View
+          - strDate : String
+          - txtDate : EditText
+          - txtIncome : EditText
+          - txtType : EditText
+          + onAttach()
+          + onCreateDialog()
+          + setCategory()
+          ~ setStrDate()
+          - dialogIncomeAction()
+          - searchCategoryName()
+          - txtDateAction()
+          - txtTypeAction()
+      }
+    }
+  }
+
+
+  namespace com.labproject.keepmoneyv3 {
+    namespace dialogs {
+      interface com.labproject.keepmoneyv3.dialogs.DialogIncome.DialogIncomeListener {
+          {abstract} + DialogIncomeInsert()
+      }
+    }
+  }
+
+
+  namespace com.labproject.keepmoneyv3 {
+    namespace dialogs {
+      class com.labproject.keepmoneyv3.dialogs.DialogPurchase {
+          - addBtn : Button
+          - strDate : String
+          - strTime : String
+          - total : float
+          - txtAmount : EditText
+          - txtDate : EditText
+          - txtItem : EditText
+          - txtPrice : EditText
+          - txtTime : EditText
+          - txtType : EditText
+          + DialogPurchase()
+          + onAttach()
+          + onCreateDialog()
+          + setCategory()
+          ~ setStrDate()
+          ~ setStrTime()
+          - dialogPurchaseAction()
+          - txtDateAction()
+          - txtTimeAction()
+          - txtTypeAction()
+      }
+    }
+  }
+
+
+  namespace com.labproject.keepmoneyv3 {
+    namespace dialogs {
+      interface com.labproject.keepmoneyv3.dialogs.DialogPurchase.DialogPurchaseListener {
+          {abstract} + DialogPurchaseInsert()
+      }
+    }
+  }
+
+
+  namespace com.labproject.keepmoneyv3 {
+    namespace dialogs {
+      class com.labproject.keepmoneyv3.dialogs.TimePickerDialogFragment {
+          + onCreateDialog()
+          + onTimeSet()
+      }
+    }
+  }
+  
+
+  com.labproject.keepmoneyv3.dialogs.DatePickerDialogFragment .up.|> android.app.DatePickerDialog.OnDateSetListener
+  com.labproject.keepmoneyv3.dialogs.DatePickerDialogFragment -up-|> androidx.fragment.app.DialogFragment
+  com.labproject.keepmoneyv3.dialogs.DialogAddNameToWishList -up-|> androidx.fragment.app.DialogFragment
+  com.labproject.keepmoneyv3.dialogs.DialogAddNameToWishList o-- com.labproject.keepmoneyv3.dialogs.DialogAddNameToWishList.DialogAddNameToWishListListener : listener
+  com.labproject.keepmoneyv3.dialogs.DialogAddNameToWishList +-down- com.labproject.keepmoneyv3.dialogs.DialogAddNameToWishList.DialogAddNameToWishListListener
+  com.labproject.keepmoneyv3.dialogs.DialogAddNewType -up-|> androidx.fragment.app.DialogFragment
+  com.labproject.keepmoneyv3.dialogs.DialogAddNewType o-- com.labproject.keepmoneyv3.dialogs.DialogAddNewType.DialogAddNewTypeListener : listener
+  com.labproject.keepmoneyv3.dialogs.DialogAddNewType +-down- com.labproject.keepmoneyv3.dialogs.DialogAddNewType.DialogAddNewTypeListener
+  com.labproject.keepmoneyv3.dialogs.DialogAddWishListItems -up-|> androidx.fragment.app.DialogFragment
+  com.labproject.keepmoneyv3.dialogs.DialogAddWishListItems o-- com.labproject.keepmoneyv3.utility.Category : category
+  com.labproject.keepmoneyv3.dialogs.DialogEditWishList -up-|> androidx.fragment.app.DialogFragment
+  com.labproject.keepmoneyv3.dialogs.DialogEditWishList o-- com.labproject.keepmoneyv3.dialogs.DialogEditWishList.DialogEditWishListListener : listener
+  com.labproject.keepmoneyv3.dialogs.DialogEditWishList +-down- com.labproject.keepmoneyv3.dialogs.DialogEditWishList.DialogEditWishListListener
+  com.labproject.keepmoneyv3.dialogs.DialogEditWishListElement -up-|> androidx.fragment.app.DialogFragment
+  com.labproject.keepmoneyv3.dialogs.DialogEditWishListElement o-- com.labproject.keepmoneyv3.utility.DefaultListViewItems : defaultListViewItems
+  com.labproject.keepmoneyv3.dialogs.DialogIncome -up-|> androidx.fragment.app.DialogFragment
+  com.labproject.keepmoneyv3.dialogs.DialogIncome o-- com.labproject.keepmoneyv3.utility.Category : category
+  com.labproject.keepmoneyv3.dialogs.DialogIncome o-- com.labproject.keepmoneyv3.dialogs.DialogIncome.DialogIncomeListener : listener
+  com.labproject.keepmoneyv3.dialogs.DialogIncome +-down- com.labproject.keepmoneyv3.dialogs.DialogIncome.DialogIncomeListener
+  com.labproject.keepmoneyv3.dialogs.DialogPurchase -up-|> androidx.fragment.app.DialogFragment
+  com.labproject.keepmoneyv3.dialogs.DialogPurchase o-- com.labproject.keepmoneyv3.utility.Category : category
+  com.labproject.keepmoneyv3.dialogs.DialogPurchase o-- com.labproject.keepmoneyv3.dialogs.DialogPurchase.DialogPurchaseListener : listener
+  com.labproject.keepmoneyv3.dialogs.DialogPurchase +-down- com.labproject.keepmoneyv3.dialogs.DialogPurchase.DialogPurchaseListener
+  com.labproject.keepmoneyv3.dialogs.TimePickerDialogFragment .up.|> android.app.TimePickerDialog.OnTimeSetListener
+  com.labproject.keepmoneyv3.dialogs.TimePickerDialogFragment -up-|> androidx.fragment.app.DialogFragment
+
+@enduml

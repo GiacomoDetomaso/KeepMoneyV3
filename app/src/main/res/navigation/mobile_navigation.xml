@@ -7,19 +7,19 @@
 
     <fragment
         android:id="@+id/navigation_movements"
-        android:name="com.example.keepmoneyv3.ui.movements.MovementsFragment"
+        android:name="com.labproject.keepmoneyv3.ui.movements.MovementsFragment"
         android:label="Movimenti"
         tools:layout="@layout/fragment_movements" />
 
     <fragment
         android:id="@+id/navigation_dashboard"
-        android:name="com.example.keepmoneyv3.ui.dashboard.DashboardFragment"
+        android:name="com.labproject.keepmoneyv3.ui.dashboard.DashboardFragment"
         android:label="@string/title_dashboard"
         tools:layout="@layout/fragment_dashboard" />
 
     <fragment
         android:id="@+id/navigation_list"
-        android:name="com.example.keepmoneyv3.ui.wishlist.WishListsFragment"
+        android:name="com.labproject.keepmoneyv3.ui.wishlist.WishListsFragment"
         android:label="WishList"
         tools:layout="@layout/fragment_wish_lists" />
 </navigation>

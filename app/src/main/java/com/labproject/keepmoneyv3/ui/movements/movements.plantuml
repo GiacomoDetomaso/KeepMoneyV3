@@ -1,0 +1,61 @@
+@startuml
+
+title __MOVEMENTS's Class Diagram__\n
+
+  namespace com.labproject.keepmoneyv3 {
+    namespace ui.movements {
+      class com.labproject.keepmoneyv3.ui.movements.IncomesAndPurchasesTabFragment {
+          - sort : int
+          + onCreateView()
+          ~ buildPurchaseListView()
+          - addBackMoneyToUser()
+          - buildIncomesListView()
+          - deleteIncome()
+          - deletePurchase()
+          - removeMoneyFromUser()
+      }
+    }
+  }
+  
+
+  namespace com.labproject.keepmoneyv3 {
+    namespace ui.movements {
+      class com.labproject.keepmoneyv3.ui.movements.MovementsFragment {
+          + onAttach()
+          + onCreateView()
+          ~ getIncomesRows()
+          ~ getSimplePurchasesRows()
+          - getWishListData()
+      }
+    }
+  }
+  
+
+  namespace com.labproject.keepmoneyv3 {
+    namespace ui.movements {
+      interface com.labproject.keepmoneyv3.ui.movements.MovementsFragment.MovementsFragmentListener {
+          {abstract} + GetUserFromSavedBundle()
+          {abstract} + onMovementsFragmentOpened()
+      }
+    }
+  }
+  
+
+  namespace com.labproject.keepmoneyv3 {
+    namespace ui.movements {
+      class com.labproject.keepmoneyv3.ui.movements.WishListsTabFragment {
+          + onCreateView()
+          - buildDefaultWishListItemsMap()
+          - getWLTitles()
+      }
+    }
+  }
+  
+
+  com.labproject.keepmoneyv3.ui.movements.IncomesAndPurchasesTabFragment -up-|> androidx.fragment.app.Fragment
+  com.labproject.keepmoneyv3.ui.movements.MovementsFragment -up-|> androidx.fragment.app.Fragment
+  com.labproject.keepmoneyv3.ui.movements.MovementsFragment o-- com.labproject.keepmoneyv3.ui.movements.MovementsFragment.MovementsFragmentListener : listener
+  com.labproject.keepmoneyv3.ui.movements.MovementsFragment +-down- com.labproject.keepmoneyv3.ui.movements.MovementsFragment.MovementsFragmentListener
+  com.labproject.keepmoneyv3.ui.movements.WishListsTabFragment -up-|> androidx.fragment.app.Fragment
+
+@enduml

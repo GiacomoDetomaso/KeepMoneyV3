@@ -1,0 +1,200 @@
+@startuml
+
+title __UTILITY's Class Diagram__\n
+
+  namespace com.labproject.keepmoneyv3 {
+    namespace utility {
+      class com.labproject.keepmoneyv3.utility.ApplicationTags {
+      }
+    }
+  }
+  
+
+  namespace com.labproject.keepmoneyv3 {
+    namespace utility {
+      class com.labproject.keepmoneyv3.utility.ApplicationTags.DialogTags {
+          {static} + DIALOG_ADD_NAME_TO_WISH_LIST_TAG : String
+          {static} + DIALOG_ADD_NEW_TYPE_TAG : String
+          {static} + DIALOG_ADD_WISH_LIST_ITEMS_TAG : String
+          {static} + DIALOG_DATE_PICKER_TAG : String
+          {static} + DIALOG_EDIT_WISH_LIST_ELEMENT_TAG : String
+          {static} + DIALOG_EDIT_WISH_LIST_TAG : String
+          {static} + DIALOG_INCOME_TAG : String
+          {static} + DIALOG_PURCHASES_TAG : String
+          {static} + DIALOG_TIME_PICKER_TAG : String
+      }
+    }
+  }
+  
+
+  namespace com.labproject.keepmoneyv3 {
+    namespace utility {
+      class com.labproject.keepmoneyv3.utility.ApplicationTags.DialogTitles {
+          {static} + DIALOG_ADD_NEW_TYPE_TITLE : String
+          {static} + DIALOG_ADD_WISH_LIST_TITLE : String
+          {static} + DIALOG_EDIT_WISH_LIST_TITLE : String
+          {static} + DIALOG_ENTRIES_TITLE : String
+          {static} + DIALOG_PURCHASES_TITLE : String
+      }
+    }
+  }
+  
+
+  namespace com.labproject.keepmoneyv3 {
+    namespace utility {
+      class com.labproject.keepmoneyv3.utility.ApplicationTags.MiscellaneousTags {
+          {static} + CONFIRMED : int
+          {static} + EMAIL_REGEX : String
+          {static} + NOT_CONFIRMED : int
+      }
+    }
+  }
+  
+
+  namespace com.labproject.keepmoneyv3 {
+    namespace utility {
+      class com.labproject.keepmoneyv3.utility.ApplicationTags.PredefinedCategoriesId {
+          {static} + CAT_BET_ID : String
+          {static} + CAT_FAMILY_ID : String
+          {static} + CAT_FOOD_ID : String
+          {static} + CAT_FUN_ID : String
+          {static} + CAT_HEALTH_ID : String
+          {static} + CAT_HOLIDAY_ID : String
+          {static} + CAT_HOME_ID : String
+          {static} + CAT_PRESENT_ID : String
+          {static} + CAT_SALARY_ID : String
+          {static} + CAT_TECH_ID : String
+      }
+    }
+  }
+  
+
+  namespace com.labproject.keepmoneyv3 {
+    namespace utility {
+      class com.labproject.keepmoneyv3.utility.ApplicationTags.SerializableTags {
+          {static} + INCOMES_ROWS_KEY : String
+          {static} + POSITION_KEY : String
+          {static} + PURCHASES_ROWS_KEY : String
+          {static} + USERNAME_KEY : String
+          {static} + USER_KEY : String
+          {static} + WISH_LIST_KEYS : String
+      }
+    }
+  }
+  
+
+  namespace com.labproject.keepmoneyv3 {
+    namespace utility {
+      class com.labproject.keepmoneyv3.utility.Category {
+          - id : String
+          - name : String
+          - pictureId : int
+          + Category()
+          + getId()
+          + getName()
+          + getPictureId()
+          + setId()
+          + setName()
+          + setPictureId()
+      }
+    }
+  }
+  
+
+  namespace com.labproject.keepmoneyv3 {
+    namespace utility {
+      class com.labproject.keepmoneyv3.utility.DefaultListViewItems {
+          - id : int
+          - image : int
+          - itemName : String
+          - price : float
+          + DefaultListViewItems()
+          + getId()
+          + getImage()
+          + getItemName()
+          + getPrice()
+      }
+    }
+  }
+  
+
+  namespace com.labproject.keepmoneyv3 {
+    namespace utility {
+      class com.labproject.keepmoneyv3.utility.Item {
+          - amount : int
+          - catID : String
+          - id : int
+          - name : String
+          - price : float
+          - valid : int
+          + Item()
+          + Item()
+          + getAmount()
+          + getCatID()
+          + getId()
+          + getName()
+          + getPrice()
+          + getValid()
+          + setId()
+          + setValid()
+      }
+    }
+  }
+  
+
+  namespace com.labproject.keepmoneyv3 {
+    namespace utility {
+      class com.labproject.keepmoneyv3.utility.User {
+          - email : String
+          - name : String
+          - password : String
+          - surname : String
+          - total : float
+          - username : String
+          + User()
+          + getName()
+          + getPassword()
+          + getTotal()
+          + getUsername()
+          + setName()
+          + setTotal()
+      }
+    }
+  }
+  
+
+  namespace com.labproject.keepmoneyv3 {
+    namespace utility {
+      class com.labproject.keepmoneyv3.utility.WishLists {
+          - description : String
+          - id : int
+          - isValid : int
+          - name : String
+          + WishLists()
+          + getId()
+          + getName()
+      }
+    }
+  }
+  
+
+  com.labproject.keepmoneyv3.utility.ApplicationTags +-down- com.labproject.keepmoneyv3.utility.ApplicationTags.DialogTags
+  com.labproject.keepmoneyv3.utility.ApplicationTags +-down- com.labproject.keepmoneyv3.utility.ApplicationTags.DialogTitles
+  com.labproject.keepmoneyv3.utility.ApplicationTags +-down- com.labproject.keepmoneyv3.utility.ApplicationTags.MiscellaneousTags
+  com.labproject.keepmoneyv3.utility.ApplicationTags +-down- com.labproject.keepmoneyv3.utility.ApplicationTags.PredefinedCategoriesId
+  com.labproject.keepmoneyv3.utility.ApplicationTags +-down- com.labproject.keepmoneyv3.utility.ApplicationTags.SerializableTags
+  com.labproject.keepmoneyv3.utility.Category .up.|> java.io.Serializable
+  com.labproject.keepmoneyv3.utility.DefaultListViewItems .up.|> java.io.Serializable
+  com.labproject.keepmoneyv3.utility.Item .up.|> java.io.Serializable
+  com.labproject.keepmoneyv3.utility.User .up.|> java.io.Serializable
+  com.labproject.keepmoneyv3.utility.WishLists .up.|> java.io.Serializable
+
+
+right footer
+
+
+PlantUML diagram generated by SketchIt! (https://bitbucket.org/pmesmeur/sketch.it)
+For more information about this tool, please contact philippe.mesmeur@gmail.com
+endfooter
+
+@enduml

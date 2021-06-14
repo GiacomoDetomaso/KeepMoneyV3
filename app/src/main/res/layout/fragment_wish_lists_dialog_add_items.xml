@@ -130,7 +130,7 @@
         android:layout_marginTop="5dp"
         android:layout_marginBottom="5dp"
         android:textSize="18sp"
-        android:text="Leggi scontrino"
+        android:text="@string/leggi_scontrino"
         app:layout_constraintBottom_toTopOf="@+id/btnNext"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

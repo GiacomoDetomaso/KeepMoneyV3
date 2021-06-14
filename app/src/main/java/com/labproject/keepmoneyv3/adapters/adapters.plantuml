@@ -1,0 +1,143 @@
+@startuml
+
+title __ADAPTERS's Class Diagram__\n
+
+  namespace com.labproject.keepmoneyv3 {
+    namespace adapters {
+      class com.labproject.keepmoneyv3.adapters.ArrayListViewAdapter {
+          - context : Context
+          - objects : ArrayList<DefaultListViewItems>
+          + ArrayListViewAdapter()
+          + buildMap()
+          + buildMap()
+          + getCount()
+          + getItem()
+          + getView()
+          {static} ~ quickSort()
+          {static} ~ reverseQuickSort()
+          {static} ~ reverseSwap()
+          {static} ~ swap()
+      }
+    }
+  }
+  
+
+  namespace com.labproject.keepmoneyv3 {
+    namespace adapters {
+      class com.labproject.keepmoneyv3.adapters.ExpandableListViewAdapter {
+          - context : Context
+          - map : HashMap<String, ArrayList<DefaultListViewItems>>
+          - titles : ArrayList<String>
+          + ExpandableListViewAdapter()
+          + getChild()
+          + getChildId()
+          + getChildView()
+          + getChildrenCount()
+          + getGroup()
+          + getGroupCount()
+          + getGroupId()
+          + getGroupView()
+          + hasStableIds()
+          + isChildSelectable()
+      }
+    }
+  }
+  
+
+  namespace com.labproject.keepmoneyv3 {
+    namespace adapters {
+      class com.labproject.keepmoneyv3.adapters.GridViewCategoryAdapter {
+          - categories : ArrayList<Category>
+          - context : Context
+          + GridViewCategoryAdapter()
+          + buildMap()
+          + getCategories()
+          + getCount()
+          + getItem()
+          + getItemId()
+          + getView()
+      }
+    }
+  }
+  
+
+  namespace com.labproject.keepmoneyv3 {
+    namespace adapters {
+      class com.labproject.keepmoneyv3.adapters.TabPagerAdapter {
+          - confirmedWishLists : ArrayList<WishLists>
+          - incomesRows : int
+          - simplePurchasesRows : int
+          + TabPagerAdapter()
+          + getCount()
+          + getItem()
+          + getPageTitle()
+      }
+    }
+  }
+  
+
+  namespace com.labproject.keepmoneyv3 {
+    namespace adapters {
+      class com.labproject.keepmoneyv3.adapters.WishListAdapter {
+          - context : Context
+          - items : ArrayList<ListViewData>
+          - root : View
+          + WishListAdapter()
+          + buildMap()
+          + getItemCount()
+          + onBindViewHolder()
+          + onCreateViewHolder()
+          + setOnItemClickListener()
+      }
+    }
+  }
+  
+
+  namespace com.labproject.keepmoneyv3 {
+    namespace adapters {
+      class com.labproject.keepmoneyv3.adapters.WishListAdapter.ListViewData {
+          - listName : String
+          - price : float
+          + ListViewData()
+          + getListName()
+          + getPrice()
+      }
+    }
+  }
+  
+
+  namespace com.labproject.keepmoneyv3 {
+    namespace adapters {
+      interface com.labproject.keepmoneyv3.adapters.WishListAdapter.OnItemClickListener {
+          {abstract} + onItemClick()
+      }
+    }
+  }
+  
+
+  namespace com.labproject.keepmoneyv3 {
+    namespace adapters {
+      class com.labproject.keepmoneyv3.adapters.WishListAdapter.WLViewHolder {
+          ~ cardView : CardView
+          ~ txtListName : TextView
+          ~ txtTotList : TextView
+          ~ WLViewHolder()
+      }
+    }
+  }
+  
+
+  com.labproject.keepmoneyv3.adapters.ArrayListViewAdapter -up-|> android.widget.ArrayAdapter
+  com.labproject.keepmoneyv3.adapters.ExpandableListViewAdapter -up-|> android.widget.BaseExpandableListAdapter
+  com.labproject.keepmoneyv3.adapters.GridViewCategoryAdapter -up-|> android.widget.BaseAdapter
+  com.labproject.keepmoneyv3.adapters.TabPagerAdapter -up-|> androidx.fragment.app.FragmentStatePagerAdapter
+  com.labproject.keepmoneyv3.adapters.TabPagerAdapter o-- com.labproject.keepmoneyv3.utility.User : user
+  com.labproject.keepmoneyv3.adapters.WishListAdapter -up-|> androidx.recyclerview.widget.RecyclerView.Adapter
+  com.labproject.keepmoneyv3.adapters.WishListAdapter o-- com.labproject.keepmoneyv3.adapters.WishListAdapter.OnItemClickListener : listener
+  com.labproject.keepmoneyv3.adapters.WishListAdapter +-down- com.labproject.keepmoneyv3.adapters.WishListAdapter.ListViewData
+  com.labproject.keepmoneyv3.adapters.WishListAdapter +-down- com.labproject.keepmoneyv3.adapters.WishListAdapter.OnItemClickListener
+  com.labproject.keepmoneyv3.adapters.WishListAdapter +-down- com.labproject.keepmoneyv3.adapters.WishListAdapter.WLViewHolder
+  com.labproject.keepmoneyv3.adapters.WishListAdapter.ListViewData .up.|> java.io.Serializable
+  com.labproject.keepmoneyv3.adapters.WishListAdapter.WLViewHolder -up-|> androidx.recyclerview.widget.RecyclerView.ViewHolder
+
+@enduml

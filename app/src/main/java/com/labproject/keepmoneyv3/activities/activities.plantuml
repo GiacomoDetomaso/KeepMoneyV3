@@ -1,0 +1,81 @@
+@startuml
+
+title __ACTIVITIES's Class Diagram__\n
+
+  namespace com.labproject.keepmoneyv3 {
+    namespace activities {
+      class com.labproject.keepmoneyv3.activities.LoginActivity {
+          + fabRegistrationAction()
+          + loginAction()
+          + onBackPressed()
+          # onCreate()
+          - addPredefinedCategories()
+          - newActivityRunning()
+      }
+    }
+  }
+  
+
+  namespace com.labproject.keepmoneyv3 {
+    namespace activities {
+      class com.labproject.keepmoneyv3.activities.NavigationActivity {
+          + DialogIncomeInsert()
+          + DialogPurchaseInsert()
+          + GetUserFromSavedBundle()
+          + WishListInsert()
+          + addMoneyEvent()
+          + addPurchaseEvent()
+          + confirmWishList()
+          + fabAddWishListAction()
+          + fabStatAction()
+          + onDashboardFragmentOpened()
+          + onMovementsFragmentOpened()
+          + onTypeChoosePurchases()
+          + onTypeChooseWishListItem()
+          + onTypeChosenIncomes()
+          + onWishListsFragmentOpened()
+          # onCreate()
+          - refreshActivity()
+      }
+    }
+  }
+  
+
+  namespace com.labproject.keepmoneyv3 {
+    namespace activities {
+      class com.labproject.keepmoneyv3.activities.RegistrationActivity {
+          {static} - EMAIL_REGEX_PATTERN : Pattern
+          + registrationAction()
+          # onCreate()
+          - newActivityRunning()
+      }
+    }
+  }
+  
+
+  namespace com.labproject.keepmoneyv3 {
+    namespace activities {
+      class com.labproject.keepmoneyv3.activities.SplashScreenActivity {
+          # onCreate()
+      }
+    }
+  }
+
+
+  com.labproject.keepmoneyv3.activities.LoginActivity -up-|> androidx.appcompat.app.AppCompatActivity
+  com.labproject.keepmoneyv3.activities.LoginActivity o-- com.labproject.keepmoneyv3.database.DbManager : dbManager
+  com.labproject.keepmoneyv3.activities.NavigationActivity .up.|> com.labproject.keepmoneyv3.dialogs.DialogAddNameToWishList.DialogAddNameToWishListListener
+  com.labproject.keepmoneyv3.activities.NavigationActivity .up.|> com.labproject.keepmoneyv3.dialogs.DialogAddNewType.DialogAddNewTypeListener
+  com.labproject.keepmoneyv3.activities.NavigationActivity .up.|> com.labproject.keepmoneyv3.dialogs.DialogEditWishList.DialogEditWishListListener
+  com.labproject.keepmoneyv3.activities.NavigationActivity .up.|> com.labproject.keepmoneyv3.dialogs.DialogIncome.DialogIncomeListener
+  com.labproject.keepmoneyv3.activities.NavigationActivity .up.|> com.labproject.keepmoneyv3.dialogs.DialogPurchase.DialogPurchaseListener
+  com.labproject.keepmoneyv3.activities.NavigationActivity .up.|> com.labproject.keepmoneyv3.ui.dashboard.DashboardFragment.DashboardFragmentListener
+  com.labproject.keepmoneyv3.activities.NavigationActivity .up.|> com.labproject.keepmoneyv3.ui.movements.MovementsFragment.MovementsFragmentListener
+  com.labproject.keepmoneyv3.activities.NavigationActivity .up.|> com.labproject.keepmoneyv3.ui.wishlist.WishListsFragment.WishListsFragmentListener
+  com.labproject.keepmoneyv3.activities.NavigationActivity -up-|> androidx.appcompat.app.AppCompatActivity
+  com.labproject.keepmoneyv3.activities.NavigationActivity o-- com.labproject.keepmoneyv3.utility.User : user
+  com.labproject.keepmoneyv3.activities.RegistrationActivity -up-|> androidx.appcompat.app.AppCompatActivity
+  com.labproject.keepmoneyv3.activities.RegistrationActivity o-- com.labproject.keepmoneyv3.database.DbManager : mDbManager
+  com.labproject.keepmoneyv3.activities.SplashScreenActivity -up-|> androidx.appcompat.app.AppCompatActivity
+
+@enduml

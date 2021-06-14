@@ -1,0 +1,44 @@
+@startuml
+
+title __DASHBOARD's Class Diagram__\n
+
+  namespace com.labproject.keepmoneyv3 {
+    namespace ui.dashboard {
+      class com.labproject.keepmoneyv3.ui.dashboard.DashboardFragment {
+          + onAttach()
+          + onCreateView()
+          ~ buildListView()
+          - decimalFormat()
+          - sumIncomesOrPurchases()
+      }
+    }
+  }
+
+
+  namespace com.labproject.keepmoneyv3 {
+    namespace ui.dashboard {
+      enum ChooseEP {
+        INCOMES
+        PURCHASES
+      }
+    }
+  }
+  
+
+  namespace com.labproject.keepmoneyv3 {
+    namespace ui.dashboard {
+      interface com.labproject.keepmoneyv3.ui.dashboard.DashboardFragment.DashboardFragmentListener {
+          {abstract} + GetUserFromSavedBundle()
+          {abstract} + onDashboardFragmentOpened()
+      }
+    }
+  }
+  
+
+  com.labproject.keepmoneyv3.ui.dashboard.DashboardFragment -up-|> androidx.fragment.app.Fragment
+  com.labproject.keepmoneyv3.ui.dashboard.DashboardFragment o-- com.labproject.keepmoneyv3.ui.dashboard.DashboardFragment.DashboardFragmentListener : listener
+  com.labproject.keepmoneyv3.ui.dashboard.DashboardFragment +-down- com.labproject.keepmoneyv3.ui.dashboard.DashboardFragment.ChooseEP
+  com.labproject.keepmoneyv3.ui.dashboard.DashboardFragment +-down- com.labproject.keepmoneyv3.ui.dashboard.DashboardFragment.DashboardFragmentListener
+
+
+@enduml

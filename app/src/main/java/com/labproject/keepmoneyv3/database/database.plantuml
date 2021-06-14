@@ -1,0 +1,170 @@
+@startuml
+
+title __DATABASE's Class Diagram__\n
+
+  namespace com.labproject.keepmoneyv3 {
+    namespace database {
+      class com.labproject.keepmoneyv3.database.DbHelper {
+          {static} - DB_NAME : String
+          {static} - VERSION : int
+          + DbHelper()
+          + onCreate()
+          + onUpgrade()
+      }
+    }
+  }
+  
+
+  namespace com.labproject.keepmoneyv3 {
+    namespace database {
+      class com.labproject.keepmoneyv3.database.DbManager {
+          - context : Context
+          + DbManager()
+          + countIncomesRowsByUsername()
+          + countQuery()
+          + countSimplePurchasesRowsByUsername()
+          + getPurchasesDataQueryByUsername()
+          + getPurchasesItemsQuery()
+          + getWishListDataQuery()
+          + getWishListsItems()
+          + insertCategories()
+          + insertIncome()
+          + insertItems()
+          + insertPurchases()
+          + insertUser()
+          + insertWLElementPurchase()
+          + insertWishLists()
+          + queryCheckUserLogin()
+          + queryGetAllRows()
+          + queryGetCostFromItemId()
+          + queryGetIncomeValueFromItemId()
+          + queryGetPurchaseIdFromItemId()
+          + removeIncome()
+          + removePurchase()
+          + sumIncomesQuery()
+          + sumPurchasesQuery()
+          + updateAtWishListConfirmation()
+          + updateItemsValidity()
+          + updatePurchasesDateAndTime()
+          + updateUserTotal()
+          + updateWishListItemInfo()
+      }
+    }
+  }
+
+
+  namespace com.labproject.keepmoneyv3 {
+    namespace database {
+      class com.labproject.keepmoneyv3.database.DbStrings {
+      }
+    }
+  }
+
+
+  namespace com.labproject.keepmoneyv3 {
+    namespace database {
+      class com.labproject.keepmoneyv3.database.DbStrings.TableCategoriesFields {
+          {static} + CATEGORIES_DESC : String
+          {static} + CATEGORIES_ID : String
+          {static} + CATEGORIES_PIC_ID : String
+          {static} + TABLE_NAME : String
+          {static} - CREATE_TABLE : String
+          {static} ~ getCreateTable()
+      }
+    }
+  }
+
+
+  namespace com.labproject.keepmoneyv3 {
+    namespace database {
+      class com.labproject.keepmoneyv3.database.DbStrings.TableIncomesFields {
+          {static} + INCOMES_DATE : String
+          {static} + INCOMES_ID : String
+          {static} + INCOMES_ID_CAT : String
+          {static} + INCOMES_ID_USER : String
+          {static} + INCOMES_VAL : String
+          {static} + TABLE_NAME : String
+          {static} - CREATE_TABLE : String
+          {static} ~ getCreateTable()
+      }
+    }
+  }
+  
+
+  namespace com.labproject.keepmoneyv3 {
+    namespace database {
+      class com.labproject.keepmoneyv3.database.DbStrings.TableItemsFields {
+          {static} + ITEMS_AMOUNT : String
+          {static} + ITEMS_ID : String
+          {static} + ITEMS_ID_CAT : String
+          {static} + ITEMS_IS_CONFIRMED : String
+          {static} + ITEMS_NAME : String
+          {static} + ITEMS_PRICE : String
+          {static} + TABLE_NAME : String
+          {static} - CREATE_TABLE : String
+          {static} ~ getCreateTable()
+      }
+    }
+  }
+  
+
+  namespace com.labproject.keepmoneyv3 {
+    namespace database {
+      class com.labproject.keepmoneyv3.database.DbStrings.TablePurchasesFields {
+          {static} + PURCH_DATE : String
+          {static} + PURCH_ID : String
+          {static} + PURCH_ID_USER : String
+          {static} + PURCH_ITEM_ID : String
+          {static} + PURCH_TIME : String
+          {static} + PURCH_WL_ID : String
+          {static} + TABLE_NAME : String
+          {static} ~ CREATE_TABLE : String
+          {static} ~ getCreateTable()
+      }
+    }
+  }
+  
+
+  namespace com.labproject.keepmoneyv3 {
+    namespace database {
+      class com.labproject.keepmoneyv3.database.DbStrings.TableUsersField {
+          {static} + TABLE_NAME : String
+          {static} + USERS_EMAIL : String
+          {static} + USERS_FAMILY_NAME : String
+          {static} + USERS_ID : String
+          {static} + USERS_NAME : String
+          {static} + USERS_PWD : String
+          {static} + USERS_TOT : String
+          {static} - CREATE_TABLE : String
+          {static} ~ getCreateTable()
+      }
+    }
+  }
+  
+
+  namespace com.labproject.keepmoneyv3 {
+    namespace database {
+      class com.labproject.keepmoneyv3.database.DbStrings.TableWishListsFields {
+          {static} + TABLE_NAME : String
+          {static} + WL_DESC : String
+          {static} + WL_ID : String
+          {static} + WL_IS_CONFIRMED : String
+          {static} + WL_NAME : String
+          {static} ~ CREATE_TABLE : String
+          {static} ~ getCreateTable()
+      }
+    }
+  }
+
+
+  com.labproject.keepmoneyv3.database.DbHelper -up-|> android.database.sqlite.SQLiteOpenHelper
+  com.labproject.keepmoneyv3.database.DbManager o-- com.labproject.keepmoneyv3.database.DbHelper : dbHelper
+  com.labproject.keepmoneyv3.database.DbStrings +-down- com.labproject.keepmoneyv3.database.DbStrings.TableCategoriesFields
+  com.labproject.keepmoneyv3.database.DbStrings +-down- com.labproject.keepmoneyv3.database.DbStrings.TableIncomesFields
+  com.labproject.keepmoneyv3.database.DbStrings +-down- com.labproject.keepmoneyv3.database.DbStrings.TableItemsFields
+  com.labproject.keepmoneyv3.database.DbStrings +-down- com.labproject.keepmoneyv3.database.DbStrings.TablePurchasesFields
+  com.labproject.keepmoneyv3.database.DbStrings +-down- com.labproject.keepmoneyv3.database.DbStrings.TableUsersField
+  com.labproject.keepmoneyv3.database.DbStrings +-down- com.labproject.keepmoneyv3.database.DbStrings.TableWishListsFields
+
+
+@enduml
