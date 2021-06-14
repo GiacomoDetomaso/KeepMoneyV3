@@ -183,7 +183,7 @@ public class DialogAddWishListItems extends DialogFragment {
                 }
             }
 
-            DialogAddNewType dialogAddNewType = new DialogAddNewType(allCategories, ApplicationTags.DialogTags.DIALOG_PURCHASES_TAG);
+            DialogAddNewType dialogAddNewType = new DialogAddNewType(allCategories, ApplicationTags.DialogTags.DIALOG_ADD_WISH_LIST_ITEMS_TAG);
             FragmentManager manager = requireActivity().getSupportFragmentManager();
 
             dialogAddNewType.show(manager, ApplicationTags.DialogTags.DIALOG_ADD_NEW_TYPE_TAG);
