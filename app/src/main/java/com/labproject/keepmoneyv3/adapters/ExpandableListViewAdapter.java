@@ -77,8 +77,8 @@ public class ExpandableListViewAdapter extends BaseExpandableListAdapter {
      * */
     @Override
     public DefaultListViewItems getChild(int groupPosition, int childPosition) {
-        return Objects.requireNonNull(this.map.get(this.titles.get(groupPosition)))
-                .get(childPosition);
+        return Objects.requireNonNull(this.map.get(this.titles.get(groupPosition))).get(childPosition);
+
     }
 
     /**
@@ -115,21 +115,18 @@ public class ExpandableListViewAdapter extends BaseExpandableListAdapter {
     @SuppressLint("InflateParams")
     @Override
     public View getGroupView(int groupPosition, boolean b, View view, ViewGroup viewGroup) {
-        View listView;
+        String title = getGroup(groupPosition);
         if (view == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            listView = Objects.requireNonNull(inflater).inflate(R.layout.fragment_movements_wish_lists_expandable_list_view_title, null);
+            view = Objects.requireNonNull(inflater).inflate(R.layout.fragment_movements_wish_lists_expandable_list_view_title, null);
 
-            TextView txtTile = listView.findViewById(R.id.listTitle);
-
-            String title = (String) getGroup(groupPosition);
-            txtTile.setText(title);
-
-        }else {
-            listView = view;
         }
 
-        return listView;
+        TextView txtTile = view.findViewById(R.id.listTitle);
+        txtTile.setText(title);
+
+
+        return view;
     }
 
     /**
@@ -145,27 +142,25 @@ public class ExpandableListViewAdapter extends BaseExpandableListAdapter {
     @SuppressLint("InflateParams")
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean b, View view, ViewGroup viewGroup) {
-        View listView;
+        DefaultListViewItems defaultListViewItemsArrayList = getChild(groupPosition, childPosition);
+
         if (view == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            listView = Objects.requireNonNull(inflater).inflate(R.layout.default_list_view_item, null);
-
-            ImageView imageView = listView.findViewById(R.id.firstImageview2); // image of the object
-            TextView txtObj = listView.findViewById(R.id.textView); // object
-            TextView txtPrice = listView.findViewById(R.id.txtPrice); // price of the object
-
-            DefaultListViewItems defaultListViewItemsArrayList = (DefaultListViewItems) getChild(groupPosition, childPosition);
-
-            // set the proper values to the elements
-            imageView.setImageResource(defaultListViewItemsArrayList.getImage());
-            txtObj.setText(Objects.requireNonNull(defaultListViewItemsArrayList.getItemName()));
-            String price = "" + defaultListViewItemsArrayList.getPrice() + " €";
-            txtPrice.setText(price);
-        }else {
-            listView = view;
+            view = Objects.requireNonNull(inflater).inflate(R.layout.default_list_view_item, null);
         }
 
-        return listView;
+        ImageView imageView = view.findViewById(R.id.firstImageview2); // image of the object
+        TextView txtObj = view.findViewById(R.id.textView); // object
+        TextView txtPrice = view.findViewById(R.id.txtPrice); // price of the object
+
+
+        // set the proper values to the elements
+        imageView.setImageResource(defaultListViewItemsArrayList.getImage());
+        txtObj.setText(Objects.requireNonNull(defaultListViewItemsArrayList.getItemName()));
+        String price = "" + defaultListViewItemsArrayList.getPrice() + " €";
+        txtPrice.setText(price);
+
+        return view;
     }
 
     @Override
